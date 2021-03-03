@@ -20,15 +20,12 @@
     <div class="wrapper">
         <div class="login_box">
             <div class="logo_wrapper">
-                <img src="" class="logo" alt="Logo">
+                <img src="{% static "images/logo.png" %}" class="logo" alt="Logo" width="300">
             </div>
-            <p class="title">Login</p>
+            <h1 class="title">Login</h1>
             <div class="login_area">
-                <a class="register" href="{% url 'register' %}">create an account</a>
-                <form method="post" action="{% url 'login' %}">
+                <form method="post" action="">
                     {% csrf_token %}
-                    <!-- <p>Username: {{ form.username }}</p>
-                    <p>Password: {{ form.password }}</p> -->
                     {{ form.as_p }}
                     <button class="btn btn-primary" type="submit">Login</button>
 
@@ -50,6 +47,7 @@
                         {% endif %}
                     </div>
                 </form>
+                <a class="register" href="{% url 'register' %}">create an account</a>
             </div>
         </div>
     </div>
