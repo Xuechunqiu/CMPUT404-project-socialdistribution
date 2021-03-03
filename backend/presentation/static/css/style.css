@@ -1,0 +1,31 @@
+html,
+body {
+    height: 100%;
+    width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #27aae1;
+}
+
+.wrapper {
+    margin: 200px 20%;
+}
+
+.footer {
+    margin-top: 5%;
+    text-align: center;
+}
+
+/* Header */
+
+
+/* Home */
+.stream {
+    margin-top: 5%;
+}

@@ -18,6 +18,7 @@ from django.urls import path, include
 from rest_framework import routers
 from presentation.Viewsets import *
 from presentation import views
+from django.contrib.auth import views as auth_views
 
 # register the viewset with a router, and allow the urlconf to be automatically generated
 router = routers.DefaultRouter()
@@ -40,6 +41,9 @@ urlpatterns = [
          CommentViewSet.as_view({'get': 'retrieve'})),
     path('author/<str:author_id>/inbox',
          InboxViewSet.as_view({'get': 'retrieve', 'post': 'update', 'delete': 'delete'})),
+    path('', views.home, name="home"),
+    path('accounts/', include('django.contrib.auth.urls')),
+    path('register/', views.register, name="register"),
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
 ]

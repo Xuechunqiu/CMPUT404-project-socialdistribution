@@ -2,18 +2,13 @@ from django.shortcuts import render, get_object_or_404, HttpResponseRedirect
 from django.http import HttpResponse
 from django.urls import reverse
 from requests.auth import HTTPBasicAuth
+from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
+from presentation.Utils.forms import AuthorForm
 
 
-def index(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect(reverse('home'))
-    else:
-        return HttpResponseRedirect(reverse('login'))
-
-
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def home(request):
     if request.method == "POST":
         request_data = request.data.copy()
@@ -22,10 +17,18 @@ def home(request):
 
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = AuthorForm(request.POST)
         if form.is_valid():
-            ...
-            return HttpResponseRedirect(reverse('login'))
+            author = form.save()  # TODO: save() is a function call for Author object
+            author.refresh_from_db()  # cause a hard refresh from the database
+            raw_password = form.cleaned_data.get('password')
+            user = authenticate(
+                username=author.user.username, password=raw_password)
+            login(request, user)
+            return HttpResponseRedirect(reverse(''), args=[request.user.username])
+    else:
+        form = AuthorForm()
+    return render(request, 'registration/register.html', {'form': form})
 
 
 def login(request):

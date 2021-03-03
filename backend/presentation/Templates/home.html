@@ -5,44 +5,48 @@
 {% block content %}
 {% if user.is_authenticated %}
 <div class="wrapper home-wrapper">
+
     <div id="post_container">
         <div id="create_post_tabs">
-            <ul class="tabs">
-                <li>
-                    <a class="" href="#" id="create_post" name="tab1">
-                        <img alt="Create a post" src="" width="30">
-                        <span id="">Create A Post</span></a>
-                </li>
-                <li>
-                    <a href="#" id="upload_image" name="tab2"> <img alt="Upload an image" src="" width="30">
-                        <span id="">Upload an Image</span></a>
-                </li>
-            </ul>
-        </div>
-        <div id="create_post">
-            <form action="" enctype="multipart/form-data" method="post" novalidate="">
-                {% csrf_token %}
-                <div class="">
-                    <div class="text-wrapper">
-                        {{ form.content.errors }} <label for="{{ form.content.id_for_label }}"></label>
-                        {{ form.content }}
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="nav-post-tab" data-toggle="tab" href="#nav-post" role="tab"
+                    aria-controls="nav-post" aria-selected="true">Post</a>
+                <a class="nav-item nav-link" id="nav-image-tab" data-toggle="tab" href="#nav-image" role="tab"
+                    aria-controls="nav-image" aria-selected="false">Image</a>
+                <a class="nav-item nav-link" id="nav-commonmark-tab" data-toggle="tab" href="#nav-commonmark" role="tab"
+                    aria-controls="nav-commonmark" aria-selected="false">Commonmark</a>
+            </div>
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active" id="nav-post" role="tabpanel" aria-labelledby="nav-post-tab">
+                    <textarea class="post-textarea"></textarea>
+                    <button class="btn btn-light" type="submit">Send</button>
+                </div>
+                <div class="tab-pane fade" id="nav-image" role="tabpanel" aria-labelledby="nav-image-tab">
+                    <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="post_image">
+                        <label class="custom-file-label" for="post_image" aria-describedby="post_image">Choose an
+                            image</label>
                     </div>
-                    <div class="field-wrapper-photo">
-                        {{ form.image.errors }} <label for="{{ form.image.id_for_label }}"></label> {{ form.image }}
-                    </div>
-            </form>
+                </div>
+                <div class="tab-pane fade" id="nav-commonmark" role="tabpanel" aria-labelledby="nav-commonmark-tab">
+                    commonmark</div>
+            </div>
         </div>
     </div>
     <div class="stream">
-        <div class="">
-            <ul class="tabs">
-                <li>
-                    <a class="" href="#" id="stream_post" name="tab1">Stream</a>
-                </li>
-                <li>
-                    <a href="#" id="github_post" name="tab2">Github</a>
-                </li>
-            </ul>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-stream-tab" data-toggle="tab" href="#nav-stream" role="tab"
+                aria-controls="nav-stream" aria-selected="true">Stream</a>
+            <a class="nav-item nav-link" id="nav-github-tab" data-toggle="tab" href="#nav-github" role="tab"
+                aria-controls="nav-github" aria-selected="false">Github</a>
+        </div>
+        <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade show active" id="nav-stream" role="tabpanel" aria-labelledby="nav-stream-tab">
+                stream
+            </div>
+            <div class="tab-pane fade" id="nav-github" role="tabpanel" aria-labelledby="nav-github-tab">
+                github
+            </div>
         </div>
     </div>
 </div>
