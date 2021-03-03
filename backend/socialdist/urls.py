@@ -28,6 +28,8 @@ router.register(r'author', AuthorViewSet, 'author')
 urlpatterns = [
     path('author/<str:author_id>/followers',
          FollowerViewSet.as_view({'get': 'list'})),
+    path('author/<str:author_id>/liked',
+         LikedViewSet.as_view({'get': 'list'})),
     path('author/<str:author_id>/followers/<str:foreign_author_id>/',
          FollowerViewSet.as_view({'get': 'retrieve'})),
     path('author/<str:author_id>/posts/',
@@ -40,6 +42,10 @@ urlpatterns = [
          CommentViewSet.as_view({'get': 'retrieve'})),
     path('author/<str:author_id>/inbox',
          InboxViewSet.as_view({'get': 'retrieve', 'post': 'update', 'delete': 'delete'})),
+    path('author/<str:author_id>/posts/<str:post_id>/likes',
+         PostViewSet.as_view({'get': 'list'})),
+    path('author/<str:author_id>/posts/<str:post_id>/comments/<str:comment_id>/likes',
+         CommentViewSet.as_view({'get': 'list'})),
     path('', include(router.urls)),
     path('admin/', admin.site.urls),
 ]
