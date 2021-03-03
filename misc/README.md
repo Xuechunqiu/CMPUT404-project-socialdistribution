@@ -5,3 +5,6 @@ Some odds and ends.
 `Description`: Setup PostgreSQL server locally using Docker.   
 `Note`: If Docker doesn't installed on your Mac, `brew install --cask docker`, then `open /Applications/Docker.app`.  
 `Usage`: `chmod +x postgresql.sh && ./postgresql.sh`
+
+`Check exist data`: `docker volume ls`  
+`Remove`: `docker volume rm postgresql_data_volume`  

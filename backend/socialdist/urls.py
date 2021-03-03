@@ -27,6 +27,10 @@ router.register(r'author', AuthorViewSet, 'author')
 
 # just some url pattern from requirement, need to implement all of them
 urlpatterns = [
+    path(
+        'author/', AuthorViewSet.as_view({'post': 'post'}), name="create-author"),
+    path('author/<str:author_id>/',
+         AuthorViewSet.as_view({'retrieve': 'get', 'update': 'put'}), name="author-info"),
     path('author/<str:author_id>/followers',
          FollowerViewSet.as_view({'get': 'list'})),
     path('author/<str:author_id>/followers/<str:foreign_author_id>/',
@@ -44,6 +48,5 @@ urlpatterns = [
     path('', views.home, name="home"),
     path('accounts/', include('django.contrib.auth.urls')),
     path('register/', views.register, name="register"),
-    path('', include(router.urls)),
     path('admin/', admin.site.urls),
 ]

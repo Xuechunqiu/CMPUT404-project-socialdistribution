@@ -11,10 +11,8 @@
     <title>Register</title>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
-
-    <!-- Icon -->
-    <script src="https://kit.fontawesome.com/645c08aa33.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "css/bootstrap.min.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}" />
 
 </head>
 
@@ -22,10 +20,10 @@
     <div class="wrapper">
         <div class="signup_box">
             <div class="logo_wrapper">
-                <img src="" class="logo" alt="Logo">
+                <img src="{% static "images/logo.png" %}"  class="logo" alt="Logo" width="300">
             </div>
             <p class="title">Sign Up</p>
-            <form method="post">
+            <form method="post" id="author-form" action="{% url "create-author" %}">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <div class="errors">
