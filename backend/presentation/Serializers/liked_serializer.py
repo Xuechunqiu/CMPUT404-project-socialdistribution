@@ -5,4 +5,4 @@ from presentation.models import Liked
 class LikedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Liked
-        fields = ['type',"onwer",'items']
+        fields = ['type','items']

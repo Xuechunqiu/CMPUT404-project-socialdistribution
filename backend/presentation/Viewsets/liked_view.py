@@ -27,30 +27,24 @@ class LikedViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         author_id = getAuthorIDFromRequestURL(request, self.kwargs['author_id'])
-        author = get_object_or_404(Author, id=author_id)
-        queryset = Liked.objects.filter(owner=author)
+        author_ = get_object_or_404(Author, id=author_id)
+        queryset = Liked.objects.filter(id=author_)
         if queryset.exists():
-            Likedlist = Liked.objects.get(owner=author)
+            items = Liked.objects.get(id=author_)
             return Response({
-                'type': 'like',
-                'items': Likedlist.items
+                'type': 'liked',
+                'items': items
             })
         else:
-            Liked.objects.create(owner=author)
+            Liked.objects.create(id=author_)
             return Response({
-                'type': 'like',
+                'type': 'liked',
                 'items': []
             })
 
 
-    # def retrieve(self, request, *args, **kwargs):
-    #     author_id = getAuthorIDFromRequestURL(
-    #         request, self.kwargs['author_id'])
-    #     author = get_object_or_404(Author, id=author_id)
-    
-    #     followers = get_object_or_404(Follower, owner=author)
-    #     if follower_id in followers.items:
-    #         f = get_object_or_404(Author, id=follower_id)
-    #         return Response({'exist': True})
-    #     else:
-    #         return Response({'exist': False}, 404)
+    def retrieve(self, request, *args, **kwargs):
+        author_id = getAuthorIDFromRequestURL(request, self.kwargs['author_id'])
+        queryset = Liked.objects.get(id=author_id)
+        serializer = LikedViewSet(queryset)
+        return Response(serializer.data)
