@@ -9,6 +9,7 @@ import {
 import CommentArea from "../CommentArea";
 import { getCommentList } from "../../requests/requestComment";
 import { postRequest } from "../../requests/requestFriendRequest";
+import { getLikeslist } from "../../requests/requestLikes";
 import EditPostArea from "../EditPostArea";
 import ConfirmModal from "../ConfirmModal";
 import { deletePost } from "../../requests/requestPost";
@@ -101,22 +102,22 @@ export default class PostDisplay extends React.Component {
         },()=>{
         console.log(this.state.likeslist) 
         })
-      // var n = this.props.postID.indexOf("/likes/")
-      // let params = {
-      //   actor: this.props.authorID,
-      //   object: this.props.postID.substring(0,n),
-      //   summary: "I like you post!",
-      //   context: "Post"
-      // };
-      // likesRequest(params).then((response) => {
-      //   if (response.status === 200){
-      //     message.success("Request sent!");
-      //       window.location.reload();
-      //     } else {
-      //       message.error("Request failed!");
-      //     }
+      var n = this.props.postID.indexOf("/likes/")
+      let params = {
+        actor: this.props.authorID,
+        object: this.props.postID.substring(0,n),
+        summary: "I like you post!",
+        context: "Post"
+      };
+      getLikeslist(params).then((response) => {
+        if (response.status === 200){
+          message.success("Request sent!");
+            window.location.reload();
+          } else {
+            message.error("Request failed!");
+          }
   
-      // });
+      });
     
       }
     else {
