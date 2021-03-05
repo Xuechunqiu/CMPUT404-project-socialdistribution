@@ -1,4 +1,4 @@
-from presentation.models import Author, Follower, Post, Comment, Likes, Inbox, Liked
+from presentation.models import Author, Follower, Post, Comment, Likes, Inbox, Liked, Request
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404
 from presentation.Serializers.likes_serializer import LikesSerializer
@@ -65,12 +65,17 @@ class LikesViewSet(viewsets.ModelViewSet):
             inbox = Inbox.objects.get(author = commenter_id)
             inbox.items.append(likes_data)
             inbox.save()
+            l = Request(summary=summary,actor=author,object=object_id)
+            l.save()
         else:
             likes_data = {'type': 'Like', 'context':context,'summary': summary, 'author':actor_id,'post_object':object_id}
             liked_author_id = getAuthorIDFromRequestURL(request, self.kwargs['author_id'])
             inbox = Inbox.objects.get(author = liked_author_id)
             inbox.items.append(likes_data)
             inbox.save()
+            l = Request(summary=summary,actor=author,object=object_id)
+            l.save()
+            
 
         liked = Liked.objects.get(author=actor_id)
         likes_data['type'] = 'liked'
