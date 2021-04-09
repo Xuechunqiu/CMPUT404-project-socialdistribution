@@ -83,6 +83,10 @@ export function deleteFollower(params = {}) {
 
 // Remote API
 export function createRemoteFollower(params = {}) {
+  if (params.auth === undefined) {
+    // if auth not given, consider as current server
+    params.auth = `JWT ${localStorage.getItem("token")}`;
+  }
   return axios
     .put(params.URL, params, {
       headers: {
@@ -99,6 +103,10 @@ export function createRemoteFollower(params = {}) {
 }
 
 export function deleteRemoteFollower(params = {}) {
+  if (params.auth === undefined) {
+    // if auth not given, consider as current server
+    params.auth = `JWT ${localStorage.getItem("token")}`;
+  }
   return axios
     .delete(params.URL, {
       headers: {
