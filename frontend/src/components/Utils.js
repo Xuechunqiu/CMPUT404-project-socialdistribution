@@ -112,7 +112,6 @@ async function sendPostAndAppendInbox(params) {
     if (response.status === 200) {
       const postData = response.data;
       postData.type = "post";
-
       //if public, send to followers' inbox
       if (params.visibility) {
         getFollowerList({ object: params.authorID }).then((res) => {
@@ -195,7 +194,7 @@ async function sendPostAndAppendInbox(params) {
         });
       }
       message.success("Post sent!");
-      window.location.href = "/";
+      //window.location.href = "/";
     } else {
       message.error("Post failed!");
     }
