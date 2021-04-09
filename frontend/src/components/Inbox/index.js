@@ -24,6 +24,7 @@ export default class Inbox extends React.Component {
     clearInbox({ authorID: this.state.authorID }).then((res) => {
       if (res.status === 200) {
         message.success("Clear inbox successfully!");
+        window.location.reload();
       }
     });
   };
