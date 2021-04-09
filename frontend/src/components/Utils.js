@@ -194,7 +194,7 @@ async function sendPostAndAppendInbox(params) {
         });
       }
       message.success("Post sent!");
-      //window.location.href = "/";
+      window.location.href = "/";
     } else {
       message.error("Post failed!");
     }
