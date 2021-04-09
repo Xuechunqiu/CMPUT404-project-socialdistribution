@@ -22,10 +22,8 @@ export default class Followers extends React.Component {
   componentDidMount() {
     this._isMounted = true;
     let followerList = [];
-    console.log("authorID", this.props.authorID);
     //let localFollowers = [];
     getFollowerList({ object: this.state.authorID }).then((res) => {
-      console.log("Res", res);
       if (res.data.items.length !== 0) {
         for (const follower_id of res.data.items) {
           let domain = getDomainName(follower_id);
@@ -46,6 +44,9 @@ export default class Followers extends React.Component {
                 id: response2.data.id,
               };
               followerList.push(obj);
+              this.setState({
+                followers: followerList,
+              })
             });
           } else {
             getAuthorByAuthorID({
