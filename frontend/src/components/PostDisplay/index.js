@@ -298,7 +298,7 @@ export default class PostDisplay extends React.Component {
         isLiked: true,
       });
       let params = {
-        authorID: this.props.item.authorID,
+        authorID: this.props.authorID,
         type: "Like",
         postID: this.props.postID,
         actor: this.props.authorID,
