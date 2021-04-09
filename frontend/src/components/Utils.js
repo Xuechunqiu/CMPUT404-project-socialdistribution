@@ -8,10 +8,16 @@ import { getFollower, getFollowerList } from "../requests/requestFollower";
 import { sendPost, sendPostToUserInbox } from "../requests/requestPost";
 import { domainAuthPair } from "../requests/URL";
 
-async function getPostDataSet(postData) {
+async function getPostDataSet(postData, remote) {
   const publicPosts = [];
   for (const element of postData) {
-    const domain = getDomainName(element.author);
+    console.log("post", element);
+    let domain;
+    if (remote) {
+      domain = getDomainName(element.author.id);
+    } else {
+      domain = getDomainName(element.author);
+    }
     let contentHTML = <p>{element.content}</p>;
     if (element.contentType !== undefined) {
       const isImage =
@@ -24,13 +30,14 @@ async function getPostDataSet(postData) {
         contentHTML = <ReactMarkdown source={element.content} />;
       }
     }
-    let res;
+    let res = {};
     if (domain !== window.location.hostname) {
       // remote
-      res = await getRemoteAuthorByAuthorID({
-        URL: element.author,
-        auth: domainAuthPair[domain],
-      });
+      // res = await getRemoteAuthorByAuthorID({
+      //   URL: element.author,
+      //   auth: domainAuthPair[domain],
+      // });
+      res.data = element.author;
     } else {
       res = await getAuthorByAuthorID({ authorID: element.author });
     }
@@ -78,10 +85,11 @@ async function getFriendDataSet(friendList) {
   return friendDataSet;
 }
 
-async function getLikeDataSet(likeData) {
+async function getLikeDataSet(likeData, remote) {
   const likeArray = [];
   for (const like of likeData) {
-    const domain = getDomainName(like.author);
+    let domain;
+    domain = getDomainName(like.author);
     let authorInfo;
     if (domain !== window.location.hostname) {
       authorInfo = await getRemoteAuthorByAuthorID({

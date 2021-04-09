@@ -75,11 +75,11 @@ export default class PostDisplay extends React.Component {
     // Comments
     if (this.props.remote) {
       getRemoteCommentList({
-        URL: `${this.props.postID}/comments/`,
+        URL: `${this.props.postID}/viewComments/`,
         auth: domainAuthPair[getDomainName(this.props.postID)],
       }).then((res) => {
         if (res.status === 200) {
-          this.getCommentDataSet(res.data).then((value) => {
+          this.getCommentDataSet(res.data, true).then((value) => {
             this.setState({ comments: value });
             this.getVisibleComments(value);
           });
@@ -149,10 +149,11 @@ export default class PostDisplay extends React.Component {
     }
   };
 
-  getCommentDataSet = async (commentData) => {
+  getCommentDataSet = async (commentData, remote) => {
     const commentsArray = [];
     for (const comment of commentData) {
-      const domain = getDomainName(comment.author);
+      let domain;
+      domain = getDomainName(comment.author);
       let authorInfo;
       if (domain !== window.location.hostname) {
         authorInfo = await getRemoteAuthorByAuthorID({

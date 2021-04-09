@@ -6,13 +6,7 @@ import {
   getPostList,
 } from "../../requests/requestPost";
 import PostDisplay from "../PostDisplay";
-import {
-  auth,
-  auth4,
-  domainAuthPair,
-  remoteDomain,
-  remoteDomain4,
-} from "../../requests/URL";
+import { domainAuthPair, remoteDomain } from "../../requests/URL";
 import { getDomainName, getPostDataSet } from "../Utils";
 
 const { TabPane } = Tabs;
@@ -48,15 +42,13 @@ export default class PublicAndMyPost extends React.Component {
     });
     // Remote serveer
     getAllRemotePublicPosts({
-      // URL: `${remoteDomain4}/posts/`,
-      // auth: auth4,
-      URL: `${remoteDomain}/post-list/`,
+      URL: `${remoteDomain}/posts/`,
       auth: domainAuthPair[getDomainName(remoteDomain)],
     }).then((res) => {
       if (res === undefined) {
         message.warning("Loading...");
       } else if (res.status === 200) {
-        getPostDataSet(res.data).then((value) => {
+        getPostDataSet(res.data, true).then((value) => {
           if (this._isMounted) {
             this.setState({ remotePublicPostDataSet: value });
           }
