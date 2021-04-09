@@ -1,7 +1,7 @@
 import React from "react";
 import { List, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { getFollowerList, getFollower } from "../../requests/requestFollower";
+import { getFollowerList } from "../../requests/requestFollower";
 import {
   getAuthorByAuthorID,
   getRemoteAuthorByAuthorID,
@@ -22,17 +22,10 @@ export default class Followers extends React.Component {
   componentDidMount() {
     this._isMounted = true;
     let followerList = [];
-    //let localFollowers = [];
     getFollowerList({ object: this.state.authorID }).then((res) => {
       if (res.data.items.length !== 0) {
         for (const follower_id of res.data.items) {
           let domain = getDomainName(follower_id);
-          //let n = this.state.authorID.indexOf("/author/");
-          //let length = this.state.authorID.length;
-          //let params = {
-          //  actor: this.state.authorID.substring(n + 8, length),
-          //  object: follower_id,
-          //};
           if (domain !== window.location.hostname) {
             getRemoteAuthorByAuthorID({
               URL: follower_id,
@@ -46,7 +39,7 @@ export default class Followers extends React.Component {
               followerList.push(obj);
               this.setState({
                 followers: followerList,
-              })
+              });
             });
           } else {
             getAuthorByAuthorID({
@@ -60,12 +53,12 @@ export default class Followers extends React.Component {
               followerList.push(obj);
               this.setState({
                 followers: followerList,
-              })
+              });
             });
-          };
-        };
+          }
+        }
       } else {
-        console.log("No followers...")
+        console.log("No followers...");
       }
     });
   }
