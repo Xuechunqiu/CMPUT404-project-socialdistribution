@@ -56,6 +56,10 @@ export function getRequest(params = {}) {
 
 // Remote API
 export function postRemoteRequest(params = {}) {
+  if (params.auth === undefined) {
+    // if auth not given, consider as current server
+    params.auth = `JWT ${localStorage.getItem("token")}`;
+  }
   return axios
     .post(params.URL, params, {
       headers: {
@@ -72,6 +76,10 @@ export function postRemoteRequest(params = {}) {
 }
 
 export function deleteRemoteRequest(params = {}) {
+  if (params.auth === undefined) {
+    // if auth not given, consider as current server
+    params.auth = `JWT ${localStorage.getItem("token")}`;
+  }
   return axios
     .delete(params.URL, {
       headers: {
