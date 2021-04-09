@@ -297,9 +297,8 @@ export default class PostDisplay extends React.Component {
       this.setState({
         isLiked: true,
       });
-      var n = this.props.postID.indexOf("/posts/");
       let params = {
-        InboxURL: this.props.postID.substring(0, n),
+        authorID: this.props.item.authorID,
         type: "Like",
         postID: this.props.postID,
         actor: this.props.authorID,
@@ -319,7 +318,7 @@ export default class PostDisplay extends React.Component {
         });
         sendToRemoteInbox(params).then((response) => {
           if (response.status !== 200) {
-            message.error("Remote Inboxlikes send failed!");
+            message.error("Remote inbox likes send failed!");
           }
         });
       } else {
