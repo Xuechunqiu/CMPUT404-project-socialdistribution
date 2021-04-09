@@ -112,7 +112,6 @@ async function sendPostAndAppendInbox(params) {
     if (response.status === 200) {
       const postData = response.data;
       postData.type = "post";
-
       //if public, send to followers' inbox
       if (params.visibility === "PUBLIC") {
         getFollowerList({ object: params.authorID }).then((res) => {
