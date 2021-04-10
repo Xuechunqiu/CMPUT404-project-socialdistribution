@@ -1,0 +1,11 @@
+openapi: 3.0.2
+info:
+  title: 'Social Distribution'
+  version: '0.9.9.1'
+  description: 'API documentation of social distribution, a CMPUT404 project in Winter 2021 maintained by team 1.'
+  contact:
+    name: 'Team 1 contributors'
+    url: 'https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution'
+  license:
+    name: 'Apache 2.0 and CC-BY-SA 4.0'
+    url: 'https://raw.githubusercontent.com/Xuechunqiu/CMPUT404-project-socialdistribution/master/LICENSE'

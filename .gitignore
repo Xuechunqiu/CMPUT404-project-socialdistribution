@@ -147,4 +147,8 @@ misc/DeployMe/
 # JetBrains Ide
 .idea/
 
+# npm dependencies
 package-lock.json
+
+# vscode settings
+.vscode/
