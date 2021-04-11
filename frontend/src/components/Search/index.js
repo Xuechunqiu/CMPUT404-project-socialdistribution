@@ -114,12 +114,13 @@ export default class Search extends React.Component {
           URL: 
             this.state.objectID +
             "/followers/" +
-            this.state.authorID.substring(n + 8, length),
+            this.state.authorID.substring(n + 8, length) + "/",
+
           auth: auth: domainAuthPair[domain],
         }
         // change later
         let params1 = {
-          URL: this.state.objectID.substring(0, n) + "/friendrequest/";
+          URL: this.state.objectID.substring(0, n) + "/friendrequest/",
           actor: this.state.authorID,
           object: this.state.objectID,
           auth: domainAuthPair[domain],

@@ -189,6 +189,7 @@ export default class PostDisplay extends React.Component {
       authorID: this.props.authorID,
     }).then((response1) => {
       var n = this.props.postID.indexOf("/posts/");
+      var o = this.props.postID.indexOf("/author/");
       var m = this.props.authorID.indexOf("/author/");
       var length = this.props.authorID.length;
       let params = {
@@ -202,13 +203,14 @@ export default class PostDisplay extends React.Component {
           github: response1.data.github,
         },
         object: this.props.postID.substring(0, n),
-        URL: `${this.props.postID.substring(0, n)}/inbox`,
+        URL: `${this.props.postID.substring(0, n)}/inbox/`,
         summary: "I want to follow you!",
       };
       if (this.props.remote) {
-        params.URL = `${this.props.postID.substring(0, n)}/inbox/`;
+        params.URL = this.props.postID.substring(0, o) + "/friendrequest/";
+        params.actor = this.props.authorID;
+        params.object = this.props.postID.substring(0, n);
         params.auth = domainAuthPair[getDomainName(this.props.postID)];
-        params.remote = true;
         let params1 = {
           URL:
             this.props.postID.substring(0, n) + 
@@ -216,7 +218,6 @@ export default class PostDisplay extends React.Component {
             this.props.authorID.substring(m + 8, length) +
             "/",
           auth: domainAuthPair[getDomainName(this.props.postID)],
-          remote: true,
         };
         createRemoteFollower(params1).then((response) => {
           if (response.status === 204) {
