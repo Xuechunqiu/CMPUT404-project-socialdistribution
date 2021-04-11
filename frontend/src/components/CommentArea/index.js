@@ -23,7 +23,7 @@ export default class CommentArea extends React.Component {
       author: this.props.authorID,
       postID: this.props.postID,
       comment: this.state.commentValue,
-      contentType: "text/plain",
+      contentType: "text/markdown",
     };
     if (this.props.remote) {
       params.URL = `${this.props.postID}/comments/`;
