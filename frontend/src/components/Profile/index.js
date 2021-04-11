@@ -6,6 +6,7 @@ import ProfileChange from "../ProfileChange";
 import GitHubCalendar from "react-github-calendar";
 import { GithubOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
+import { generateRandomAvatar } from "../Utils";
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -101,7 +102,9 @@ export default class Profile extends React.Component {
         >
           <Meta
             // TODO: change avatar
-            avatar={<Avatar icon={<UserOutlined />} />}
+            avatar={
+              <Avatar src={generateRandomAvatar(this.state.displayName)} />
+            }
             title={this.state.displayName}
             description={
               <div>

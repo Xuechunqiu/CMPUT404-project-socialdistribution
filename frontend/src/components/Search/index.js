@@ -11,7 +11,7 @@ import {
   postRemoteRequest,
 } from "../../requests/requestFriendRequest";
 import { domainAuthPair, remoteDomain } from "../../requests/URL";
-import { getDomainName } from "../Utils";
+import { generateRandomAvatar, getDomainName } from "../Utils";
 
 const { Option } = Select;
 
@@ -162,7 +162,7 @@ export default class Search extends React.Component {
         ]}
       >
         <Meta
-          avatar={<Avatar icon={<UserOutlined />} />}
+          avatar={<Avatar src={generateRandomAvatar(authorValue)} />}
           title={authorValue}
           description={`Github: ${authorGithub}`}
         />

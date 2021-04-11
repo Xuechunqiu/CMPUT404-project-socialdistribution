@@ -8,7 +8,7 @@ import {
 } from "../../requests/requestAuthor";
 import SingleRequest from "../SingleRequest";
 import { domainAuthPair } from "../../requests/URL";
-import { getDomainName } from "../Utils";
+import { generateRandomAvatar, getDomainName } from "../Utils";
 
 export default class InboxRequest extends React.Component {
   constructor(props) {
@@ -89,7 +89,7 @@ export default class InboxRequest extends React.Component {
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar icon={<UserOutlined />} />}
+                  avatar={<Avatar src={generateRandomAvatar(item.actorName)} />}
                   title={item.actorName}
                   description=" wants to follow you."
                 />

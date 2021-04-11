@@ -7,7 +7,7 @@ import {
   getRemoteAuthorByAuthorID,
 } from "../../requests/requestAuthor";
 import SingleFriend from "../SingleFriend";
-import { getDomainName } from "../Utils";
+import { generateRandomAvatar, getDomainName } from "../Utils";
 import { domainAuthPair } from "../../requests/URL";
 
 export default class Friends extends React.Component {
@@ -108,7 +108,9 @@ export default class Friends extends React.Component {
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar icon={<UserOutlined />} />}
+                  avatar={
+                    <Avatar src={generateRandomAvatar(item.displayName)} />
+                  }
                   title={item.displayName}
                   description={item.github}
                 />

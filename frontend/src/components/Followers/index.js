@@ -6,7 +6,7 @@ import {
   getAuthorByAuthorID,
   getRemoteAuthorByAuthorID,
 } from "../../requests/requestAuthor";
-import { getDomainName } from "../Utils";
+import { generateRandomAvatar, getDomainName } from "../Utils";
 import { domainAuthPair } from "../../requests/URL";
 
 export default class Followers extends React.Component {
@@ -83,7 +83,9 @@ export default class Followers extends React.Component {
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar icon={<UserOutlined />} />}
+                  avatar={
+                    <Avatar src={generateRandomAvatar(item.displayName)} />
+                  }
                   title={item.displayName}
                   description={item.github}
                 />

@@ -39,7 +39,12 @@ import {
 } from "../../requests/requestPost";
 import { getFollowerList } from "../../requests/requestFollower";
 import { domainAuthPair } from "../../requests/URL";
-import { getDomainName, getLikeDataSet, formatDate } from "../Utils";
+import {
+  getDomainName,
+  getLikeDataSet,
+  formatDate,
+  generateRandomAvatar,
+} from "../Utils";
 import { sendToInbox, sendToRemoteInbox } from "../../requests/requestInbox";
 
 const { TabPane } = Tabs;
@@ -452,7 +457,7 @@ export default class PostDisplay extends React.Component {
           extra={
             <span>
               <Popover content={userInfo} title="User Info" trigger="click">
-                <Avatar icon={<UserOutlined />} /> {authorName}
+                <Avatar src={generateRandomAvatar(authorName)} /> {authorName}
               </Popover>
             </span>
           }
@@ -514,7 +519,7 @@ export default class PostDisplay extends React.Component {
                   renderItem={(item) => (
                     <List.Item>
                       <List.Item.Meta
-                        avatar={<Avatar icon={<UserOutlined />} />}
+                        avatar={<Avatar src={generateRandomAvatar(item.authorName)} />}
                         title={item.authorName}
                         description={item.published}
                       />
@@ -534,7 +539,7 @@ export default class PostDisplay extends React.Component {
                   renderItem={(item) => (
                     <List.Item>
                       <List.Item.Meta
-                        avatar={<Avatar icon={<UserOutlined />} />}
+                        avatar={<Avatar src={generateRandomAvatar(item.authorName)} />}
                         title={item.authorName}
                         description={"likes this post."}
                       />

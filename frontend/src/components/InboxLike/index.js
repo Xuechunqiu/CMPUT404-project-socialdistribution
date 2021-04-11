@@ -2,7 +2,7 @@ import React from "react";
 import { List, message, Avatar, Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { getinboxlike } from "../../requests/requestLike";
-import { getLikeDataSet } from "../Utils";
+import { generateRandomAvatar, getLikeDataSet } from "../Utils";
 
 export default class InboxLike extends React.Component {
   constructor(props) {
@@ -48,7 +48,9 @@ export default class InboxLike extends React.Component {
             renderItem={(item) => (
               <List.Item>
                 <List.Item.Meta
-                  avatar={<Avatar icon={<UserOutlined />} />}
+                  avatar={
+                    <Avatar src={generateRandomAvatar(item.authorName)} />
+                  }
                   title={item.authorName}
                   description={item.summary}
                 />

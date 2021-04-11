@@ -224,6 +224,10 @@ function formatDate(timestamp) {
   return YY + MM + DD + " " + hh + mm + ss;
 }
 
+function generateRandomAvatar(name) {
+  return "https://ui-avatars.com/api/?background=random&name=" + name;
+}
+
 export {
   getPostDataSet,
   getFriendDataSet,
@@ -231,4 +235,5 @@ export {
   getDomainName,
   sendPostAndAppendInbox,
   formatDate,
+  generateRandomAvatar,
 };
