@@ -21,8 +21,9 @@ export default class Profile extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this._isMounted = true;
+    this.updateDisplay();
   }
 
   componentWillUnmount() {
@@ -64,10 +65,6 @@ export default class Profile extends React.Component {
         }
       );
     }
-  }
-
-  componentDidMount() {
-    this.updateDisplay();
   }
 
   handleClick = () => {

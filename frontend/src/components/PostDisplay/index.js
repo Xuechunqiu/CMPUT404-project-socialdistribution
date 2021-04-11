@@ -1,7 +1,6 @@
 import React from "react";
 import { message, Avatar, Button, Card, List, Popover, Tag, Tabs } from "antd";
 import {
-  UserOutlined,
   UserAddOutlined,
   HeartTwoTone,
   ShareAltOutlined,

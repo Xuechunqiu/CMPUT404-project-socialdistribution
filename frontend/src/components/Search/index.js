@@ -18,6 +18,7 @@ const { Option } = Select;
 export default class Search extends React.Component {
   constructor(props) {
     super(props);
+    this._isMounted = false;
     this.state = {
       authorID: this.props.authorID,
       authorList: [],
@@ -34,7 +35,9 @@ export default class Search extends React.Component {
     getAllAuthors().then((res) => {
       if (res.status === 200) {
         this.getAuthorDataSet(res.data).then((value) => {
-          this.setState({ authorList: value });
+          if (this._isMounted) {
+            this.setState({ authorList: value });
+          }
         });
       } else {
         message.error("Request failed!");
@@ -46,7 +49,9 @@ export default class Search extends React.Component {
     }).then((res) => {
       if (res.status === 200) {
         this.getAuthorDataSet(res.data).then((value) => {
-          this.setState({ remoteAuthorList: value });
+          if (this._isMounted) {
+            this.setState({ remoteAuthorList: value });
+          }
         });
       } else {
         message.error("Remote Request failed!");

@@ -37,9 +37,11 @@ export default class Followers extends React.Component {
                 id: response2.data.id,
               };
               followerList.push(obj);
-              this.setState({
-                followers: followerList,
-              });
+              if (this._isMounted) {
+                this.setState({
+                  followers: followerList,
+                });
+              }
             });
           } else {
             getAuthorByAuthorID({
@@ -51,12 +53,16 @@ export default class Followers extends React.Component {
                 id: response2.data.id,
               };
               followerList.push(obj);
-              this.setState({
-                followers: followerList,
-              });
+              if (this._isMounted) {
+                this.setState({
+                  followers: followerList,
+                });
+              }
             });
           }
-          this.setState({ loading: false });
+          if (this._isMounted) {
+            this.setState({ loading: false });
+          }
         }
       } else {
         console.log("No followers...");

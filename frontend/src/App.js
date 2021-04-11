@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Layout, Avatar, Menu } from "antd";
 import {
   BookOutlined,
-  UserOutlined,
   TeamOutlined,
   HomeOutlined,
   MailOutlined,
