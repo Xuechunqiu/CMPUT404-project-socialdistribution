@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Avatar } from "antd";
+import { List, Avatar, Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { getFollowerList, getFollower } from "../../requests/requestFollower";
 import {
@@ -18,6 +18,7 @@ export default class Friends extends React.Component {
       authorID: this.props.authorID,
       friends: [],
       remoteFriendList: [],
+      loading: true,
     };
   }
 
@@ -82,6 +83,7 @@ export default class Friends extends React.Component {
               }
             });
           }
+          this.setState({ loading: false });
         }
       }
     });
@@ -95,20 +97,29 @@ export default class Friends extends React.Component {
     const allFriends = this.state.friends.concat(this.state.remoteFriendList);
     return (
       <div style={{ margin: "0 20%" }}>
-        <List
-          bordered
-          dataSource={allFriends}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar icon={<UserOutlined />} />}
-                title={item.displayName}
-                description={item.github}
-              />
-              <SingleFriend authorID={this.state.authorID} friendID={item.id} />
-            </List.Item>
-          )}
-        />
+        {this.state.loading ? (
+          <div style={{ textAlign: "center", marginTop: "20%" }}>
+            <Spin size="large" /> Loading...
+          </div>
+        ) : (
+          <List
+            bordered
+            dataSource={allFriends}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar icon={<UserOutlined />} />}
+                  title={item.displayName}
+                  description={item.github}
+                />
+                <SingleFriend
+                  authorID={this.state.authorID}
+                  friendID={item.id}
+                />
+              </List.Item>
+            )}
+          />
+        )}
       </div>
     );
   }

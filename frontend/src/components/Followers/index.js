@@ -1,5 +1,5 @@
 import React from "react";
-import { List, Avatar } from "antd";
+import { List, Avatar, Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { getFollowerList } from "../../requests/requestFollower";
 import {
@@ -16,6 +16,7 @@ export default class Followers extends React.Component {
     this.state = {
       authorID: this.props.authorID,
       followers: [],
+      loading: true,
     };
   }
 
@@ -56,6 +57,7 @@ export default class Followers extends React.Component {
               });
             });
           }
+          this.setState({ loading: false });
         }
       } else {
         console.log("No followers...");
@@ -70,19 +72,25 @@ export default class Followers extends React.Component {
   render() {
     return (
       <div style={{ margin: "0 20%" }}>
-        <List
-          bordered
-          dataSource={this.state.followers}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar icon={<UserOutlined />} />}
-                title={item.displayName}
-                description={item.github}
-              />
-            </List.Item>
-          )}
-        />
+        {this.state.loading ? (
+          <div style={{ textAlign: "center", marginTop: "20%" }}>
+            <Spin size="large" /> Loading...
+          </div>
+        ) : (
+          <List
+            bordered
+            dataSource={this.state.followers}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar icon={<UserOutlined />} />}
+                  title={item.displayName}
+                  description={item.github}
+                />
+              </List.Item>
+            )}
+          />
+        )}
       </div>
     );
   }
