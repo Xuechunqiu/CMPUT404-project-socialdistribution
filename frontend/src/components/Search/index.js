@@ -93,6 +93,7 @@ export default class Search extends React.Component {
       authorID: this.state.authorID,
     }).then((response1) => {
       var n = this.state.authorID.indexOf("/author/");
+      var m = this.state.objectID.indexOf("/author/");
       var length = this.state.authorID.length;
       let params = {
         type: "follow",
@@ -109,20 +110,21 @@ export default class Search extends React.Component {
       };
       const domain = getDomainName(this.state.objectID);
       if (domain !== window.location.hostname) {
-        params.URL = `${params.object.toString()}/inbox/`;
-        params.auth = domainAuthPair[domain];
-        params.remote = true;
+        let params = {
+          URL: 
+            this.state.objectID +
+            "/followers/" +
+            this.state.authorID.substring(n + 8, length),
+          auth: auth: domainAuthPair[domain],
+        }
         // change later
         let params1 = {
-          URL:
-            this.state.objectID + 
-            "/followers/" +
-            this.state.authorID.substring(n + 8, length) +
-            "/",
+          URL: this.state.objectID.substring(0, n) + "/friendrequest/";
+          actor: this.state.authorID,
+          object: this.state.objectID,
           auth: domainAuthPair[domain],
-          remote: true,
         };
-        createRemoteFollower(params1).then((response) => {
+        createRemoteFollower(params).then((response) => {
           if (response.status === 204) {
             message.success("Remote: Successfully followed!");
             //window.location.reload();
@@ -130,7 +132,7 @@ export default class Search extends React.Component {
             message.error("Remote: Follow Failed!");
           }
         });
-        postRemoteRequest(params).then((response) => {
+        postRemoteRequest(params1).then((response) => {
           if (response.status === 200) {
             message.success("Remote: Request sent!");
           } else if (response.status === 409) {

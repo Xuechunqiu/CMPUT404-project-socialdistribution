@@ -60,32 +60,8 @@ export function postRemoteRequest(params = {}) {
     // if auth not given, consider as current server
     params.auth = `JWT ${localStorage.getItem("token")}`;
   }
-  var n = params.actor.indexOf("/author/");
-  var m = params.object.indexOf("/author/");
-
-  let params1 = {
-    type: "follow",
-    summary: params.summary,
-    actor: {
-      type: "author",
-      id: params.actor,
-      url: params.actor,
-      host: params.actor.substring(0, n),
-      displayName: "whatever",
-      github: "http://github.com/whatever",
-    },
-    object: {
-      type: "author",
-      id: params.object,
-      url: "https://c404posties.herokuapp.com/firstapp/2",
-      host: params.object.substring(0, m),
-      displayName: "j",
-      github: "",
-    },
-  }
-  console.log("params1", params1);
   return axios
-    .post(params.URL, params1, {
+    .post(params.URL, params, {
       headers: {
         "Content-Type": "application/json",
         Authorization: params.auth,

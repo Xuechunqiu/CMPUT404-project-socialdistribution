@@ -40,6 +40,7 @@ export default class SingleFriend extends React.Component {
         actor: this.state.authorID,
         object: this.props.friendID,
         auth: domainAuthPair[domain],
+        URL: this.state.friendID.substring(0, m) + "/friendrequest/delete/",
       };
       let params1 = {
         actor: this.state.friendID.substring(m + 8, length1),

@@ -127,13 +127,10 @@ export function deleteRemoteFriend(params = {}) {
     params.auth = `JWT ${localStorage.getItem("token")}`;
   }
   return axios
-    .delete(params.URL, {
+    .patch(params.URL, params, {
       headers: {
         "Content-Type": "application/json",
         Authorization: params.auth,
-      },
-      data: {
-        remote: params.remote,
       },
     })
     .then((response) => {
