@@ -88,7 +88,7 @@ export function createRemoteFriend(params = {}) {
     params.auth = `JWT ${localStorage.getItem("token")}`;
   }
   return axios
-    .put(params.URL, params, {
+    .patch(params.URL, params, {
       headers: {
         "Content-Type": "application/json",
         Authorization: params.auth,

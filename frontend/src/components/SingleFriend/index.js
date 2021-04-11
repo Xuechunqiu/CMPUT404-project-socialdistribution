@@ -2,8 +2,8 @@ import React from "react";
 import { Button, message } from "antd";
 import { UserSwitchOutlined } from "@ant-design/icons";
 import {
-  deleteFollower,
-  deleteRemoteFollower,
+  deleteFriend,
+  deleteRemoteFriend,
 } from "../../requests/requestFollower";
 import UnfollowModal from "../UnfollowModal";
 import { domainAuthPair } from "../../requests/URL";
@@ -31,36 +31,60 @@ export default class SingleFriend extends React.Component {
 
   removeFollower = () => {
     var n = this.state.authorID.indexOf("/author/");
+    var m = this.state.friendID.indexOf("/author/");
     var length = this.state.authorID.length;
+    var length1 = this.state.friendID.length;
     const domain = getDomainName(this.state.friendID);
     if (domain !== window.location.hostname) {
       let params = {
-        URL:
-          this.props.friendID +
-          "/followers/" +
-          this.props.authorID.substring(n + 8, length),
+        actor: this.state.authorID,
+        object: this.props.friendID,
         auth: domainAuthPair[domain],
+      };
+      let params1 = {
+        actor: this.state.friendID.substring(m + 8, length1),
+        object: this.state.authorID,
         remote: true,
       };
-      deleteRemoteFollower(params).then((response) => {
+      deleteFriend(params1).then((response) => {
         if (response.status === 200) {
-          message.success("Successfully unfollowed.");
+          message.success("Friend Successfully deleted.");
           window.location.reload();
         } else {
-          message.error("Unfollow Failed!");
+          message.error("Friend deleted Failed!");
+        }
+      });
+      deleteRemoteFriend(params).then((response) => {
+        if (response.status === 200) {
+          message.success("Remote Friend Successfully Deleted.");
+          //window.location.reload();
+        } else {
+          message.error("Remote Friend Delete Failed!");
         }
       });
     } else {
-      let params = {
+      let params1 = {
         actor: this.props.authorID.substring(n + 8, length),
         object: this.props.friendID,
       };
-      deleteFollower(params).then((response) => {
+      let params = {
+        actor: this.props.friendID.substring(m + 8, length1),
+        object: this.props.authorID,
+      };
+      deleteFriend(params).then((response) => {
         if (response.status === 200) {
-          message.success("Successfully unfollowed.");
+          message.success("My Friend Successfully deleted.");
           window.location.reload();
         } else {
-          message.error("Unfollow Failed!");
+          message.error("My Friend deleted Failed!");
+        }
+      });
+      deleteFriend(params1).then((response) => {
+        if (response.status === 200) {
+          message.success("Friend Successfully deleted.");
+          window.location.reload();
+        } else {
+          message.error("Friend deleted Failed!");
         }
       });
     }
