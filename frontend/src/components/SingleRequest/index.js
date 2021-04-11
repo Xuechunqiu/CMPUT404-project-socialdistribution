@@ -89,10 +89,9 @@ export default class SingleRequest extends React.Component {
       };
       let params1 = {
         auth: domainAuthPair[getDomainName(this.props.actorID)],
-        URL: 
-          this.props.actorID + 
-          "/followers/" + 
-          this.props.authorID.substring(m + 8, length1),
+        object: this.props.authorID,
+        actor: this.props.actorID,
+        URL: this.props.actorID.substring(0, n) + "/friendrequest/accept/",
       };
       createFriend(params).then((response) => {
         if (response.status === 204) {

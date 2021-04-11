@@ -115,8 +115,7 @@ export default class Search extends React.Component {
             this.state.objectID +
             "/followers/" +
             this.state.authorID.substring(n + 8, length) + "/",
-
-          auth: auth: domainAuthPair[domain],
+          auth: domainAuthPair[domain],
         }
         // change later
         let params1 = {
@@ -125,14 +124,14 @@ export default class Search extends React.Component {
           object: this.state.objectID,
           auth: domainAuthPair[domain],
         };
-        createRemoteFollower(params).then((response) => {
-          if (response.status === 204) {
-            message.success("Remote: Successfully followed!");
+        //createRemoteFollower(params).then((response) => {
+          //if (response.status === 204) {
+            //message.success("Remote: Successfully followed!");
             //window.location.reload();
-          } else {
-            message.error("Remote: Follow Failed!");
-          }
-        });
+          //} else {
+            //message.error("Remote: Follow Failed!");
+          //}
+        //});
         postRemoteRequest(params1).then((response) => {
           if (response.status === 200) {
             message.success("Remote: Request sent!");

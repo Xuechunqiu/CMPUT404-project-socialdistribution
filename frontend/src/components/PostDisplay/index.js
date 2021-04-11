@@ -219,14 +219,14 @@ export default class PostDisplay extends React.Component {
             "/",
           auth: domainAuthPair[getDomainName(this.props.postID)],
         };
-        createRemoteFollower(params1).then((response) => {
-          if (response.status === 204) {
-            message.success("Remote: Successfully followed!");
+        //createRemoteFollower(params1).then((response) => {
+          //if (response.status === 204) {
+            //message.success("Remote: Successfully followed!");
             //window.location.reload();
-          } else {
-            message.error("Remote: Follow Failed!");
-          }
-        });
+          //} else {
+            //message.error("Remote: Follow Failed!");
+          //}
+        //});
         postRemoteRequest(params).then((response) => {
           if (response.status === 200) {
             message.success("Remote: Request sent!");
