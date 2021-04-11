@@ -37,7 +37,11 @@ import {
   sendPost,
   sendPostToUserInbox,
 } from "../../requests/requestPost";
-import { getFollowerList } from "../../requests/requestFollower";
+import { 
+  getFollowerList,
+  createFollower,
+  createRemoteFollower,
+} from "../../requests/requestFollower";
 import { domainAuthPair } from "../../requests/URL";
 import { getDomainName, getLikeDataSet } from "../Utils";
 import { sendToInbox, sendToRemoteInbox } from "../../requests/requestInbox";
@@ -181,45 +185,81 @@ export default class PostDisplay extends React.Component {
   };
 
   handleClickFollow = async () => {
-    var n = this.props.postID.indexOf("/posts/");
-    if (this.props.remote) {
+    getAuthorByAuthorID({
+      authorID: this.props.authorID,
+    }).then((response1) => {
+      var n = this.props.postID.indexOf("/posts/");
+      var m = this.props.authorID.indexOf("/author/");
+      var length = this.props.authorID.length;
       let params = {
         type: "follow",
-        actor: this.props.authorID,
+        actor: {
+          type: "author",
+          id: response1.data.id,
+          host: response1.data.host,
+          displayName: response1.data.displayName,
+          url: response1.data.url,
+          github: response1.data.github,
+        },
         object: this.props.postID.substring(0, n),
         URL: `${this.props.postID.substring(0, n)}/inbox`,
         summary: "I want to follow you!",
-        auth: domainAuthPair[getDomainName(this.props.postID)],
-        remote: true,
       };
-      postRemoteRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Remote: Request sent!");
-          window.location.reload();
-        } else if (response.status === 409) {
-          message.error("Remote: Invalid request!");
-        } else {
-          message.error("Remote: Request failed!");
-        }
-      });
-    } else {
-      let params = {
-        type: "follow",
-        actor: this.props.authorID,
-        object: this.props.postID.substring(0, n),
-        summary: "I want to follow you!",
-      };
-      postRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Request sent!");
-          window.location.reload();
-        } else if (response.status === 409) {
-          message.error("Invalid request!");
-        } else {
-          message.error("Request failed!");
-        }
-      });
-    }
+      if (this.props.remote) {
+        params.URL = `${this.props.postID.substring(0, n)}/inbox/`;
+        params.auth = domainAuthPair[getDomainName(this.props.postID)];
+        params.remote = true;
+        let params1 = {
+          URL:
+            this.props.postID.substring(0, n) + 
+            "/followers/" +
+            this.props.authorID.substring(m + 8, length) +
+            "/",
+          auth: domainAuthPair[getDomainName(this.props.postID)],
+          remote: true,
+        };
+        createRemoteFollower(params1).then((response) => {
+          if (response.status === 204) {
+            message.success("Remote: Successfully followed!");
+            //window.location.reload();
+          } else {
+            message.error("Remote: Follow Failed!");
+          }
+        });
+        postRemoteRequest(params).then((response) => {
+          if (response.status === 200) {
+            message.success("Remote: Request sent!");
+            window.location.reload();
+          } else if (response.status === 409) {
+            message.error("Remote: Invalid request!");
+          } else {
+            message.error("Remote: Request failed!");
+          }
+        });
+      } else {
+        let params1 = {
+          actor: this.props.authorID.substring(m + 8, length),
+          object: this.props.postID.substring(0, n),
+        };
+        createFollower(params1).then((response) => {
+          if (response.status === 204) {
+            message.success("Successfully followed!");
+          } else {
+            message.error("Follow Failed!");
+          }
+        });
+        postRequest(params).then((response) => {
+          if (response.status === 200) {
+            message.success("Request sent!");
+            window.location.reload();
+          } else if (response.status === 409) {
+            message.error("Invalid request!");
+          } else {
+            message.error("Request failed!");
+          }
+        });
+      }
+    });
   };
 
   handleClickReply = () => {

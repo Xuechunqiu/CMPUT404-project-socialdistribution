@@ -144,7 +144,7 @@ export default class Search extends React.Component {
           actor: this.state.authorID.substring(n + 8, length),
           object: this.state.objectID,
         };
-        createFollower(params).then((response) => {
+        createFollower(params1).then((response) => {
           if (response.status === 204) {
             message.success("Successfully followed!");
           } else {
