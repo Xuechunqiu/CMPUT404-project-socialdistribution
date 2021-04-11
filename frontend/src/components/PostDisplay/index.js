@@ -36,7 +36,11 @@ import {
   sendPost,
   sendPostToUserInbox,
 } from "../../requests/requestPost";
-import { getFollowerList } from "../../requests/requestFollower";
+import { 
+  getFollowerList,
+  createFollower,
+  createRemoteFollower,
+} from "../../requests/requestFollower";
 import { domainAuthPair } from "../../requests/URL";
 import {
   getDomainName,
@@ -83,7 +87,7 @@ export default class PostDisplay extends React.Component {
         auth: domainAuthPair[getDomainName(this.props.postID)],
       }).then((res) => {
         if (res.status === 200) {
-          this.getCommentDataSet(res.data).then((value) => {
+          this.getCommentDataSet(res.data, true).then((value) => {
             this.setState({ comments: value });
             this.getVisibleComments(value);
           });
@@ -153,10 +157,11 @@ export default class PostDisplay extends React.Component {
     }
   };
 
-  getCommentDataSet = async (commentData) => {
+  getCommentDataSet = async (commentData, remote) => {
     const commentsArray = [];
     for (const comment of commentData) {
-      const domain = getDomainName(comment.author);
+      let domain;
+      domain = getDomainName(comment.author);
       let authorInfo;
       if (domain !== window.location.hostname) {
         authorInfo = await getRemoteAuthorByAuthorID({
@@ -184,45 +189,82 @@ export default class PostDisplay extends React.Component {
   };
 
   handleClickFollow = async () => {
-    var n = this.props.postID.indexOf("/posts/");
-    if (this.props.remote) {
+    getAuthorByAuthorID({
+      authorID: this.props.authorID,
+    }).then((response1) => {
+      var n = this.props.postID.indexOf("/posts/");
+      var o = this.props.postID.indexOf("/author/");
+      var m = this.props.authorID.indexOf("/author/");
+      var length = this.props.authorID.length;
       let params = {
         type: "follow",
-        actor: this.props.authorID,
+        actor: {
+          type: "author",
+          id: response1.data.id,
+          host: response1.data.host,
+          displayName: response1.data.displayName,
+          url: response1.data.url,
+          github: response1.data.github,
+        },
         object: this.props.postID.substring(0, n),
         URL: `${this.props.postID.substring(0, n)}/inbox/`,
         summary: "I want to follow you!",
-        auth: domainAuthPair[getDomainName(this.props.postID)],
-        remote: true,
       };
-      postRemoteRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Remote: Request sent!");
-          window.location.reload();
-        } else if (response.status === 409) {
-          message.error("Remote: Invalid request!");
-        } else {
-          message.error("Remote: Request failed!");
-        }
-      });
-    } else {
-      let params = {
-        type: "follow",
-        actor: this.props.authorID,
-        object: this.props.postID.substring(0, n),
-        summary: "I want to follow you!",
-      };
-      postRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Request sent!");
-          window.location.reload();
-        } else if (response.status === 409) {
-          message.error("Invalid request!");
-        } else {
-          message.error("Request failed!");
-        }
-      });
-    }
+      if (this.props.remote) {
+        params.URL = this.props.postID.substring(0, o) + "/friendrequest/";
+        params.actor = this.props.authorID;
+        params.object = this.props.postID.substring(0, n);
+        params.auth = domainAuthPair[getDomainName(this.props.postID)];
+        let params1 = {
+          URL:
+            this.props.postID.substring(0, n) + 
+            "/followers/" +
+            this.props.authorID.substring(m + 8, length) +
+            "/",
+          auth: domainAuthPair[getDomainName(this.props.postID)],
+        };
+        //createRemoteFollower(params1).then((response) => {
+          //if (response.status === 204) {
+            //message.success("Remote: Successfully followed!");
+            //window.location.reload();
+          //} else {
+            //message.error("Remote: Follow Failed!");
+          //}
+        //});
+        postRemoteRequest(params).then((response) => {
+          if (response.status === 200) {
+            message.success("Remote: Request sent!");
+            window.location.reload();
+          } else if (response.status === 409) {
+            message.error("Remote: Invalid request!");
+          } else {
+            message.error("Remote: Request failed!");
+          }
+        });
+      } else {
+        let params1 = {
+          actor: this.props.authorID.substring(m + 8, length),
+          object: this.props.postID.substring(0, n),
+        };
+        createFollower(params1).then((response) => {
+          if (response.status === 204) {
+            message.success("Successfully followed!");
+          } else {
+            message.warning("Already Following!");
+          }
+        });
+        postRequest(params).then((response) => {
+          if (response.status === 200) {
+            message.success("Request sent!");
+            window.location.reload();
+          } else if (response.status === 409) {
+            message.warning("Invalid request!");
+          } else {
+            message.error("Request failed!");
+          }
+        });
+      }
+    });
   };
 
   handleClickReply = () => {

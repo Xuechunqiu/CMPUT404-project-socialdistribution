@@ -84,10 +84,11 @@ async function getFriendDataSet(friendList) {
   return friendDataSet;
 }
 
-async function getLikeDataSet(likeData) {
+async function getLikeDataSet(likeData, remote) {
   const likeArray = [];
   for (const like of likeData) {
-    const domain = getDomainName(like.author);
+    let domain;
+    domain = getDomainName(like.author);
     let authorInfo;
     if (domain !== window.location.hostname) {
       authorInfo = await getRemoteAuthorByAuthorID({

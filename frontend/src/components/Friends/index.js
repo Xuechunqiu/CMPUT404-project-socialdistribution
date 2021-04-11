@@ -1,6 +1,6 @@
 import React from "react";
 import { List, Avatar, Spin } from "antd";
-import { getFollowerList, getFollower } from "../../requests/requestFollower";
+import { getFriendList, getFriend } from "../../requests/requestFriends";
 import {
   getAuthorByAuthorID,
   getRemoteAuthorByAuthorID,
@@ -25,23 +25,23 @@ export default class Friends extends React.Component {
     this._isMounted = true;
     let remoteFriends = [];
     let localFriends = [];
-    getFollowerList({ object: this.state.authorID }).then((res) => {
+    getFriendList({ object: this.state.authorID }).then((res) => {
       if (res.data.items.length !== 0) {
-        for (const follower_id of res.data.items) {
-          let domain = getDomainName(follower_id);
+        for (const friend_id of res.data.items) {
+          let domain = getDomainName(friend_id);
           let n = this.state.authorID.indexOf("/author/");
           let length = this.state.authorID.length;
           let params = {
             actor: this.state.authorID.substring(n + 8, length),
-            object: follower_id,
+            object: friend_id,
           };
           if (domain !== window.location.hostname) {
             params.remote = true;
             params.auth = domainAuthPair[domain];
-            getFollower(params).then((response) => {
+            getFriend(params).then((response) => {
               if (response.data.exist) {
                 getRemoteAuthorByAuthorID({
-                  URL: follower_id,
+                  URL: friend_id,
                   auth: domainAuthPair[domain],
                 }).then((response2) => {
                   const obj = {
@@ -56,15 +56,15 @@ export default class Friends extends React.Component {
                   });
                 });
               } else {
-                console.log("No remote friends", follower_id);
+                console.log("No remote friends", friend_id);
               }
             });
           } else {
             params.remote = false;
-            getFollower(params).then((response) => {
+            getFriend(params).then((response) => {
               if (response.data.exist) {
                 getAuthorByAuthorID({
-                  authorID: follower_id,
+                  authorID: friend_id,
                 }).then((response2) => {
                   const obj = {
                     displayName: response2.data.displayName,
@@ -78,7 +78,7 @@ export default class Friends extends React.Component {
                   });
                 });
               } else {
-                console.log("No local friends", follower_id);
+                console.log("No local friends", friend_id);
               }
             });
           }

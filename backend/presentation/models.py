@@ -118,3 +118,8 @@ class Usermod(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # an user that only meant to be used to authenticate by external nodes
     allowLogin = models.BooleanField(default=False)
+
+class Friend(models.Model):
+    type = "friend"
+    owner = models.CharField(max_length=MAX_LENGTH)
+    items = models.JSONField(default=default_list)
