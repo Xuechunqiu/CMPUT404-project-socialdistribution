@@ -187,7 +187,7 @@ export default class PostDisplay extends React.Component {
         type: "follow",
         actor: this.props.authorID,
         object: this.props.postID.substring(0, n),
-        URL: `${this.props.postID.substring(0, n)}/inbox/`,
+        URL: `${this.props.postID.substring(0, n)}/inbox`,
         summary: "I want to follow you!",
         auth: domainAuthPair[getDomainName(this.props.postID)],
         remote: true,
