@@ -2,9 +2,14 @@ import React from "react";
 import { message, Select, Avatar, Card } from "antd";
 import { UserOutlined, UserAddOutlined } from "@ant-design/icons";
 import {
+  getAuthorByAuthorID,
   getAllAuthors,
   getAllRemoteAuthors,
 } from "../../requests/requestAuthor";
+import {
+  createFollower,
+  createRemoteFollower,
+} from "../../requests/requestFollower";
 import Meta from "antd/lib/card/Meta";
 import {
   postRequest,
@@ -84,37 +89,84 @@ export default class Search extends React.Component {
   };
 
   handleClickFollow = async () => {
-    let params = {
-      type: "follow",
-      actor: this.state.authorID,
-      object: this.state.objectID,
-      summary: "I want to follow you!",
-    };
-    const domain = getDomainName(this.state.objectID);
-    if (domain !== window.location.hostname) {
-      params.URL = `${params.object.toString()}/inbox/`;
-      params.auth = domainAuthPair[domain];
-      params.remote = true;
-      postRemoteRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Remote: Request sent!");
-        } else if (response.status === 409) {
-          message.error("Remote: Invalid request!");
-        } else {
-          message.error("Remote: Request failed!");
+    getAuthorByAuthorID({
+      authorID: this.state.authorID,
+    }).then((response1) => {
+      var n = this.state.authorID.indexOf("/author/");
+      var length = this.state.authorID.length;
+      let params = {
+        type: "follow",
+        actor: {
+          type: "author",
+          id: response1.data.id,
+          host: response1.data.host,
+          displayName: response1.data.displayName,
+          url: response1.data.url,
+          github: response1.data.github,
         }
-      });
-    } else {
-      postRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Request sent!");
-        } else if (response.status === 409) {
-          message.error("Invalid request!");
-        } else {
-          message.error("Request failed!");
-        }
-      });
-    }
+        object: this.state.objectID,
+        summary: "I want to follow you!",
+      };
+      const domain = getDomainName(this.state.objectID);
+      if (domain !== window.location.hostname) {
+        params.URL = `${params.object.toString()}/inbox/`;
+        params.auth = domainAuthPair[domain];
+        params.remote = true;
+        // change later
+        let params1 = {
+          URL:
+            this.state.objectID + 
+            "/followers/" +
+            this.state.authorID.substring(n + 8, length) +
+            "/",
+          auth: domainAuthPair[domain],
+          remote: true,
+        };
+        createRemoteFollower(params1).then((response) => {
+          if (response.status === 204) {
+            message.success("Remote: Successfully followed!");
+            //window.location.reload();
+          } else {
+            message.error("Remote: Follow Failed!");
+          }
+        });
+        postRemoteRequest(params).then((response) => {
+          if (response.status === 200) {
+            message.success("Remote: Request sent!");
+          } else if (response.status === 409) {
+            message.error("Remote: Invalid request!");
+          } else {
+            message.error("Remote: Request failed!");
+          }
+        });
+      } else {
+        let params1 = {
+          actor: this.state.authorID.substring(n + 8, length),
+          object: this.state.objectID,
+        };
+        createFollower(params).then((response) => {
+          if (response.status === 204) {
+            message.success("Successfully followed!");
+          } else {
+            message.error("Follow Failed!");
+          }
+        });
+        postRequest(params).then((response) => {
+          if (response.status === 200) {
+            message.success("Request sent!");
+          } else if (response.status === 409) {
+            message.error("Invalid request!");
+          } else {
+            message.error("Request failed!");
+          }
+        });
+
+      }
+
+    });
+
+    
+    
   };
 
   getAuthorDataSet = (authorData) => {
