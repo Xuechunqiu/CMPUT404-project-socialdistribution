@@ -43,24 +43,18 @@ export default class InboxRequest extends React.Component {
     let promise = new Promise(async (resolve, reject) => {
       const requestSet = [];
       for (const element of requestData) {
-        const domain = getDomainName(element.actor);
+        // show actor names
+        const domain = getDomainName(element.actor.id);
         if (domain !== window.location.hostname) {
-          const res = await getRemoteAuthorByAuthorID({
-            URL: element.actor,
-            auth: domainAuthPair[domain],
-          });
           requestSet.push({
-            actorName: res.data.displayName,
-            actorID: element.actor,
+            actorName: element.actor.displayName,
+            actorID: element.actor.id,
             remote: true,
           });
         } else {
-          const res = await getAuthorByAuthorID({
-            authorID: element.actor,
-          });
           requestSet.push({
-            actorName: res.data.displayName,
-            actorID: element.actor,
+            actorName: element.actor.displayName,
+            actorID: element.actor.id,
             remote: false,
           });
         }

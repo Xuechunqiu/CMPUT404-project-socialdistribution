@@ -81,12 +81,12 @@ class InboxViewSet(viewsets.ModelViewSet):
                 inbox.save()
             return Response("Inbox updated successfully")
         elif objectType == 'follow':
-            actor_id = request_data.get('actor', None)
+            actor = request_data.get('actor', None)
             object_id = request_data.get('object', None)
-            if actor_id == object_id:
+            if actor.id == object_id:
                 return Response("Can't follow yourself!", 409)
             followers = Follower.objects.get(owner=object_id)
-            if actor_id in followers.items:
+            if actor.id in followers.items:
                 return Response("Already following.", 409)
             inbox.items.append(request_data)
             inbox.save()
