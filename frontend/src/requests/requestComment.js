@@ -62,7 +62,6 @@ export function getRemoteCommentList(params = {}) {
       headers: {
         "Content-Type": "application/json",
         Authorization: params.auth,
-        "X-Requested-With": "XMLHttpRequest",
       },
     })
     .then((response) => {
