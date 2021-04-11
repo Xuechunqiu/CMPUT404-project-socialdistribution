@@ -6,10 +6,10 @@ import {
   deleteRemoteRequest,
 } from "../../requests/requestFriendRequest";
 import {
-  createFollower,
-  createRemoteFollower,
-} from "../../requests/requestFollower";
-import { domainAuthPair } from "../../requests/URL";
+  createFriend,
+  createRemoteFriend,
+} from "../../requests/requestFriends";
+import { auth, domainAuthPair, remoteDomain } from "../../requests/URL";
 import { getDomainName } from "../Utils";
 
 export default class SingleRequest extends React.Component {
@@ -78,22 +78,35 @@ export default class SingleRequest extends React.Component {
   handleClickAccept = () => {
     var n = this.props.actorID.indexOf("/author/");
     var length = this.props.actorID.length;
+    var m = this.props.authorID.indexOf("/author/");
+    var length1 = this.props.authorID.length;
     if (this.state.remote) {
       let params = {
-        URL:
-          this.props.authorID +
-          "/followers/" +
-          this.props.actorID.substring(n + 8, length) +
-          "/",
+        object: this.props.authorID,
+        actor: this.props.actorID.substring(n + 8, length),
         auth: domainAuthPair[getDomainName(this.props.authorID)],
         remote: true,
       };
-      createRemoteFollower(params).then((response) => {
+      let params1 = {
+        auth: domainAuthPair[getDomainName(this.props.actorID)],
+        object: this.props.authorID,
+        actor: this.props.actorID,
+        URL: this.props.actorID.substring(0, n) + "/friendrequest/accept/",
+      };
+      createFriend(params).then((response) => {
         if (response.status === 204) {
-          message.success("Request Accepted!");
+          message.success("Friend Created!");
           //window.location.reload();
         } else {
-          message.error("Accept Failed!");
+          message.error("Friend Create Failed!");
+        }
+      })
+      createRemoteFriend(params1).then((response) => {
+        if (response.status === 204) {
+          message.success("Remote Friend Created!");
+          //window.location.reload();
+        } else {
+          message.error("Remote Friend Failed!");
         }
       });
       params.URL =
@@ -113,12 +126,24 @@ export default class SingleRequest extends React.Component {
         actor: this.props.actorID.substring(n + 8, length),
         object: this.props.authorID,
       };
-      createFollower(params).then((response) => {
+      let params1 = {
+        object: this.props.actorID,
+        actor: this.props.authorID.substring(m + 8, length1),
+      };
+      createFriend(params).then((response) => {
         if (response.status === 204) {
-          message.success("Request Accepted!");
+          message.success("My Friend Created!");
           //window.location.reload();
         } else {
-          message.error("Accept Failed!");
+          message.error("My Friend Failed!");
+        }
+      });
+      createFriend(params1).then((response) => {
+        if (response.status === 204) {
+          message.success("Friend created!");
+          //window.location.reload();
+        } else {
+          message.error("Friend Failed!");
         }
       });
       deleteRequest(params).then((response) => {
