@@ -39,7 +39,7 @@ import {
 } from "../../requests/requestPost";
 import { getFollowerList } from "../../requests/requestFollower";
 import { domainAuthPair } from "../../requests/URL";
-import { getDomainName, getLikeDataSet } from "../Utils";
+import { getDomainName, getLikeDataSet, formatDate } from "../Utils";
 import { sendToInbox, sendToRemoteInbox } from "../../requests/requestInbox";
 
 const { TabPane } = Tabs;
@@ -168,7 +168,7 @@ export default class PostDisplay extends React.Component {
         authorName: authorInfo.data.displayName,
         authorID: comment.author,
         comment: comment.comment,
-        published: comment.published,
+        published: formatDate(comment.published),
         commentid: comment.id,
         eachCommentLike: false,
         postID: comment.post,

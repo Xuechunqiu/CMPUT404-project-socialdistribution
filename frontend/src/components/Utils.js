@@ -45,7 +45,7 @@ async function getPostDataSet(postData, remote) {
     const obj = {
       title: element.title,
       content: <div style={{ margin: "24px" }}>{contentHTML}</div>,
-      datetime: <span>{element.published}</span>,
+      datetime: <span>{formatDate(element.published)}</span>,
       postID: element.id,
       authorName: res.data.displayName,
       github: res.data.github,
@@ -207,10 +207,28 @@ async function sendPostAndAppendInbox(params) {
   });
 }
 
+function formatDate(timestamp) {
+  var date = new Date(timestamp);
+  var YY = date.getFullYear() + "-";
+  var MM =
+    (date.getMonth() + 1 < 10
+      ? "0" + (date.getMonth() + 1)
+      : date.getMonth() + 1) + "-";
+  var DD = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  var hh =
+    (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+  var mm =
+    (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+    ":";
+  var ss = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+  return YY + MM + DD + " " + hh + mm + ss;
+}
+
 export {
   getPostDataSet,
   getFriendDataSet,
   getLikeDataSet,
   getDomainName,
   sendPostAndAppendInbox,
+  formatDate,
 };
