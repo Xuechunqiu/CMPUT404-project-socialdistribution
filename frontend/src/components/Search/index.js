@@ -42,7 +42,7 @@ export default class Search extends React.Component {
           this.setState({ authorList: value });
         });
       } else {
-        message.error("Request failed!");
+        message.error("Can't find local authors!");
       }
     });
     getAllRemoteAuthors({
@@ -54,7 +54,7 @@ export default class Search extends React.Component {
           this.setState({ remoteAuthorList: value });
         });
       } else {
-        message.error("Remote Request failed!");
+        message.error("Can't get remote authors!");
       }
     });
   }
@@ -148,14 +148,14 @@ export default class Search extends React.Component {
           if (response.status === 204) {
             message.success("Successfully followed!");
           } else {
-            message.error("Follow Failed!");
+            message.warning("Already Following!");
           }
         });
         postRequest(params).then((response) => {
           if (response.status === 200) {
             message.success("Request sent!");
           } else if (response.status === 409) {
-            message.error("Invalid request!");
+            message.warning("Invalid request!");
           } else {
             message.error("Request failed!");
           }

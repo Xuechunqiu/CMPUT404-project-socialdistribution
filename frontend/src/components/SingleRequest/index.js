@@ -6,10 +6,6 @@ import {
   deleteRemoteRequest,
 } from "../../requests/requestFriendRequest";
 import {
-  createFollower,
-  createRemoteFollower,
-} from "../../requests/requestFollower";
-import {
   createFriend,
   createRemoteFriend,
 } from "../../requests/requestFriends";

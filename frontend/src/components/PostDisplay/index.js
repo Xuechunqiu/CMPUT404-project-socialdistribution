@@ -79,7 +79,7 @@ export default class PostDisplay extends React.Component {
     // Comments
     if (this.props.remote) {
       getRemoteCommentList({
-        URL: `${this.props.postID}/viewComments/`,
+        URL: `${this.props.postID}/comments/`,
         auth: domainAuthPair[getDomainName(this.props.postID)],
       }).then((res) => {
         if (res.status === 200) {
@@ -245,7 +245,7 @@ export default class PostDisplay extends React.Component {
           if (response.status === 204) {
             message.success("Successfully followed!");
           } else {
-            message.error("Follow Failed!");
+            message.warning("Already Following!");
           }
         });
         postRequest(params).then((response) => {
@@ -253,7 +253,7 @@ export default class PostDisplay extends React.Component {
             message.success("Request sent!");
             window.location.reload();
           } else if (response.status === 409) {
-            message.error("Invalid request!");
+            message.warning("Invalid request!");
           } else {
             message.error("Request failed!");
           }

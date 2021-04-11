@@ -42,7 +42,7 @@ export default class PublicAndMyPost extends React.Component {
     });
     // Remote serveer
     getAllRemotePublicPosts({
-      URL: `${remoteDomain}/posts/`,
+      URL: `${remoteDomain}/post-list/`,
       auth: domainAuthPair[getDomainName(remoteDomain)],
     }).then((res) => {
       if (res === undefined) {
