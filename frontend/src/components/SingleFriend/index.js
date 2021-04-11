@@ -4,7 +4,7 @@ import { UserSwitchOutlined } from "@ant-design/icons";
 import {
   deleteFriend,
   deleteRemoteFriend,
-} from "../../requests/requestFollower";
+} from "../../requests/requestFriend";
 import UnfollowModal from "../UnfollowModal";
 import { domainAuthPair } from "../../requests/URL";
 import { getDomainName } from "../Utils";
@@ -29,7 +29,7 @@ export default class SingleFriend extends React.Component {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
 
-  removeFollower = () => {
+  removeFriend = () => {
     var n = this.state.authorID.indexOf("/author/");
     var m = this.state.friendID.indexOf("/author/");
     var length = this.state.authorID.length;
@@ -94,12 +94,12 @@ export default class SingleFriend extends React.Component {
     return (
       <div>
         <Button style={{ float: "right" }} onClick={this.handleClickUnfollow}>
-          {<UserSwitchOutlined />} Unfollow
+          {<UserSwitchOutlined />} Unbefriend
         </Button>
         <UnfollowModal
           visible={this.state.isModalVisible}
           handleModalVisibility={this.handleModalVisibility}
-          dosomething={this.removeFollower}
+          dosomething={this.removeFriend}
         />
       </div>
     );
