@@ -1,6 +1,6 @@
 import React from "react";
 import { Descriptions, message, Card, Avatar } from "antd";
-import { UserOutlined, EditOutlined, LogoutOutlined } from "@ant-design/icons";
+import { EditOutlined, LogoutOutlined } from "@ant-design/icons";
 import { getAuthorByUsername } from "../../requests/requestAuthor";
 import ProfileChange from "../ProfileChange";
 import GitHubCalendar from "react-github-calendar";

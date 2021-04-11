@@ -1,6 +1,5 @@
 import React from "react";
 import { List, Avatar, Spin } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 import { getFollowerList, getFollower } from "../../requests/requestFollower";
 import {
   getAuthorByAuthorID,

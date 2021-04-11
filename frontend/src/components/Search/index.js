@@ -1,6 +1,6 @@
 import React from "react";
 import { message, Select, Avatar, Card } from "antd";
-import { UserOutlined, UserAddOutlined } from "@ant-design/icons";
+import { UserAddOutlined } from "@ant-design/icons";
 import {
   getAllAuthors,
   getAllRemoteAuthors,
