@@ -231,6 +231,8 @@ export default class PostDisplay extends React.Component {
     rawPost.author = this.state.authorID;
     rawPost.visibility = "FRIENDS";
     rawPost.source = this.state.authorID;
+    // you cannot see unlisted, thus if you can share, it must be listed
+    rawPost.unlisted = false;
     if (rawPost.source !== rawPost.origin) {
       //create a new post object
       sendPost(rawPost).then((response) => {
