@@ -5,6 +5,7 @@ import {
   getRemoteAuthorByAuthorID,
 } from "../requests/requestAuthor";
 import { getFollower, getFollowerList } from "../requests/requestFollower";
+import { getFriendList } from "../requests/requestFriends";
 import { sendPost, sendPostToUserInbox } from "../requests/requestPost";
 import { domainAuthPair } from "../requests/URL";
 
@@ -142,66 +143,48 @@ async function sendPostAndAppendInbox(params) {
         });
       } else {
         //if private, send to friends' inbox
-        getFollowerList({ object: params.authorID }).then((res) => {
+        getFriendList({ object: params.authorID }).then((res) => {
           if (res.data.items.length !== 0) {
-            for (const follower_id of res.data.items) {
-              let domain = getDomainName(follower_id);
-              let n = params.authorID.indexOf("/author/");
-              let length = params.authorID.length;
-              let param = {
-                actor: params.authorID.substring(n + 8, length),
-                object: follower_id,
-              };
+            for (const friend_id of res.data.items) {
+              let domain = getDomainName(friend_id);
               if (domain !== window.location.hostname) {
                 // remote
-                param.remote = true;
-                param.auth = domainAuthPair[domain];
-                getFollower(param).then((response) => {
-                  if (response.data.exist) {
-                    //send to friend inbox
-                    let params_ = {
-                      URL: `${follower_id}/inbox/`,
-                      auth: domainAuthPair[domain],
-                      body: postData,
-                    };
-                    sendPostToUserInbox(params_).then((response) => {
-                      if (response.status === 200) {
-                        message.success("Post shared!");
-                      } else {
-                        message.error(
-                          "Whoops, an error occurred while sharing."
-                        );
-                      }
-                    });
+                //send to friend inbox
+                let params_ = {
+                  URL: `${friend_id}/inbox/`,
+                  auth: domainAuthPair[domain],
+                  body: postData,
+                };
+                sendPostToUserInbox(params_).then((response) => {
+                  if (response.status === 200) {
+                    message.success("Private Post sent!");
+                  } else {
+                    message.error(
+                      "Whoops, an error occurred while sending the private post."
+                    );
                   }
                 });
               } else {
-                param.remote = false;
-                getFollower(param).then((response) => {
-                  if (response.data.exist) {
-                    // send to friend inbox
-                    let params_ = {
-                      URL: `${follower_id}/inbox/`,
-                      body: postData,
-                    };
-                    sendPostToUserInbox(params_).then((response) => {
-                      if (response.status === 200) {
-                        message.success("Post shared!");
-                      } else {
-                        message.error(
-                          "Whoops, an error occurred while sharing."
-                        );
-                      }
-                    });
+                let params_ = {
+                  URL: `${friend_id}/inbox/`,
+                  body: postData,
+                };
+                sendPostToUserInbox(params_).then((response) => {
+                  if (response.status === 200) {
+                    message.success("Private post sent!");
+                  } else {
+                    message.error(
+                      "Whoops, an error occurred while sending the private post."
+                    );
                   }
                 });
               }
-            }
+            };
           }
         });
       }
       message.success("Post sent!");
-      window.location.href = "/";
+      //window.location.href = "/";
     } else {
       message.error("Post failed!");
     }

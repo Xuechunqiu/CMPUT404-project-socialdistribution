@@ -84,7 +84,7 @@ export default class InboxRequest extends React.Component {
                 <List.Item.Meta
                   avatar={<Avatar src={generateRandomAvatar(item.actorName)} />}
                   title={item.actorName}
-                  description=" wants to follow you."
+                  description=" sent you a friend request."
                 />
                 <SingleRequest
                   authorID={this.state.authorID}
