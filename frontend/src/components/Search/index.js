@@ -154,7 +154,7 @@ export default class Search extends React.Component {
         cover={
           <img
             alt="coverImage"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+            src="https://media4.giphy.com/media/5PSPV1ucLX31u/giphy.gif"
           />
         }
         actions={[
