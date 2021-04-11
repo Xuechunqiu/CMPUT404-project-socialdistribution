@@ -11,7 +11,6 @@ import { domainAuthPair } from "../requests/URL";
 async function getPostDataSet(postData, remote) {
   const publicPosts = [];
   for (const element of postData) {
-    console.log("post", element);
     let domain;
     if (remote) {
       domain = getDomainName(element.author.id);

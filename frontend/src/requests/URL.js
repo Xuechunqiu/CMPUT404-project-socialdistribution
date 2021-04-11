@@ -27,15 +27,15 @@ if (_config64) {
   _auth20 = _config.team20.auth;
 } else {
   _domain = "http://localhost"; //"https://social-distribution-t1.herokuapp.com";
-  _remoteDomain = "https://nofun.herokuapp.com"; // https://cmput404-px-backend.herokuapp.com
+  _remoteDomain = "https://nofun.herokuapp.com";
   _remoteDomain4 = "https://c404posties.herokuapp.com";
   _remoteDomain20 = "https://nofun.herokuapp.com";
   _port = "8000"; //8000;
   _port4 = "";
   _port20 = "";
-  _auth = "Basic YWRtaW5COmFkbWluQg=="; // Basic dGVzdHVzZXI6MTIzNA==
+  _auth = "Basic YXV0aDoxMjM="; //admin:123
   _auth4 = "Basic YWRtaW5COmFkbWluQg=="; //username: adminB, password: adminB
-  _auth20 = "";
+  _auth20 = "Basic YXV0aDoxMjM=";
 }
 
 const domain = _domain;
