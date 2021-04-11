@@ -1,5 +1,5 @@
 import React from "react";
-import { List, message, Avatar } from "antd";
+import { List, message, Avatar, Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { getRequest } from "../../requests/requestFriendRequest";
 import {
@@ -17,6 +17,7 @@ export default class InboxRequest extends React.Component {
     this.state = {
       requestDataSet: [],
       authorID: this.props.authorID,
+      loading: true,
     };
   }
 
@@ -27,7 +28,7 @@ export default class InboxRequest extends React.Component {
     }).then((res) => {
       if (res.status === 200) {
         this.getRequestDataSet(res.data).then((value) => {
-          this.setState({ requestDataSet: value });
+          this.setState({ requestDataSet: value, loading: false });
         });
       } else {
         message.error("Fail to get my requests.");
@@ -72,29 +73,35 @@ export default class InboxRequest extends React.Component {
   };
 
   render() {
-    const { requestDataSet } = this.state;
+    const { requestDataSet, loading } = this.state;
 
     return (
       <div style={{ margin: "0 20%" }}>
-        <List
-          bordered
-          itemLayout="horizontal"
-          dataSource={requestDataSet}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar icon={<UserOutlined />} />}
-                title={item.actorName}
-                description=" wants to follow you."
-              />
-              <SingleRequest
-                authorID={this.state.authorID}
-                actorID={item.actorID}
-                remote={item.remote}
-              />
-            </List.Item>
-          )}
-        />
+        {loading ? (
+          <div style={{ textAlign: "center", marginTop: "20%" }}>
+            <Spin size="large" /> Loading...
+          </div>
+        ) : (
+          <List
+            bordered
+            itemLayout="horizontal"
+            dataSource={requestDataSet}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={<Avatar icon={<UserOutlined />} />}
+                  title={item.actorName}
+                  description=" wants to follow you."
+                />
+                <SingleRequest
+                  authorID={this.state.authorID}
+                  actorID={item.actorID}
+                  remote={item.remote}
+                />
+              </List.Item>
+            )}
+          />
+        )}
       </div>
     );
   }

@@ -1,5 +1,5 @@
 import React from "react";
-import { List, message, Avatar } from "antd";
+import { List, message, Avatar, Spin } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { getinboxlike } from "../../requests/requestLike";
 import { getLikeDataSet } from "../Utils";
@@ -11,6 +11,7 @@ export default class InboxLike extends React.Component {
     this.state = {
       likelist: [],
       authorID: this.props.authorID,
+      loading: true,
     };
   }
 
@@ -19,7 +20,7 @@ export default class InboxLike extends React.Component {
     getinboxlike({ authorID: this.state.authorID }).then((res) => {
       if (res.status === 200) {
         getLikeDataSet(res.data).then((value) => {
-          this.setState({ likelist: value });
+          this.setState({ likelist: value, loading: false });
         });
       } else {
         message.error("Request failed!");
@@ -32,11 +33,13 @@ export default class InboxLike extends React.Component {
   }
 
   render() {
-    const { likelist } = this.state;
+    const { likelist, loading } = this.state;
     return (
       <div style={{ margin: "0 20%" }}>
-        {likelist.length === 0 ? (
-          ""
+        {loading ? (
+          <div style={{ textAlign: "center", marginTop: "20%" }}>
+            <Spin size="large" /> Loading...
+          </div>
         ) : (
           <List
             bordered
