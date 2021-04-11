@@ -68,7 +68,7 @@ class RequestViewSet(viewsets.ModelViewSet):
         position = -1
         for i in range(len(inbox.items)):
             if inbox.items[i]["type"] == "follow":
-                if (inbox.items[i]["actor"] == actor_id) and (inbox.items[i]["object"] == object_id):
+                if (inbox.items[i]["actor"]["id"] == actor_id) and (inbox.items[i]["object"] == object_id):
                     position = i
         if position != -1:
             inbox.items.remove(inbox.items[position])

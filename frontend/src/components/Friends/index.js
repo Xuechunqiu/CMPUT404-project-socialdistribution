@@ -41,7 +41,7 @@ export default class Friends extends React.Component {
             getFriend(params).then((response) => {
               if (response.data.exist) {
                 getRemoteAuthorByAuthorID({
-                  URL: follower_id,
+                  URL: friend_id,
                   auth: domainAuthPair[domain],
                 }).then((response2) => {
                   const obj = {

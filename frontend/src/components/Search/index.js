@@ -46,7 +46,7 @@ export default class Search extends React.Component {
       }
     });
     getAllRemoteAuthors({
-      URL: `${remoteDomain}/all-authors/`,
+      URL: `${remoteDomain}/author/`,
       auth: domainAuthPair[getDomainName(remoteDomain)],
     }).then((res) => {
       if (res.status === 200) {
@@ -103,7 +103,7 @@ export default class Search extends React.Component {
           displayName: response1.data.displayName,
           url: response1.data.url,
           github: response1.data.github,
-        }
+        },
         object: this.state.objectID,
         summary: "I want to follow you!",
       };

@@ -38,7 +38,7 @@ class FriendViewSet(viewsets.ModelViewSet):
             friends = Friend.objects.get(owner=author_id)
             return Response({
                 'type': 'friend',
-                'items': friend.items
+                'items': friends.items
             })
         else:
             Friend.objects.create(owner=author_id)

@@ -72,6 +72,9 @@ export function deleteFriend(params = {}) {
         "Content-Type": "application/json",
         Authorization: `JWT ${localStorage.getItem("token")}`,
       },
+      data: {
+        remote: params.remote,
+      },
     })
     .then((response) => {
       return response;

@@ -4,7 +4,7 @@ import { UserSwitchOutlined } from "@ant-design/icons";
 import {
   deleteFriend,
   deleteRemoteFriend,
-} from "../../requests/requestFriend";
+} from "../../requests/requestFriends";
 import UnfollowModal from "../UnfollowModal";
 import { domainAuthPair } from "../../requests/URL";
 import { getDomainName } from "../Utils";
