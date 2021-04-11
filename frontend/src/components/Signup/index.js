@@ -1,7 +1,6 @@
 import React from "react";
 import { Form, Input, Button, message } from "antd";
-import { postAuthor, postRemoteAuthor } from "../../requests/requestAuthor";
-import { auth, remoteDomain } from "../../requests/URL";
+import { postAuthor } from "../../requests/requestAuthor";
 
 const layout = {
   labelCol: { span: 8 },

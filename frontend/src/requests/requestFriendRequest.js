@@ -1,5 +1,4 @@
 import axios from "axios";
-import { domain, port } from "./URL";
 
 export function postRequest(params = {}) {
   const URL = `${params.object.toString()}/inbox/`;

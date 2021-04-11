@@ -1,4 +1,4 @@
-from presentation.models import Author, Inbox, Usermod
+from presentation.models import Author, Inbox, Usermod, Friend
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 from presentation.Serializers import *
@@ -89,6 +89,10 @@ class AuthorViewSet(viewsets.ModelViewSet):
                     data={'owner': serializer.data["id"]})
                 followers.is_valid(raise_exception=True)
                 followers.save()
+                friends = FriendSerializer(
+                    data={'owner': serializer.data["id"]})
+                friends.is_valid(raise_exception=True)
+                friends.save()
                 serializerData = dict(serializer.data)
                 serializerData["msg"] = "Pending admin approval."
                 return Response(serializerData, 200)

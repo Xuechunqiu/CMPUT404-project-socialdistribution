@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import { Layout, Avatar, Menu } from "antd";
 import {
   BookOutlined,
-  UserOutlined,
   TeamOutlined,
   HomeOutlined,
   MailOutlined,
@@ -17,6 +16,7 @@ import Follow from "./components/Follow";
 import Profile from "./components/Profile";
 import LoginComp from "./components/LoginComp";
 import Search from "./components/Search";
+import { generateRandomAvatar } from "./components/Utils";
 
 const { Header, Content, Footer } = Layout;
 export default class App extends React.Component {
@@ -114,7 +114,7 @@ export default class App extends React.Component {
             </Menu.Item>
             <Menu.Item key="/my-profile" style={{ float: "right" }}>
               <span>
-                <Avatar icon={<UserOutlined />} />
+                <Avatar src={generateRandomAvatar(displayName)} />
                 <p style={{ display: "inline", marginLeft: "16px" }}>
                   {this.state.displayName}
                 </p>

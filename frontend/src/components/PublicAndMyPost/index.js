@@ -1,18 +1,12 @@
 import React from "react";
-import { List, message, Tabs } from "antd";
+import { List, message, Tabs, Spin } from "antd";
 import {
   getAllPublicPosts,
   getAllRemotePublicPosts,
   getPostList,
 } from "../../requests/requestPost";
 import PostDisplay from "../PostDisplay";
-import {
-  auth,
-  auth4,
-  domainAuthPair,
-  remoteDomain,
-  remoteDomain4,
-} from "../../requests/URL";
+import { domainAuthPair, remoteDomain } from "../../requests/URL";
 import { getDomainName, getPostDataSet } from "../Utils";
 
 const { TabPane } = Tabs;
@@ -27,6 +21,7 @@ export default class PublicAndMyPost extends React.Component {
       myPostDataSet: [],
       authorID: this.props.authorID,
       authorName: "",
+      loading: true,
     };
   }
 
@@ -39,7 +34,7 @@ export default class PublicAndMyPost extends React.Component {
       } else if (res.status === 200) {
         getPostDataSet(res.data).then((value) => {
           if (this._isMounted) {
-            this.setState({ publicPostDataSet: value });
+            this.setState({ publicPostDataSet: value, loading: false });
           }
         });
       } else {
@@ -48,8 +43,6 @@ export default class PublicAndMyPost extends React.Component {
     });
     // Remote serveer
     getAllRemotePublicPosts({
-      // URL: `${remoteDomain4}/posts/`,
-      // auth: auth4,
       URL: `${remoteDomain}/post-list/`,
       auth: domainAuthPair[getDomainName(remoteDomain)],
     }).then((res) => {
@@ -92,6 +85,7 @@ export default class PublicAndMyPost extends React.Component {
       publicPostDataSet,
       myPostDataSet,
       remotePublicPostDataSet,
+      loading,
     } = this.state;
 
     const combinedPublicPostDataSet = publicPostDataSet.concat(
@@ -102,30 +96,36 @@ export default class PublicAndMyPost extends React.Component {
       <div>
         <Tabs defaultActiveKey="public-posts" tabPosition="left">
           <TabPane tab={<span>Public Posts</span>} key={"public-posts"}>
-            <List
-              className="posts-list"
-              itemLayout="horizontal"
-              dataSource={combinedPublicPostDataSet}
-              renderItem={(item) => {
-                return (
-                  <li>
-                    <PostDisplay
-                      title={item.title}
-                      authorName={item.authorName}
-                      github={item.github}
-                      content={item.content}
-                      datetime={item.datetime}
-                      authorID={this.state.authorID}
-                      postID={item.postID}
-                      categories={item.categories}
-                      enableEdit={false}
-                      rawPost={item.rawPost}
-                      remote={item.remote}
-                    />
-                  </li>
-                );
-              }}
-            />
+            {loading ? (
+              <div style={{ textAlign: "center", marginTop: "20%" }}>
+                <Spin size="large" /> Loading...
+              </div>
+            ) : (
+              <List
+                className="posts-list"
+                itemLayout="horizontal"
+                dataSource={combinedPublicPostDataSet}
+                renderItem={(item) => {
+                  return (
+                    <li>
+                      <PostDisplay
+                        title={item.title}
+                        authorName={item.authorName}
+                        github={item.github}
+                        content={item.content}
+                        datetime={item.datetime}
+                        authorID={this.state.authorID}
+                        postID={item.postID}
+                        categories={item.categories}
+                        enableEdit={false}
+                        rawPost={item.rawPost}
+                        remote={item.remote}
+                      />
+                    </li>
+                  );
+                }}
+              />
+            )}
           </TabPane>
           <TabPane tab={<span>My Posts</span>} key={"my-posts"}>
             <List

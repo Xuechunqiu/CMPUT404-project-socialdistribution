@@ -1,12 +1,11 @@
 import React from "react";
-import { List, Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { List, Avatar, Spin } from "antd";
 import { getFollowerList } from "../../requests/requestFollower";
 import {
   getAuthorByAuthorID,
   getRemoteAuthorByAuthorID,
 } from "../../requests/requestAuthor";
-import { getDomainName } from "../Utils";
+import { generateRandomAvatar, getDomainName } from "../Utils";
 import { domainAuthPair } from "../../requests/URL";
 
 export default class Followers extends React.Component {
@@ -16,6 +15,7 @@ export default class Followers extends React.Component {
     this.state = {
       authorID: this.props.authorID,
       followers: [],
+      loading: true,
     };
   }
 
@@ -37,9 +37,11 @@ export default class Followers extends React.Component {
                 id: response2.data.id,
               };
               followerList.push(obj);
-              this.setState({
-                followers: followerList,
-              });
+              if (this._isMounted) {
+                this.setState({
+                  followers: followerList,
+                });
+              }
             });
           } else {
             getAuthorByAuthorID({
@@ -51,10 +53,15 @@ export default class Followers extends React.Component {
                 id: response2.data.id,
               };
               followerList.push(obj);
-              this.setState({
-                followers: followerList,
-              });
+              if (this._isMounted) {
+                this.setState({
+                  followers: followerList,
+                });
+              }
             });
+          }
+          if (this._isMounted) {
+            this.setState({ loading: false });
           }
         }
       } else {
@@ -70,19 +77,27 @@ export default class Followers extends React.Component {
   render() {
     return (
       <div style={{ margin: "0 20%" }}>
-        <List
-          bordered
-          dataSource={this.state.followers}
-          renderItem={(item) => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={<Avatar icon={<UserOutlined />} />}
-                title={item.displayName}
-                description={item.github}
-              />
-            </List.Item>
-          )}
-        />
+        {this.state.loading ? (
+          <div style={{ textAlign: "center", marginTop: "20%" }}>
+            <Spin size="large" /> Loading...
+          </div>
+        ) : (
+          <List
+            bordered
+            dataSource={this.state.followers}
+            renderItem={(item) => (
+              <List.Item>
+                <List.Item.Meta
+                  avatar={
+                    <Avatar src={generateRandomAvatar(item.displayName)} />
+                  }
+                  title={item.displayName}
+                  description={item.github}
+                />
+              </List.Item>
+            )}
+          />
+        )}
       </div>
     );
   }
