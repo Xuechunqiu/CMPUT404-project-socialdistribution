@@ -56,7 +56,7 @@ export default class PublicAndMyPost extends React.Component {
       if (res === undefined) {
         message.warning("Loading...");
       } else if (res.status === 200) {
-        getPostDataSet(res.data).then((value) => {
+        getPostDataSet(res.data, true).then((value) => {
           if (this._isMounted) {
             this.setState({ remotePublicPostDataSet: value });
           }

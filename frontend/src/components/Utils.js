@@ -8,10 +8,15 @@ import { getFollower, getFollowerList } from "../requests/requestFollower";
 import { sendPost, sendPostToUserInbox } from "../requests/requestPost";
 import { domainAuthPair } from "../requests/URL";
 
-async function getPostDataSet(postData) {
+async function getPostDataSet(postData, remote) {
   const publicPosts = [];
   for (const element of postData) {
-    const domain = getDomainName(element.author);
+    let domain;
+    if (remote) {
+      domain = getDomainName(element.author.id);
+    } else {
+      domain = getDomainName(element.author);
+    }
     let contentHTML = <p>{element.content}</p>;
     if (element.contentType !== undefined) {
       const isImage =
@@ -24,13 +29,14 @@ async function getPostDataSet(postData) {
         contentHTML = <ReactMarkdown source={element.content} />;
       }
     }
-    let res;
+    let res = {};
     if (domain !== window.location.hostname) {
       // remote
-      res = await getRemoteAuthorByAuthorID({
-        URL: element.author,
-        auth: domainAuthPair[domain],
-      });
+      // res = await getRemoteAuthorByAuthorID({
+      //   URL: element.author,
+      //   auth: domainAuthPair[domain],
+      // });
+      res.data = element.author;
     } else {
       res = await getAuthorByAuthorID({ authorID: element.author });
     }
