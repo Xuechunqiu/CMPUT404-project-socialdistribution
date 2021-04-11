@@ -6,13 +6,7 @@ import {
   getPostList,
 } from "../../requests/requestPost";
 import PostDisplay from "../PostDisplay";
-import {
-  auth,
-  auth4,
-  domainAuthPair,
-  remoteDomain,
-  remoteDomain4,
-} from "../../requests/URL";
+import { domainAuthPair, remoteDomain } from "../../requests/URL";
 import { getDomainName, getPostDataSet } from "../Utils";
 
 const { TabPane } = Tabs;

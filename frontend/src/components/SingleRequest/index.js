@@ -9,7 +9,7 @@ import {
   createFollower,
   createRemoteFollower,
 } from "../../requests/requestFollower";
-import { auth, domainAuthPair, remoteDomain } from "../../requests/URL";
+import { domainAuthPair } from "../../requests/URL";
 import { getDomainName } from "../Utils";
 
 export default class SingleRequest extends React.Component {
