@@ -1,7 +1,6 @@
 import { getDomainName } from "../components/Utils";
 
-let _config64 = false; //process.env.REACT_APP_CONFIGBASE64;
-
+let _config64 = process.env.REACT_APP_CONFIGBASE64;
 let _domain;
 let _remoteDomain;
 let _remoteDomain4;
@@ -15,10 +14,10 @@ let _auth20;
 
 if (_config64) {
   let _config = JSON.parse(atob(_config64));
-  _domain = _config.self.domain;
-  _remoteDomain = _config.clone.domain;
-  _remoteDomain4 = _config.team4.domain;
-  _remoteDomain20 = _config.team20.domain;
+  _domain = _config.self.url;
+  _remoteDomain = _config.clone.url;
+  _remoteDomain4 = _config.team4.url;
+  _remoteDomain20 = _config.team20.url;
   _port = _config.self.port;
   _port4 = _config.team4.port;
   _port20 = _config.team20.port;
@@ -33,9 +32,9 @@ if (_config64) {
   _port = "8000"; //8000;
   _port4 = "";
   _port20 = "";
-  _auth = "Basic YXV0aDoxMjM="; //admin:123
+  _auth = "Basic YXV0aDoxMjM="; //auth:123
   _auth4 = "Basic YWRtaW5COmFkbWluQg=="; //username: adminB, password: adminB
-  _auth20 = "Basic YXV0aDoxMjM=";
+  _auth20 = "Basic YXV0aDoxMjM="; //auth:123
 }
 
 const domain = _domain;
