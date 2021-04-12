@@ -111,7 +111,12 @@ async function getLikeDataSet(likeData, remote) {
 }
 
 function getDomainName(url) {
-  return new URL(url).hostname;
+  try {
+    const domain = new URL(url).hostname;
+    return domain;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function sendPostAndAppendInbox(params) {
