@@ -248,6 +248,8 @@ export default class PostDisplay extends React.Component {
         createFollower(params1).then((response) => {
           if (response.status === 204) {
             message.success("Successfully followed!");
+          } else if (response.status === 409) {
+            message.warning("Can't follow yourself!");
           } else {
             message.warning("Already Following!");
           }

@@ -8,6 +8,7 @@ import {
 import {
   createFriend,
   createRemoteFriend,
+  getFriend,
 } from "../../requests/requestFriends";
 import { domainAuthPair } from "../../requests/URL";
 import { getDomainName } from "../Utils";
@@ -82,43 +83,61 @@ export default class SingleRequest extends React.Component {
     var length1 = this.props.authorID.length;
     if (this.state.remote) {
       let params = {
-        object: this.props.authorID,
-        actor: this.props.actorID.substring(n + 8, length),
-        auth: domainAuthPair[getDomainName(this.props.authorID)],
-        remote: true,
+          object: this.props.authorID,
+          actor: this.props.actorID.substring(n + 8, length),
+          auth: domainAuthPair[getDomainName(this.props.authorID)],
+          remote: true,
       };
       let params1 = {
-        auth: domainAuthPair[getDomainName(this.props.actorID)],
-        object: this.props.authorID,
-        actor: this.props.actorID,
-        URL: this.props.actorID.substring(0, n) + "/friendrequest/accept/",
+          auth: domainAuthPair[getDomainName(this.props.actorID)],
+          object: this.props.authorID,
+          actor: this.props.actorID,
+          remote: true,
       };
-      createFriend(params).then((response) => {
-        if (response.status === 204) {
-          message.success("Friend Created!");
-          //window.location.reload();
+      getFriend(params).then((response1) => {
+        if (response1.data.exist) {
+          params.URL = 
+            this.props.authorID +
+            "/request/" +
+            this.props.actorID.substring(n + 8, length);
+          deleteRemoteRequest(params).then((response) => {
+            if (response.status === 200) {
+              message.warning("Already friends, Request Deleted.");
+              //window.location.reload();
+            } else {
+              message.error("Delete Failed!");
+            }
+          });
         } else {
-          message.error("Friend Create Failed!");
-        }
-      });
-      createRemoteFriend(params1).then((response) => {
-        if (response.status === 204) {
-          message.success("Remote Friend Created!");
-          //window.location.reload();
-        } else {
-          message.error("Remote Friend Failed!");
-        }
-      });
-      params.URL =
-        this.props.authorID +
-        "/request/" +
-        this.props.actorID.substring(n + 8, length);
-      deleteRemoteRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Request Deleted.");
-          //window.location.reload();
-        } else {
-          message.error("Delete Failed!");
+          createFriend(params).then((response) => {
+            if (response.status === 204) {
+              message.success("Friend Created!");
+              //window.location.reload();
+            } else {
+              message.error("Friend Create Failed!");
+            }
+          });
+          params1.URL = this.props.actorID.substring(0, n) + "/friendrequest/accept/";
+          createRemoteFriend(params1).then((response) => {
+            if (response.status === 204) {
+              message.success("Remote Friend Created!");
+              //window.location.reload();
+            } else {
+              message.error("Remote Friend Failed!");
+            }
+          });
+          params.URL =
+            this.props.authorID +
+            "/request/" +
+            this.props.actorID.substring(n + 8, length);
+          deleteRemoteRequest(params).then((response) => {
+            if (response.status === 200) {
+              message.success("Request Deleted.");
+              //window.location.reload();
+            } else {
+              message.error("Delete Failed!");
+            }
+          });
         }
       });
     } else {
@@ -130,29 +149,40 @@ export default class SingleRequest extends React.Component {
         object: this.props.actorID,
         actor: this.props.authorID.substring(m + 8, length1),
       };
-      // create friend for current author
-      createFriend(params).then((response) => {
-        if (response.status === 204) {
-          // create friend for another actor
-          createFriend(params1).then((response) => {
-            if (response.status === 204) {
-              message.success("Friend created!");
+      getFriend(params).then((response1) => {
+        if (response1.data.exist) {
+          deleteRequest(params).then((response) => {
+            if (response.status === 200) {
+              message.warning("Already friends, Request Deleted.");
               //window.location.reload();
             } else {
-              message.error("Friend Failed!");
+              message.error("Delete Failed!");
             }
           });
         } else {
-          message.error("My Friend Failed!");
-        }
-      });
-
-      deleteRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Request Deleted.");
-          //window.location.reload();
-        } else {
-          message.error("Delete Failed!");
+          createFriend(params).then((response) => {
+            if (response.status === 204) {
+              createFriend(params1).then((response) => {
+                if (response.status === 204) {
+                  message.success("Friend created!");
+                  //window.location.reload();
+                } else {
+                  message.error("Friend Failed!");
+                }
+              });
+              //window.location.reload();
+            } else {
+              message.error("My Friend Failed!");
+            }
+          });
+          deleteRequest(params).then((response) => {
+            if (response.status === 200) {
+              message.success("Request Deleted.");
+              //window.location.reload();
+            } else {
+              message.error("Delete Failed!");
+            }
+          });
         }
       });
     }

@@ -75,6 +75,8 @@ class FollowerViewSet(viewsets.ModelViewSet):
             request, self.kwargs['foreign_author_id'])
         author_id = getAuthorIDFromRequestURL(
             request, self.kwargs['author_id'])
+        if new_f_id == author_id:
+            return Response("Can't follow yourself!", 409)
         # author = get_object_or_404(Author, id=author_id)
         followers = get_object_or_404(Follower, owner=author_id)
         # new_follower = get_object_or_404(Author, id=new_f_id)
