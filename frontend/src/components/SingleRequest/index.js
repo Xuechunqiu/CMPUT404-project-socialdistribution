@@ -10,7 +10,7 @@ import {
   createRemoteFriend,
   getFriend,
 } from "../../requests/requestFriends";
-import { auth, domainAuthPair, remoteDomain } from "../../requests/URL";
+import { domainAuthPair } from "../../requests/URL";
 import { getDomainName } from "../Utils";
 
 export default class SingleRequest extends React.Component {
@@ -139,7 +139,7 @@ export default class SingleRequest extends React.Component {
             }
           });
         }
-      })
+      });
     } else {
       let params = {
         actor: this.props.actorID.substring(n + 8, length),
@@ -162,18 +162,17 @@ export default class SingleRequest extends React.Component {
         } else {
           createFriend(params).then((response) => {
             if (response.status === 204) {
-              message.success("My Friend Created!");
+              createFriend(params1).then((response) => {
+                if (response.status === 204) {
+                  message.success("Friend created!");
+                  //window.location.reload();
+                } else {
+                  message.error("Friend Failed!");
+                }
+              });
               //window.location.reload();
             } else {
               message.error("My Friend Failed!");
-            }
-          });
-          createFriend(params1).then((response) => {
-            if (response.status === 204) {
-              message.success("Friend created!");
-              //window.location.reload();
-            } else {
-              message.error("Friend Failed!");
             }
           });
           deleteRequest(params).then((response) => {

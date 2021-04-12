@@ -84,6 +84,9 @@ export default class Followers extends React.Component {
         ) : (
           <List
             bordered
+            pagination={{
+              pageSize: 10,
+            }}
             dataSource={this.state.followers}
             renderItem={(item) => (
               <List.Item>

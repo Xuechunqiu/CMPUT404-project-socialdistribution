@@ -104,6 +104,9 @@ export default class PublicAndMyPost extends React.Component {
               <List
                 className="posts-list"
                 itemLayout="horizontal"
+                pagination={{
+                  pageSize: 5,
+                }}
                 dataSource={combinedPublicPostDataSet}
                 renderItem={(item) => {
                   return (
@@ -131,6 +134,9 @@ export default class PublicAndMyPost extends React.Component {
             <List
               className="posts-list"
               itemLayout="horizontal"
+              pagination={{
+                pageSize: 5,
+              }}
               dataSource={myPostDataSet}
               renderItem={(item) => {
                 return (
