@@ -210,6 +210,7 @@
   <li><a href="#listCommentLikes"><code><span class="http-method">get</span> /author/{author_id}/posts/{post_id}/comments/{comment_id}/likes/</code></a></li>
   <li><a href="#listComments"><code><span class="http-method">get</span> /author/{author_id}/posts/{post_id}/comments/</code></a></li>
   <li><a href="#listFollowers"><code><span class="http-method">get</span> /author/{author_id}/followers/</code></a></li>
+  <li><a href="#listFriends"><code><span class="http-method">get</span> /author/{author_id}/friends/</code></a></li>
   <li><a href="#listLikeds"><code><span class="http-method">get</span> /author/{author_id}/liked/</code></a></li>
   <li><a href="#listLikes"><code><span class="http-method">get</span> /author/{author_id}/posts/{post_id}/likes/</code></a></li>
   <li><a href="#listPosts"><code><span class="http-method">get</span> /author/{author_id}/posts/</code></a></li>
@@ -220,6 +221,7 @@
   <li><a href="#retrieveAuthor"><code><span class="http-method">get</span> /author/{author_id}/</code></a></li>
   <li><a href="#retrieveComment"><code><span class="http-method">get</span> /author/{author_id}/posts/{post_id}/comments/{comment_id}/</code></a></li>
   <li><a href="#retrieveFollower"><code><span class="http-method">get</span> /author/{author_id}/followers/{foreign_author_id}/</code></a></li>
+  <li><a href="#retrieveFriend"><code><span class="http-method">get</span> /author/{author_id}/friends/{foreign_author_id}/</code></a></li>
   <li><a href="#retrieveInbox"><code><span class="http-method">get</span> /author/{author_id}/inbox/</code></a></li>
   <li><a href="#retrievePost"><code><span class="http-method">get</span> /author/{author_id}/posts/{post_id}/</code></a></li>
   <li><a href="#updateAuthor"><code><span class="http-method">put</span> /author/{author_id}/</code></a></li>
@@ -1176,6 +1178,57 @@
         
   </div> <!-- method -->
   <hr/>
+  <div class="method"><a name="listFriends"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /author/{author_id}/friends/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">listFriends</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">author_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      array[<a href="#Friend">Friend</a>]
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>[ {
+  "owner" : "owner",
+  "type" : "type",
+  "items" : { }
+}, {
+  "owner" : "owner",
+  "type" : "type",
+  "items" : { }
+} ]</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    
+        
+  </div> <!-- method -->
+  <hr/>
   <div class="method"><a name="listLikeds"></a>
     <div class="method-path">
     <a class="up" href="#__Methods">Up</a>
@@ -1688,6 +1741,55 @@
     <h4 class="field-label">200</h4>
     
         <a href="#Follower">Follower</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="retrieveFriend"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /author/{author_id}/friends/{foreign_author_id}/</code></pre></div>
+    <div class="method-summary"> (<span class="nickname">retrieveFriend</span>)</div>
+    <div class="method-notes"></div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">author_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>      <div class="param">foreign_author_id (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Friend">Friend</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+    <h3 class="field-label">Example data</h3>
+    <div class="example-data-content-type">Content-Type: application/json</div>
+    <pre class="example"><code>{
+  "owner" : "owner",
+  "type" : "type",
+  "items" : { }
+}</code></pre>
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    
+        <a href="#Friend">Friend</a>
   </div> <!-- method -->
   <hr/>
   <div class="method"><a name="retrieveInbox"></a>
@@ -2390,6 +2492,7 @@
     <li><a href="#Author"><code>Author</code></a></li>
     <li><a href="#Comment"><code>Comment</code></a></li>
     <li><a href="#Follower"><code>Follower</code></a></li>
+    <li><a href="#Friend"><code>Friend</code></a></li>
     <li><a href="#Inbox"><code>Inbox</code></a></li>
     <li><a href="#JSONWebToken"><code>JSONWebToken</code></a></li>
     <li><a href="#Liked"><code>Liked</code></a></li>
@@ -2425,6 +2528,15 @@
   </div>
   <div class="model">
     <h3><a name="Follower"><code>Follower</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">owner </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">items (optional)</div><div class="param-desc"><span class="param-type"><a href="#object">Object</a></span>  </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Friend"><code>Friend</code></a> <a class="up" href="#__Models">Up</a></h3>
     
     <div class="field-items">
       <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
@@ -2475,11 +2587,11 @@
     
     <div class="field-items">
       <div class="param">type (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
-<div class="param">title </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">title (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">id </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">source </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  format: uri</div>
 <div class="param">origin </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  format: uri</div>
-<div class="param">description </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
+<div class="param">description (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">contentType </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">content (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
 <div class="param">author </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span>  </div>
