@@ -339,9 +339,9 @@ export default class PostDisplay extends React.Component {
       this.setState({
         isLiked: true,
       });
+      var n = this.props.postID.indexOf("/posts/");
       let params = {
-        authorID: this.props.authorID,
-        author: this.props.authorID,
+        authorID: this.props.postID.substring(0,n),
         type: "Like",
         postID: this.props.postID,
         actor: this.props.authorID,
