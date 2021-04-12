@@ -10,6 +10,9 @@ import {
   createRemoteFriend,
   getFriend,
 } from "../../requests/requestFriends";
+import {
+  createFollower,
+} from "../../requests/requestFollower";
 import { auth, domainAuthPair, remoteDomain } from "../../requests/URL";
 import { getDomainName } from "../Utils";
 
@@ -160,6 +163,15 @@ export default class SingleRequest extends React.Component {
             }
           });
         } else {
+          createFollower(params1).then((response) => {
+            if (response.status === 204) {
+              message.success("Successfully followed!");
+            } else if (response.status === 409) {
+              message.warning("Can't follow yourself!");
+            } else {
+              message.warning("Already Following!");
+            }
+          });
           createFriend(params).then((response) => {
             if (response.status === 204) {
               message.success("My Friend Created!");
