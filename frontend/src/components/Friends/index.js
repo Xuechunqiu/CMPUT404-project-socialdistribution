@@ -30,56 +30,36 @@ export default class Friends extends React.Component {
         for (const friend_id of res.data.items) {
           let domain = getDomainName(friend_id);
           let n = this.state.authorID.indexOf("/author/");
-          let length = this.state.authorID.length;
-          let params = {
-            actor: this.state.authorID.substring(n + 8, length),
-            object: friend_id,
-          };
           if (domain !== window.location.hostname) {
-            params.remote = true;
-            params.auth = domainAuthPair[domain];
-            getFriend(params).then((response) => {
-              if (response.data.exist) {
-                getRemoteAuthorByAuthorID({
-                  URL: friend_id,
-                  auth: domainAuthPair[domain],
-                }).then((response2) => {
-                  const obj = {
-                    displayName: response2.data.displayName,
-                    github: response2.data.github,
-                    id: response2.data.id,
-                  };
-                  remoteFriends.push(obj);
-                  this.setState({
-                    friends: localFriends,
-                    remoteFriendList: remoteFriends,
-                  });
-                });
-              } else {
-                console.log("No remote friends", friend_id);
-              }
+            getRemoteAuthorByAuthorID({
+              URL: friend_id,
+              auth: domainAuthPair[domain],
+            }).then((response2) => {
+              const obj = {
+                displayName: response2.data.displayName,
+                github: response2.data.github,
+                id: response2.data.id,
+              };
+              remoteFriends.push(obj);
+              this.setState({
+                friends: localFriends,
+                remoteFriendList: remoteFriends,
+              });
             });
           } else {
-            params.remote = false;
-            getFriend(params).then((response) => {
-              if (response.data.exist) {
-                getAuthorByAuthorID({
-                  authorID: friend_id,
-                }).then((response2) => {
-                  const obj = {
-                    displayName: response2.data.displayName,
-                    github: response2.data.github,
-                    id: response2.data.id,
-                  };
-                  localFriends.push(obj);
-                  this.setState({
-                    friends: localFriends,
-                    remoteFriendList: remoteFriends,
-                  });
-                });
-              } else {
-                console.log("No local friends", friend_id);
-              }
+            getAuthorByAuthorID({
+              authorID: friend_id,
+            }).then((response2) => {
+              const obj = {
+                displayName: response2.data.displayName,
+                github: response2.data.github,
+                id: response2.data.id,
+              };
+              localFriends.push(obj);
+              this.setState({
+                friends: localFriends,
+                remoteFriendList: remoteFriends,
+              });
             });
           }
         }
