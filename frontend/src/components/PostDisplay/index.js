@@ -556,6 +556,9 @@ export default class PostDisplay extends React.Component {
               ) : (
                 <List
                   bordered
+                  pagination={{
+                    pageSize: 3,
+                  }}
                   dataSource={commentDataSource}
                   renderItem={(item) => (
                     <List.Item>
@@ -578,6 +581,9 @@ export default class PostDisplay extends React.Component {
                 ""
               ) : (
                 <List
+                pagination={{
+                  pageSize: 10,
+                }}
                   dataSource={this.state.likesList}
                   renderItem={(item) => (
                     <List.Item>

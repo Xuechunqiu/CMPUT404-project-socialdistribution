@@ -78,6 +78,9 @@ export default class InboxRequest extends React.Component {
           <List
             bordered
             itemLayout="horizontal"
+            pagination={{
+              pageSize: 10,
+            }}
             dataSource={requestDataSet}
             renderItem={(item) => (
               <List.Item>

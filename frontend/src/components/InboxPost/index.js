@@ -46,6 +46,9 @@ export default class InboxPost extends React.Component {
         ) : (
           <List
             itemLayout="horizontal"
+            pagination={{
+              pageSize: 5,
+            }}
             dataSource={postDataSet}
             renderItem={(item) => (
               <li>

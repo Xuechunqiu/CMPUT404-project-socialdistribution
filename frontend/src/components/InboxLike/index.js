@@ -43,6 +43,9 @@ export default class InboxLike extends React.Component {
           <List
             bordered
             itemLayout="horizontal"
+            pagination={{
+              pageSize: 10,
+            }}
             dataSource={likelist}
             renderItem={(item) => (
               <List.Item>
