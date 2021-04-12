@@ -142,7 +142,7 @@ export default class SingleRequest extends React.Component {
             }
           });
         }
-      })
+      });
     } else {
       let params = {
         actor: this.props.actorID.substring(n + 8, length),
@@ -174,18 +174,17 @@ export default class SingleRequest extends React.Component {
           });
           createFriend(params).then((response) => {
             if (response.status === 204) {
-              message.success("My Friend Created!");
+              createFriend(params1).then((response) => {
+                if (response.status === 204) {
+                  message.success("Friend created!");
+                  //window.location.reload();
+                } else {
+                  message.error("Friend Failed!");
+                }
+              });
               //window.location.reload();
             } else {
               message.error("My Friend Failed!");
-            }
-          });
-          createFriend(params1).then((response) => {
-            if (response.status === 204) {
-              message.success("Friend created!");
-              //window.location.reload();
-            } else {
-              message.error("Friend Failed!");
             }
           });
           deleteRequest(params).then((response) => {

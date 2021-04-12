@@ -43,8 +43,6 @@ urlpatterns = [
          CommentViewSet.as_view({'get': 'list', 'post': 'create'})),
     path('author/<str:author_id>/posts/<str:post_id>/comments/<str:comment_id>/',
          CommentViewSet.as_view({'get': 'retrieve'})),
-    # path('author/<str:author_id>/inbox/',
-    #     LikesViewSet.as_view({'post': 'create'})),
     path('author/<str:author_id>/inbox/',
          InboxViewSet.as_view({'get': 'retrieve', 'post': 'update', 'delete': 'delete'})),
     path('author/<str:author_id>/liked/',

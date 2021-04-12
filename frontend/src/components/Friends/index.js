@@ -82,9 +82,9 @@ export default class Friends extends React.Component {
               }
             });
           }
-          this.setState({ loading: false });
         }
       }
+      this.setState({ loading: false });
     });
   }
 
@@ -103,6 +103,9 @@ export default class Friends extends React.Component {
         ) : (
           <List
             bordered
+            pagination={{
+              pageSize: 10,
+            }}
             dataSource={allFriends}
             renderItem={(item) => (
               <List.Item>

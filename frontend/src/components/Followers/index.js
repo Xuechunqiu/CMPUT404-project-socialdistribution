@@ -66,6 +66,9 @@ export default class Followers extends React.Component {
         }
       } else {
         console.log("No followers...");
+        if (this._isMounted) {
+          this.setState({ loading: false });
+        }
       }
     });
   }
@@ -84,6 +87,9 @@ export default class Followers extends React.Component {
         ) : (
           <List
             bordered
+            pagination={{
+              pageSize: 10,
+            }}
             dataSource={this.state.followers}
             renderItem={(item) => (
               <List.Item>

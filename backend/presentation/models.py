@@ -37,15 +37,17 @@ class Follower(models.Model):
 
 class Post(models.Model):
     type = "post"
-    title = models.CharField(max_length=MAX_LENGTH)
+    title = models.CharField(max_length=MAX_LENGTH, blank=True)
     id = models.CharField(primary_key=True, max_length=MAX_LENGTH, unique=True)
     source = models.URLField(max_length=MAX_LENGTH)
     origin = models.URLField(max_length=MAX_LENGTH)
-    description = models.CharField(max_length=MAX_LENGTH)
+    description = models.CharField(
+        max_length=MAX_LENGTH, blank=True, null=True)
     contentType = models.CharField(max_length=MIN_LENGTH)
     content = models.TextField(blank=True)
     author = models.CharField(max_length=MAX_LENGTH)
-    categories = models.JSONField(default=default_list)  # a list of string
+    categories = models.JSONField(
+        default=default_list, null=True)  # a list of string
     count = models.IntegerField()
     size = models.IntegerField()
     # the first page of comments
@@ -104,8 +106,8 @@ class Likes(models.Model):
     context = models.URLField(max_length=MAX_LENGTH)  # @context?
     summary = models.CharField(max_length=MIN_LENGTH)
     author = models.CharField(max_length=MAX_LENGTH)
-    post_object = models.CharField(max_length=MAX_LENGTH,null=True)
-    comment_object = models.CharField(max_length=MAX_LENGTH,null=True)
+    post_object = models.CharField(max_length=MAX_LENGTH, null=True)
+    comment_object = models.CharField(max_length=MAX_LENGTH, null=True)
 
 
 class Liked(models.Model):
@@ -118,6 +120,7 @@ class Usermod(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     # an user that only meant to be used to authenticate by external nodes
     allowLogin = models.BooleanField(default=False)
+
 
 class Friend(models.Model):
     type = "friend"
