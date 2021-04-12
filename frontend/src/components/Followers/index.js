@@ -66,6 +66,9 @@ export default class Followers extends React.Component {
         }
       } else {
         console.log("No followers...");
+        if (this._isMounted) {
+          this.setState({ loading: false });
+        }
       }
     });
   }
