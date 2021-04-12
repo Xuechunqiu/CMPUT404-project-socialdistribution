@@ -1,11 +1,12 @@
 import React from "react";
 import { Descriptions, message, Card, Avatar } from "antd";
-import { UserOutlined, EditOutlined, LogoutOutlined } from "@ant-design/icons";
+import { EditOutlined, LogoutOutlined } from "@ant-design/icons";
 import { getAuthorByUsername } from "../../requests/requestAuthor";
 import ProfileChange from "../ProfileChange";
 import GitHubCalendar from "react-github-calendar";
 import { GithubOutlined } from "@ant-design/icons";
 import Meta from "antd/lib/card/Meta";
+import { generateRandomAvatar } from "../Utils";
 
 export default class Profile extends React.Component {
   constructor(props) {
@@ -20,8 +21,9 @@ export default class Profile extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this._isMounted = true;
+    this.updateDisplay();
   }
 
   componentWillUnmount() {
@@ -65,10 +67,6 @@ export default class Profile extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.updateDisplay();
-  }
-
   handleClick = () => {
     this.setState({ isModalVisible: !this.state.isModalVisible });
   };
@@ -80,9 +78,20 @@ export default class Profile extends React.Component {
 
   render() {
     return (
-      <div style={{ margin: "5% 20%", textAlign: "center" }}>
+      <div style={{ margin: "5% 20%" }}>
         <Card
-          style={{ marginTop: 16 }}
+          style={{
+            marginTop: 16,
+            marginLeft: "auto",
+            marginRight: "auto",
+            width: 400,
+          }}
+          cover={
+            <img
+              alt="coverImage"
+              src="https://media4.giphy.com/media/5PSPV1ucLX31u/giphy.gif"
+            />
+          }
           actions={[
             <EditOutlined key="edit" onClick={this.handleClick} />,
             <LogoutOutlined key="logout" onClick={this.props.logout} />,
@@ -90,13 +99,17 @@ export default class Profile extends React.Component {
         >
           <Meta
             // TODO: change avatar
-            avatar={<Avatar icon={<UserOutlined />} />}
-            title={`Username: ${this.state.username}`}
+            avatar={
+              <Avatar src={generateRandomAvatar(this.state.displayName)} />
+            }
+            title={this.state.displayName}
+            description={
+              <div>
+                <p>Username: {this.state.username}</p>
+                <p>Github: {this.state.github}</p>
+              </div>
+            }
           />
-          <div style={{ textAlign: "center", marginTop: "24px" }}>
-            <p>Display name: {this.state.displayName}</p>
-            <p>Github: {this.state.github}</p>
-          </div>
         </Card>
 
         <ProfileChange
@@ -106,7 +119,7 @@ export default class Profile extends React.Component {
           visible={this.state.isModalVisible}
           handleChangeModalVisibility={this.handleChangeModalVisibility}
         />
-        <div style={{ marginTop: "5%" }}>
+        <div style={{ marginTop: "5%", textAlign: "center" }}>
           <GithubOutlined />
           <Descriptions title="My Github Activity"></Descriptions>
           <GitHubCalendar

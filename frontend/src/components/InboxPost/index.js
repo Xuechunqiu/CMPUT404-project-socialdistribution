@@ -1,5 +1,5 @@
 import React from "react";
-import { List, message } from "antd";
+import { List, message, Spin } from "antd";
 import { getInboxPost } from "../../requests/requestPost";
 import { getPostDataSet } from "../Utils";
 import PostDisplay from "../PostDisplay";
@@ -11,6 +11,7 @@ export default class InboxPost extends React.Component {
     this.state = {
       postDataSet: [],
       authorID: this.props.authorID,
+      loading: true,
     };
   }
 
@@ -21,7 +22,7 @@ export default class InboxPost extends React.Component {
     }).then((res) => {
       if (res.status === 200) {
         getPostDataSet(res.data).then((value) => {
-          this.setState({ postDataSet: value });
+          this.setState({ postDataSet: value, loading: false });
         });
       } else {
         message.error("Fail to get posts.");
@@ -34,32 +35,40 @@ export default class InboxPost extends React.Component {
   }
 
   render() {
-    const { postDataSet } = this.state;
+    const { postDataSet, loading } = this.state;
 
     return (
-      <div style={{}}>
-        <List
-          className="posts-list"
-          itemLayout="horizontal"
-          dataSource={postDataSet}
-          renderItem={(item) => (
-            <li>
-              <PostDisplay
-                title={item.title}
-                authorName={item.authorName}
-                github={item.github}
-                content={item.content}
-                datetime={item.datetime}
-                authorID={this.state.authorID}
-                postID={item.postID}
-                rawPost={item.rawPost}
-                categories={item.categories}
-                remote={item.remote}
-                usage="inbox"
-              />
-            </li>
-          )}
-        />
+      <div>
+        {loading ? (
+          <div style={{ textAlign: "center", marginTop: "20%" }}>
+            <Spin size="large" /> Loading...
+          </div>
+        ) : (
+          <List
+            itemLayout="horizontal"
+            pagination={{
+              pageSize: 5,
+            }}
+            dataSource={postDataSet}
+            renderItem={(item) => (
+              <li>
+                <PostDisplay
+                  title={item.title}
+                  authorName={item.authorName}
+                  github={item.github}
+                  content={item.content}
+                  datetime={item.datetime}
+                  authorID={this.state.authorID}
+                  postID={item.postID}
+                  rawPost={item.rawPost}
+                  categories={item.categories}
+                  remote={item.remote}
+                  usage="inbox"
+                />
+              </li>
+            )}
+          />
+        )}
       </div>
     );
   }

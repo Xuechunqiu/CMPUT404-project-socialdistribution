@@ -6,3 +6,4 @@ from .post_view import PostViewSet
 from .request_view import RequestViewSet
 from .liked_view import LikedViewSet
 from .likes_view import LikesViewSet
+from .friend_view import FriendViewSet

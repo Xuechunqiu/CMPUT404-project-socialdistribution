@@ -1,6 +1,6 @@
-from presentation.models import Follower, Author
+from presentation.models import Friend, Author
 from django.shortcuts import get_object_or_404
-from presentation.Serializers.follower_serializer import FollowerSerializer
+from presentation.Serializers.friend_serializer import FriendSerializer
 from presentation.Serializers.author_serializer import AuthorSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
@@ -9,12 +9,12 @@ from . import urlutil
 from . import URL
 
 '''
-URL: ://service/author/{AUTHOR_ID}/followers
-    GET: get a list of authors who are their followers
-URL: ://service/author/{AUTHOR_ID}/followers/{FOREIGN_AUTHOR_ID}
-    DELETE: remove a follower
-    PUT: Add a follower (must be authenticated)
-    GET check if follower
+URL: ://service/author/{AUTHOR_ID}/friends
+    GET: get a list of authors who are their friends
+URL: ://service/author/{AUTHOR_ID}/friends/{FOREIGN_AUTHOR_ID}
+    DELETE: remove a friend
+    PUT: Add a friend (must be authenticated)
+    GET check if friend
 '''
 
 
@@ -24,26 +24,26 @@ def getAuthorIDFromRequestURL(request, id):
     return author_id
 
 
-class FollowerViewSet(viewsets.ModelViewSet):
-    serializer_class = FollowerSerializer
-    queryset = Follower.objects.all()
+class FriendViewSet(viewsets.ModelViewSet):
+    serializer_class = FriendSerializer
+    queryset = Friend.objects.all()
     # lookup_field = 'author'
 
     def list(self, request, *args, **kwargs):
         author_id = getAuthorIDFromRequestURL(
             request, self.kwargs['author_id'])
         # author = get_object_or_404(Author, id=author_id)
-        queryset = Follower.objects.filter(owner=author_id)
+        queryset = Friend.objects.filter(owner=author_id)
         if queryset.exists():
-            followers = Follower.objects.get(owner=author_id)
+            friends = Friend.objects.get(owner=author_id)
             return Response({
-                'type': 'followers',
-                'items': followers.items
+                'type': 'friend',
+                'items': friends.items
             })
         else:
-            Follower.objects.create(owner=author_id)
+            Friend.objects.create(owner=author_id)
             return Response({
-                'type': 'followers',
+                'type': 'friend',
                 'items': []
             })
 
@@ -51,16 +51,15 @@ class FollowerViewSet(viewsets.ModelViewSet):
         request_data = request.query_params.copy()
         remote = request_data.get('remote', None)
         if remote == "true":
-            follower_id = URL.remoteDomain + "/author/" + self.kwargs['foreign_author_id']
+            friend_id = URL.remoteDomain + "/author/" + self.kwargs['foreign_author_id']
         else: 
-            follower_id = getAuthorIDFromRequestURL(
+            friend_id = getAuthorIDFromRequestURL(
             request, self.kwargs['foreign_author_id'])
         author_id = getAuthorIDFromRequestURL(
             request, self.kwargs['author_id'])
         # author = get_object_or_404(Author, id=author_id)
-        followers = get_object_or_404(Follower, owner=author_id)
-        if follower_id in followers.items:
-            #f = get_object_or_404(Author, id=follower_id)
+        friends = get_object_or_404(Friend, owner=author_id)
+        if friend_id in friends.items:
             return Response({'exist': True})
         else:
             return Response({'exist': False})
@@ -75,34 +74,31 @@ class FollowerViewSet(viewsets.ModelViewSet):
             request, self.kwargs['foreign_author_id'])
         author_id = getAuthorIDFromRequestURL(
             request, self.kwargs['author_id'])
-        if new_f_id == author_id:
-            return Response("Can't follow yourself!", 409)
         # author = get_object_or_404(Author, id=author_id)
-        followers = get_object_or_404(Follower, owner=author_id)
-        # new_follower = get_object_or_404(Author, id=new_f_id)
-
-        if new_f_id in followers.items:
-            return Response("Follower exists already.", 500)
+        friends = get_object_or_404(Friend, owner=author_id)
+        
+        if new_f_id in friends.items:
+            return Response("Friend exists already.", 500)
         else:
-            followers.items.append(new_f_id)
-        followers.save()
-        return Response("Follower is successfully added.", 204)
+            friends.items.append(new_f_id)
+        friends.save()
+        return Response("Friend is successfully added.", 204)
 
     def delete(self, request, *args, **kwargs):
         request_data = request.data.copy()
         remote = request_data.get('remote', None)
         if remote:
-            follower_id = URL.remoteDomain + "/author/" + self.kwargs['foreign_author_id']
+            friend_id = URL.remoteDomain + "/author/" + self.kwargs['foreign_author_id']
         else: 
-            follower_id = getAuthorIDFromRequestURL(
+            friend_id = getAuthorIDFromRequestURL(
             request, self.kwargs['foreign_author_id'])
         author_id = getAuthorIDFromRequestURL(
             request, self.kwargs['author_id'])
         # author = get_object_or_404(Author, id=author_id)
-        followers = get_object_or_404(Follower, owner=author_id)
+        friends = get_object_or_404(Friend, owner=author_id)
         try:
-            followers.items.remove(follower_id)
-            followers.save()
+            friends.items.remove(friend_id)
+            friends.save()
         except ValueError:
-            return Response("No such a follower. Deletion fails.", 500)
+            return Response("No such a friend. Deletion fails.", 500)
         return Response("Delete successful")
