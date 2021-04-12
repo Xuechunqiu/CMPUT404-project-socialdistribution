@@ -460,13 +460,9 @@ export default class PostDisplay extends React.Component {
 
     const likeIconColor = this.state.isLiked ? "#eb2f96" : "#A5A5A5";
 
-    let formatCategories = categories;
-    if (typeof categories === "string") {
-      formatCategories = JSON.parse(categories);
-    }
     const tags =
-      formatCategories !== undefined
-        ? formatCategories.map((tag) => (
+      categories !== undefined && typeof categories !== "string"
+        ? categories.map((tag) => (
             <Tag key={tag} color={tagsColor[tag]}>
               {tag}
             </Tag>
