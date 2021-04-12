@@ -4,6 +4,7 @@ import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import {
   deleteRequest,
   deleteRemoteRequest,
+  declineRemoteRequest,
 } from "../../requests/requestFriendRequest";
 import {
   createFriend,
@@ -49,10 +50,23 @@ export default class SingleRequest extends React.Component {
         auth: domainAuthPair[getDomainName(this.props.authorID)],
         remote: true,
       };
+      let params1 = {
+        URL: 
+          this.props.actorID.substring(0, n) +
+          "/friendrequest/decline/",
+        auth: domainAuthPair[getDomainName(this.props.actorID)],
+        actor: this.props.actorID,
+        object: this.props.authorID,
+      };
       deleteRemoteRequest(params).then((response) => {
         if (response.status === 200) {
-          message.success("Request Rejected.");
-          //window.location.reload();
+          declineRemoteRequest(params1).then((response1) => {
+            if (response.status === 200){
+              message.success("Remote Request Rejected.");
+            } else {
+              message.error("Remote Request Decline Failed.");
+            }
+          });
         } else {
           message.error("Reject Failed!");
         }
@@ -122,7 +136,7 @@ export default class SingleRequest extends React.Component {
           });
           params1.URL = this.props.actorID.substring(0, n) + "/friendrequest/accept/";
           createRemoteFriend(params1).then((response) => {
-            if (response.status === 204) {
+            if (response.status === 200) {
               message.success("Remote Friend Created!");
               //window.location.reload();
             } else {
