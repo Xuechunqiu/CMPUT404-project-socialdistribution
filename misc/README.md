@@ -37,3 +37,24 @@ Some odds and ends.
       * a. Before use, you should change the configurations accordingly.
       * b. This will simply print out a base64 encoded string.
       * c. Usually this script will be used with deploy.sh at the same time.
+7. `Name`: genschema.sh    
+   `Description`: Generate openapi(swagger) schema yaml.    
+   `Usage`: `chmod +x genschema.sh && ./genschema.sh`    
+   `Note`:
+      * a. Before use, you should change the configurations accordingly.
+      * b. After docs generation complete, you will find a docs.yaml file in the same folder where this script exists.
+      * c. This script is file structure dependent, unless you know what you are doing, do not change file structure.
+      * d. Change head.yaml accordingly.
+      * e. Online html generation: after docs.yaml successfully generated, go to https://editor.swagger.io/, at the top-left corner, select "File", select "Import file". Then select "Generate Client", select "html", you will get a zip file containing a html single page that can be hosted on the github gh-pages branch.
+      * f. You will get possible warnings (in terminal) or errors (in the swagger webpage), they were induced by the same operation id, you will need to correct them first.
+8. `Name`: gendocshelper.py    
+   `Description`: Docs generation helper.    
+   `Usage`: `DO NOT USE INDIVIDUALLY`    
+9. `Name`: genhtml.sh    
+   `Description`: Generate single html webpage of api schema for hosting.    
+   `Usage`: `chmod +x genhtml.sh && ./genhtml.sh`    
+   `Note`:
+      * a. After docs generation complete, you will find a index.html file in the same folder where this script exists.
+      * b. This script is file structure dependent, unless you know what you are doing, do not change file structure.
+      * c. You need java to run this script.
+      * d. Offline html generation: you should run this script after you run gendocs.sh.
