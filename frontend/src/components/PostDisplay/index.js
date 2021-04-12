@@ -36,10 +36,9 @@ import {
   sendPost,
   sendPostToUserInbox,
 } from "../../requests/requestPost";
-import { 
+import {
   getFollowerList,
   createFollower,
-  createRemoteFollower,
 } from "../../requests/requestFollower";
 import { domainAuthPair } from "../../requests/URL";
 import {
@@ -111,9 +110,9 @@ export default class PostDisplay extends React.Component {
         auth: domainAuthPair[getDomainName(this.props.postID)],
       }).then((res) => {
         if (res.status === 200) {
-          getLikeDataSet(res.data).then((val) => {    
+          getLikeDataSet(res.data).then((val) => {
             this.setState({ likesList: val });
-            this.state.likesList.forEach((item) => {          
+            this.state.likesList.forEach((item) => {
               if (item.authorID === this.state.authorID) {
                 this.setState({ isLiked: true });
               }
@@ -217,19 +216,19 @@ export default class PostDisplay extends React.Component {
         params.auth = domainAuthPair[getDomainName(this.props.postID)];
         let params1 = {
           URL:
-            this.props.postID.substring(0, n) + 
+            this.props.postID.substring(0, n) +
             "/followers/" +
             this.props.authorID.substring(m + 8, length) +
             "/",
           auth: domainAuthPair[getDomainName(this.props.postID)],
         };
         //createRemoteFollower(params1).then((response) => {
-          //if (response.status === 204) {
-            //message.success("Remote: Successfully followed!");
-            //window.location.reload();
-          //} else {
-            //message.error("Remote: Follow Failed!");
-          //}
+        //if (response.status === 204) {
+        //message.success("Remote: Successfully followed!");
+        //window.location.reload();
+        //} else {
+        //message.error("Remote: Follow Failed!");
+        //}
         //});
         postRemoteRequest(params).then((response) => {
           if (response.status === 200) {
@@ -347,7 +346,7 @@ export default class PostDisplay extends React.Component {
       });
       let params = {
         authorID: this.props.authorID,
-        author:this.props.authorID,
+        author: this.props.authorID,
         type: "Like",
         postID: this.props.postID,
         actor: this.props.authorID,
@@ -561,7 +560,9 @@ export default class PostDisplay extends React.Component {
                   renderItem={(item) => (
                     <List.Item>
                       <List.Item.Meta
-                        avatar={<Avatar src={generateRandomAvatar(item.authorName)} />}
+                        avatar={
+                          <Avatar src={generateRandomAvatar(item.authorName)} />
+                        }
                         title={item.authorName}
                         description={item.published}
                       />
@@ -581,7 +582,9 @@ export default class PostDisplay extends React.Component {
                   renderItem={(item) => (
                     <List.Item>
                       <List.Item.Meta
-                        avatar={<Avatar src={generateRandomAvatar(item.authorName)} />}
+                        avatar={
+                          <Avatar src={generateRandomAvatar(item.authorName)} />
+                        }
                         title={item.authorName}
                         description={"likes this post."}
                       />

@@ -4,7 +4,7 @@ import {
   getAuthorByAuthorID,
   getRemoteAuthorByAuthorID,
 } from "../requests/requestAuthor";
-import { getFollower, getFollowerList } from "../requests/requestFollower";
+import { getFollowerList } from "../requests/requestFollower";
 import { getFriendList } from "../requests/requestFriends";
 import { sendPost, sendPostToUserInbox } from "../requests/requestPost";
 import { domainAuthPair } from "../requests/URL";
@@ -118,8 +118,8 @@ async function sendPostAndAppendInbox(params) {
   //create a post object
   sendPost(params).then((response) => {
     if (response.status === 200) {
+      message.success("Post sent!");
       const postData = response.data;
-      postData.type = "post";
       //if public, send to followers' inbox
       if (params.visibility === "PUBLIC") {
         getFollowerList({ object: params.authorID }).then((res) => {
@@ -134,11 +134,14 @@ async function sendPostAndAppendInbox(params) {
               sendPostToUserInbox(params_).then((response) => {
                 if (response.status === 200) {
                   message.success("Post shared!");
+                  window.location.href = "/";
                 } else {
                   message.error("Whoops, an error occurred while sharing.");
                 }
               });
             }
+          } else {
+            window.location.href = "/";
           }
         });
       } else {
@@ -157,7 +160,8 @@ async function sendPostAndAppendInbox(params) {
                 };
                 sendPostToUserInbox(params_).then((response) => {
                   if (response.status === 200) {
-                    message.success("Private Post sent!");
+                    message.success("Post shared!");
+                    window.location.href = "/";
                   } else {
                     message.error(
                       "Whoops, an error occurred while sending the private post."
@@ -171,7 +175,8 @@ async function sendPostAndAppendInbox(params) {
                 };
                 sendPostToUserInbox(params_).then((response) => {
                   if (response.status === 200) {
-                    message.success("Private post sent!");
+                    message.success("Post shared!");
+                    window.location.href = "/";
                   } else {
                     message.error(
                       "Whoops, an error occurred while sending the private post."
@@ -179,12 +184,12 @@ async function sendPostAndAppendInbox(params) {
                   }
                 });
               }
-            };
+            }
+          } else {
+            window.location.href = "/";
           }
         });
       }
-      message.success("Post sent!");
-      //window.location.href = "/";
     } else {
       message.error("Post failed!");
     }

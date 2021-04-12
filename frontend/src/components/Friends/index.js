@@ -82,9 +82,9 @@ export default class Friends extends React.Component {
               }
             });
           }
-          this.setState({ loading: false });
         }
       }
+      this.setState({ loading: false });
     });
   }
 

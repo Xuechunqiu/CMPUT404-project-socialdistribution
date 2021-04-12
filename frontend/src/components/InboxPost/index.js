@@ -38,7 +38,7 @@ export default class InboxPost extends React.Component {
     const { postDataSet, loading } = this.state;
 
     return (
-      <div style={{ margin: "0 20%" }}>
+      <div>
         {loading ? (
           <div style={{ textAlign: "center", marginTop: "20%" }}>
             <Spin size="large" /> Loading...

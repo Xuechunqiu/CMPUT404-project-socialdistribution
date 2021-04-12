@@ -100,7 +100,7 @@ export default class SingleRequest extends React.Component {
         } else {
           message.error("Friend Create Failed!");
         }
-      })
+      });
       createRemoteFriend(params1).then((response) => {
         if (response.status === 204) {
           message.success("Remote Friend Created!");
@@ -130,22 +130,23 @@ export default class SingleRequest extends React.Component {
         object: this.props.actorID,
         actor: this.props.authorID.substring(m + 8, length1),
       };
+      // create friend for current author
       createFriend(params).then((response) => {
         if (response.status === 204) {
-          message.success("My Friend Created!");
-          //window.location.reload();
+          // create friend for another actor
+          createFriend(params1).then((response) => {
+            if (response.status === 204) {
+              message.success("Friend created!");
+              //window.location.reload();
+            } else {
+              message.error("Friend Failed!");
+            }
+          });
         } else {
           message.error("My Friend Failed!");
         }
       });
-      createFriend(params1).then((response) => {
-        if (response.status === 204) {
-          message.success("Friend created!");
-          //window.location.reload();
-        } else {
-          message.error("Friend Failed!");
-        }
-      });
+
       deleteRequest(params).then((response) => {
         if (response.status === 200) {
           message.success("Request Deleted.");
