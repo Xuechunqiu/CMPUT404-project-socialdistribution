@@ -47,7 +47,7 @@ import {
   formatDate,
   generateRandomAvatar,
 } from "../Utils";
-import { sendToInbox, sendToRemoteInbox } from "../../requests/requestInbox";
+import { sendToInbox } from "../../requests/requestInbox";
 
 const { TabPane } = Tabs;
 
@@ -460,9 +460,13 @@ export default class PostDisplay extends React.Component {
 
     const likeIconColor = this.state.isLiked ? "#eb2f96" : "#A5A5A5";
 
+    let formatCategories = categories;
+    if (typeof categories === "string") {
+      formatCategories = JSON.parse(categories);
+    }
     const tags =
-      categories !== undefined && typeof categories !== "string"
-        ? categories.map((tag) => (
+      formatCategories !== undefined
+        ? formatCategories.map((tag) => (
             <Tag key={tag} color={tagsColor[tag]}>
               {tag}
             </Tag>
