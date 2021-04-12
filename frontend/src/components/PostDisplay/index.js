@@ -46,18 +46,11 @@ import {
   getLikeDataSet,
   formatDate,
   generateRandomAvatar,
+  getRandomColor,
 } from "../Utils";
 import { sendToInbox } from "../../requests/requestInbox";
 
 const { TabPane } = Tabs;
-
-const tagsColor = {
-  Movies: "lime",
-  Books: "blue",
-  Music: "volcano",
-  Sports: "cyan",
-  Life: "gold",
-};
 export default class PostDisplay extends React.Component {
   state = {
     comments: [],
@@ -463,7 +456,7 @@ export default class PostDisplay extends React.Component {
     const tags =
       categories !== undefined && typeof categories !== "string"
         ? categories.map((tag) => (
-            <Tag key={tag} color={tagsColor[tag]}>
+            <Tag key={tag} color={getRandomColor()}>
               {tag}
             </Tag>
           ))

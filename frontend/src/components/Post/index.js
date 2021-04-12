@@ -12,9 +12,8 @@ import {
 import { PlusOutlined } from "@ant-design/icons";
 import { getPost, updatePost } from "../../requests/requestPost";
 import { sendPostAndAppendInbox } from "../Utils";
+import EditableTagGroup from "../EditableTagGroup";
 const { TextArea } = Input;
-const { CheckableTag } = Tag;
-const tagsData = ["Movies", "Books", "Music", "Sports", "Life"];
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -56,6 +55,7 @@ export default class Post extends React.Component {
           title: res.data.title,
           description: res.data.description,
           content: res.data.content,
+          categories: res.data.categories,
         });
       });
     }
@@ -202,12 +202,15 @@ export default class Post extends React.Component {
     this.setState({ visibility: e.target.checked });
   };
 
-  handleCaterotiesChange = (tag, checked) => {
-    const { categories } = this.state;
-    const nextSelectedTags = checked
-      ? [...categories, tag]
-      : categories.filter((t) => t !== tag);
-    this.setState({ categories: nextSelectedTags });
+  // handleCaterotiesChange = (tag, checked) => {
+  //   const { categories } = this.state;
+  //   const nextSelectedTags = checked
+  //     ? [...categories, tag]
+  //     : categories.filter((t) => t !== tag);
+  //   this.setState({ categories: nextSelectedTags });
+  // };
+  handleCaterotiesChange = (tags) => {
+    this.setState({ categories: tags });
   };
 
   handleMarkDownSwitchChange = (checked) => {
@@ -314,15 +317,11 @@ export default class Post extends React.Component {
           </div>
 
           <span style={{ marginRight: 8 }}>Categories:</span>
-          {tagsData.map((tag) => (
-            <CheckableTag
-              key={tag}
-              checked={categories.indexOf(tag) > -1}
-              onChange={(checked) => this.handleCaterotiesChange(tag, checked)}
-            >
-              {tag}
-            </CheckableTag>
-          ))}
+          <EditableTagGroup
+            categories={categories}
+            handleCaterotiesChange={this.handleCaterotiesChange}
+          />
+
           <div style={{ textAlign: "center", margin: "24px auto" }}>
             <Button type="primary" onClick={this.onSendClick}>
               Confirm Edit
@@ -405,15 +404,10 @@ export default class Post extends React.Component {
           </div>
 
           <span style={{ marginRight: 8 }}>Categories:</span>
-          {tagsData.map((tag) => (
-            <CheckableTag
-              key={tag}
-              checked={categories.indexOf(tag) > -1}
-              onChange={(checked) => this.handleCaterotiesChange(tag, checked)}
-            >
-              {tag}
-            </CheckableTag>
-          ))}
+          <EditableTagGroup
+            categories={categories}
+            handleCaterotiesChange={this.handleCaterotiesChange}
+          />
 
           <div style={{ textAlign: "center", margin: "24px auto" }}>
             <Button type="primary" onClick={this.onSendClick}>

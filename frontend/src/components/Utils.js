@@ -220,6 +220,23 @@ function generateRandomAvatar(name) {
   return "https://ui-avatars.com/api/?background=random&name=" + name;
 }
 
+const tagsColor = [
+  "lime",
+  "blue",
+  "volcano",
+  "cyan",
+  "gold",
+  "geekblue",
+  "orange",
+  "purple",
+  "magenta",
+  "red",
+];
+
+function getRandomColor() {
+  return tagsColor[Math.floor(Math.random() * tagsColor.length)];
+}
+
 export {
   getPostDataSet,
   getFriendDataSet,
@@ -228,4 +245,5 @@ export {
   sendPostAndAppendInbox,
   formatDate,
   generateRandomAvatar,
+  getRandomColor,
 };
