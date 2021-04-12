@@ -366,11 +366,6 @@ export default class PostDisplay extends React.Component {
             message.error("Remote likes send failed!");
           }
         });
-        sendToRemoteInbox(params).then((response) => {
-          if (response.status !== 200) {
-            message.error("Remote inbox likes send failed!");
-          }
-        });
       } else {
         sendLikes(params).then((response) => {
           if (response.status === 200) {
