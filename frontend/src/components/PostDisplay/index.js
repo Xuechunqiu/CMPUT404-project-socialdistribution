@@ -111,9 +111,9 @@ export default class PostDisplay extends React.Component {
         auth: domainAuthPair[getDomainName(this.props.postID)],
       }).then((res) => {
         if (res.status === 200) {
-          getLikeDataSet(res.data).then((val) => {
+          getLikeDataSet(res.data).then((val) => {    
             this.setState({ likesList: val });
-            this.state.likesList.forEach((item) => {
+            this.state.likesList.forEach((item) => {          
               if (item.authorID === this.state.authorID) {
                 this.setState({ isLiked: true });
               }
@@ -347,6 +347,7 @@ export default class PostDisplay extends React.Component {
       });
       let params = {
         authorID: this.props.authorID,
+        author:this.props.authorID,
         type: "Like",
         postID: this.props.postID,
         actor: this.props.authorID,
