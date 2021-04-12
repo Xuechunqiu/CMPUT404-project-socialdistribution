@@ -40,7 +40,7 @@ import {
 import { getFollowerList } from "../../requests/requestFollower";
 import { domainAuthPair } from "../../requests/URL";
 import { getDomainName, getLikeDataSet } from "../Utils";
-import { sendToInbox, sendToRemoteInbox } from "../../requests/requestInbox";
+import { sendToInbox} from "../../requests/requestInbox";
 
 const { TabPane } = Tabs;
 
@@ -315,11 +315,6 @@ export default class PostDisplay extends React.Component {
             message.success("Remote Likes sent!");
           } else {
             message.error("Remote likes send failed!");
-          }
-        });
-        sendToRemoteInbox(params).then((response) => {
-          if (response.status !== 200) {
-            message.error("Remote inbox likes send failed!");
           }
         });
       } else {
