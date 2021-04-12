@@ -96,3 +96,23 @@ export function deleteRemoteRequest(params = {}) {
       return error.response;
     });
 }
+
+export function declineRemoteRequest(params = {}) {
+  if (params.auth === undefined) {
+    // if auth not given, consider as current server
+    params.auth = `JWT ${localStorage.getItem("token")}`;
+  }
+  return axios
+    .patch(params.URL, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: params.auth,
+      },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+}

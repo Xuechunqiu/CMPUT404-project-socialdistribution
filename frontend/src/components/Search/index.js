@@ -95,7 +95,7 @@ export default class Search extends React.Component {
       authorID: this.state.authorID,
     }).then((response1) => {
       var n = this.state.authorID.indexOf("/author/");
-      // var m = this.state.objectID.indexOf("/author/");
+      var m = this.state.objectID.indexOf("/author/");
       var length = this.state.authorID.length;
       let params = {
         type: "follow",
@@ -121,7 +121,7 @@ export default class Search extends React.Component {
         // }
         // change later
         let params1 = {
-          URL: this.state.objectID.substring(0, n) + "/friendrequest/",
+          URL: this.state.objectID.substring(0, m) + "/friendrequest/",
           actor: this.state.authorID,
           object: this.state.objectID,
           auth: domainAuthPair[domain],
