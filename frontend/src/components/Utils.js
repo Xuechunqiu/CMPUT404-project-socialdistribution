@@ -20,10 +20,10 @@ async function getPostDataSet(postData, remote) {
     }
     let contentHTML = <p>{element.content}</p>;
     if (element.contentType !== undefined) {
-      const isImage =
-        element.contentType.slice(0, 5) === "image" ? true : false;
-      const isMarkDown =
-        element.contentType.slice(5) === "markdown" ? true : false;
+      const isImage = element.contentType.includes("image") ? true : false;
+      const isMarkDown = element.contentType.includes("markdown")
+        ? true
+        : false;
       if (isImage) {
         contentHTML = <Image width={150} src={element.content} />;
       } else if (isMarkDown) {
