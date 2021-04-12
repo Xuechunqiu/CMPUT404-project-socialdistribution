@@ -11,7 +11,6 @@ import { domainAuthPair } from "../requests/URL";
 async function getPostDataSet(postData, remote) {
   const publicPosts = [];
   for (const element of postData) {
-    console.log("post", element);
     let domain;
     if (remote) {
       domain = getDomainName(element.author.id);
@@ -89,13 +88,18 @@ async function getLikeDataSet(likeData, remote) {
   const likeArray = [];
   for (const like of likeData) {
     let domain;
-    domain = getDomainName(like.author);
-    let authorInfo;
+    if (remote) {
+      domain = getDomainName(like.author.id);
+    } else {
+      domain = getDomainName(like.author);
+    }
+    let authorInfo = {};
     if (domain !== window.location.hostname) {
-      authorInfo = await getRemoteAuthorByAuthorID({
-        URL: like.author,
-        auth: domainAuthPair[domain],
-      });
+      // authorInfo = await getRemoteAuthorByAuthorID({
+      //   URL: like.author,
+      //   auth: domainAuthPair[domain],
+      // });
+      authorInfo.data = like.author;
     } else {
       authorInfo = await getAuthorByAuthorID({
         authorID: like.author,

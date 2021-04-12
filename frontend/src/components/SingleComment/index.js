@@ -27,7 +27,7 @@ export default class CommentItem extends React.Component {
         auth: domainAuthPair[getDomainName(this.props.item.commentid)],
       }).then((res) => {
         if (res.status === 200) {
-          getLikeDataSet(res.data).then((val) => {
+          getLikeDataSet(res.data, true).then((val) => {
             const likesNum = val.length + this.state.num;
             this.setState({ likesList: val, num: likesNum });
             this.state.likesList.forEach((item) => {

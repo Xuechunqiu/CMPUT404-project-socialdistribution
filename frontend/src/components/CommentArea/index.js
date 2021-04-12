@@ -26,7 +26,7 @@ export default class CommentArea extends React.Component {
       contentType: "text/plain",
     };
     if (this.props.remote) {
-      params.URL = `${this.props.postID}/comments/`;
+      params.URL = `${this.props.postID}/comment/`;
       params.auth = domainAuthPair[getDomainName(params.URL)];
       postRemoteComment(params).then((res) => {
         if (res.status === 200) {

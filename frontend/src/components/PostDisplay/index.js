@@ -75,7 +75,7 @@ export default class PostDisplay extends React.Component {
     // Comments
     if (this.props.remote) {
       getRemoteCommentList({
-        URL: `${this.props.postID}/viewComments/`,
+        URL: `${this.props.postID}/comments/`,
         auth: domainAuthPair[getDomainName(this.props.postID)],
       }).then((res) => {
         if (res.status === 200) {
@@ -103,7 +103,7 @@ export default class PostDisplay extends React.Component {
         auth: domainAuthPair[getDomainName(this.props.postID)],
       }).then((res) => {
         if (res.status === 200) {
-          getLikeDataSet(res.data).then((val) => {
+          getLikeDataSet(res.data, true).then((val) => {
             this.setState({ likesList: val });
             this.state.likesList.forEach((item) => {
               if (item.authorID === this.state.authorID) {
