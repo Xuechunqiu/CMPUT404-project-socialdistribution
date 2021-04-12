@@ -341,8 +341,8 @@ export default class PostDisplay extends React.Component {
       });
       var n = this.props.postID.indexOf("/posts/");
       let params = {
-        authorID: this.props.postID.substring(0,n),
-        author : this.props.authorID,
+        authorID: this.props.postID.substring(0, n),
+        author: this.props.authorID,
         type: "Like",
         postID: this.props.postID,
         actor: this.props.authorID,
@@ -353,7 +353,7 @@ export default class PostDisplay extends React.Component {
       if (this.props.remote) {
         params.URL = `${this.props.postID}/likes/`;
         params.auth = domainAuthPair[getDomainName(params.URL)];
-        
+
         sendRemoteLikes(params).then((response) => {
           if (response.status === 200) {
             message.success("Remote Likes sent!");
@@ -547,7 +547,6 @@ export default class PostDisplay extends React.Component {
                 ""
               ) : (
                 <List
-                  bordered
                   pagination={{
                     pageSize: 3,
                   }}
@@ -574,7 +573,7 @@ export default class PostDisplay extends React.Component {
               ) : (
                 <List
                   pagination={{
-                    pageSize: 10,
+                    pageSize: 3,
                   }}
                   dataSource={this.state.likesList}
                   renderItem={(item) => (
