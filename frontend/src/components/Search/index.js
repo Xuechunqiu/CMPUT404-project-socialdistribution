@@ -6,10 +6,7 @@ import {
   getAllAuthors,
   getAllRemoteAuthors,
 } from "../../requests/requestAuthor";
-import {
-  createFollower,
-  createRemoteFollower,
-} from "../../requests/requestFollower";
+import { createFollower } from "../../requests/requestFollower";
 import Meta from "antd/lib/card/Meta";
 import {
   postRequest,
@@ -98,7 +95,7 @@ export default class Search extends React.Component {
       authorID: this.state.authorID,
     }).then((response1) => {
       var n = this.state.authorID.indexOf("/author/");
-      var m = this.state.objectID.indexOf("/author/");
+      // var m = this.state.objectID.indexOf("/author/");
       var length = this.state.authorID.length;
       let params = {
         type: "follow",
@@ -115,13 +112,13 @@ export default class Search extends React.Component {
       };
       const domain = getDomainName(this.state.objectID);
       if (domain !== window.location.hostname) {
-        let params = {
-          URL: 
-            this.state.objectID +
-            "/followers/" +
-            this.state.authorID.substring(n + 8, length) + "/",
-          auth: domainAuthPair[domain],
-        }
+        // let params = {
+        //   URL:
+        //     this.state.objectID +
+        //     "/followers/" +
+        //     this.state.authorID.substring(n + 8, length) + "/",
+        //   auth: domainAuthPair[domain],
+        // }
         // change later
         let params1 = {
           URL: this.state.objectID.substring(0, n) + "/friendrequest/",
@@ -130,12 +127,12 @@ export default class Search extends React.Component {
           auth: domainAuthPair[domain],
         };
         //createRemoteFollower(params).then((response) => {
-          //if (response.status === 204) {
-            //message.success("Remote: Successfully followed!");
-            //window.location.reload();
-          //} else {
-            //message.error("Remote: Follow Failed!");
-          //}
+        //if (response.status === 204) {
+        //message.success("Remote: Successfully followed!");
+        //window.location.reload();
+        //} else {
+        //message.error("Remote: Follow Failed!");
+        //}
         //});
         postRemoteRequest(params1).then((response) => {
           if (response.status === 200) {
@@ -167,13 +164,8 @@ export default class Search extends React.Component {
             message.error("Request failed!");
           }
         });
-
       }
-
     });
-
-    
-    
   };
 
   getAuthorDataSet = (authorData) => {

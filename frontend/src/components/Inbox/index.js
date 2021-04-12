@@ -1,5 +1,5 @@
 import React from "react";
-import { Affix, Button, message, Popconfirm, Tabs } from "antd";
+import { Affix, message, Popconfirm, Tabs } from "antd";
 import {
   LikeOutlined,
   SolutionOutlined,

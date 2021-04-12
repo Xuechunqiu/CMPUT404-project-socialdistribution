@@ -214,14 +214,14 @@ export default class PostDisplay extends React.Component {
         params.actor = this.props.authorID;
         params.object = this.props.postID.substring(0, n);
         params.auth = domainAuthPair[getDomainName(this.props.postID)];
-        let params1 = {
-          URL:
-            this.props.postID.substring(0, n) +
-            "/followers/" +
-            this.props.authorID.substring(m + 8, length) +
-            "/",
-          auth: domainAuthPair[getDomainName(this.props.postID)],
-        };
+        // let params1 = {
+        //   URL:
+        //     this.props.postID.substring(0, n) +
+        //     "/followers/" +
+        //     this.props.authorID.substring(m + 8, length) +
+        //     "/",
+        //   auth: domainAuthPair[getDomainName(this.props.postID)],
+        // };
         //createRemoteFollower(params1).then((response) => {
         //if (response.status === 204) {
         //message.success("Remote: Successfully followed!");
@@ -581,9 +581,9 @@ export default class PostDisplay extends React.Component {
                 ""
               ) : (
                 <List
-                pagination={{
-                  pageSize: 10,
-                }}
+                  pagination={{
+                    pageSize: 10,
+                  }}
                   dataSource={this.state.likesList}
                   renderItem={(item) => (
                     <List.Item>

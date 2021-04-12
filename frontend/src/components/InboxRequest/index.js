@@ -1,12 +1,7 @@
 import React from "react";
 import { List, message, Avatar, Spin } from "antd";
 import { getRequest } from "../../requests/requestFriendRequest";
-import {
-  getAuthorByAuthorID,
-  getRemoteAuthorByAuthorID,
-} from "../../requests/requestAuthor";
 import SingleRequest from "../SingleRequest";
-import { domainAuthPair } from "../../requests/URL";
 import { generateRandomAvatar, getDomainName } from "../Utils";
 
 export default class InboxRequest extends React.Component {
