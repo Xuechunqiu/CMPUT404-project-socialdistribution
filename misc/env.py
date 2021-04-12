@@ -11,7 +11,7 @@ x = '''
         "auth": "Basic YWRtaW5COmFkbWluQg=="
     },
     "clone": {
-        "domain": "https://nofun.herokuapp.com",
+        "domain": "nofun.herokuapp.com",
         "port": "443",
         "scheme": "https://",
         "auth": "Basic YXV0aDoxMjM="
