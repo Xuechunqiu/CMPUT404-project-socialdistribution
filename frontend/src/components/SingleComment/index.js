@@ -9,7 +9,7 @@ import {
 } from "../../requests/requestLike";
 import { getDomainName, getLikeDataSet } from "../Utils";
 import { domainAuthPair } from "../../requests/URL";
-import { sendToInbox, sendToRemoteInbox } from "../../requests/requestInbox";
+import { sendToInbox} from "../../requests/requestInbox";
 
 export default class CommentItem extends React.Component {
   state = {
@@ -96,11 +96,6 @@ export default class CommentItem extends React.Component {
       const commentAuthorDomain = getDomainName(this.props.item.authorID);
       if (commentAuthorDomain !== window.location.hostname) {
         params.auth = domainAuthPair[commentAuthorDomain];
-        sendToRemoteInbox(params).then((response) => {
-          if (response.status !== 200) {
-            message.error("Likes remote inbox send failed!");
-          }
-        });
       } else {
         sendToInbox(params).then((response) => {
           if (response.status !== 200) {
