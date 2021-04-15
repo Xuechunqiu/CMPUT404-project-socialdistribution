@@ -3,8 +3,7 @@
 1. URL to your publicly available API endpoint: https://social-distribution-t1.herokuapp.com/
 
 2. Valid account credentials for using your application:
-   Admin: `username: admin1, password: admin1234`
-   Not admin: `username: Remote1, password: remote1234`
+   User: `username: Remote1, password: remote1234`
 
    > Basic UmVtb3RlMTpyZW1vdGUxMjM0
 

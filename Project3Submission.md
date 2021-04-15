@@ -4,8 +4,6 @@
    https://dashboard.heroku.com/apps/social-distribution-t1
 
 2. Valid account credentials for using your application:
-   Admin:
-   `username: admin1, password: admin1234`
    User:
    `username: Remote1, password: remote1234`
 
