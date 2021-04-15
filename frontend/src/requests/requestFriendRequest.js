@@ -1,5 +1,4 @@
 import axios from "axios";
-import { domain, port } from "./URL";
 
 export function postRequest(params = {}) {
   const URL = `${params.object.toString()}/inbox/`;
@@ -88,6 +87,26 @@ export function deleteRemoteRequest(params = {}) {
       },
       data: {
         remote: params.remote,
+      },
+    })
+    .then((response) => {
+      return response;
+    })
+    .catch((error) => {
+      return error.response;
+    });
+}
+
+export function declineRemoteRequest(params = {}) {
+  if (params.auth === undefined) {
+    // if auth not given, consider as current server
+    params.auth = `JWT ${localStorage.getItem("token")}`;
+  }
+  return axios
+    .patch(params.URL, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: params.auth,
       },
     })
     .then((response) => {

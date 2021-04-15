@@ -13,7 +13,7 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-## Access admin page
+## To access admin page, create a superuser first
 
 ```
 python manage.py createsuperuser

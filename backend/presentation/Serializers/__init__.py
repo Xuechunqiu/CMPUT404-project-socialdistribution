@@ -8,3 +8,4 @@ from .post_serializer import PostSerializer
 from .request_serializer import RequestSerializer
 from .user_serializer import UserSerializer, UserSerializerWithToken
 from .usermod_serializer import UsermodSerializer
+from .friend_serializer import FriendSerializer

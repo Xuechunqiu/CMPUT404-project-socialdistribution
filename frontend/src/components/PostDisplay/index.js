@@ -1,7 +1,6 @@
 import React from "react";
 import { message, Avatar, Button, Card, List, Popover, Tag, Tabs } from "antd";
 import {
-  UserOutlined,
   UserAddOutlined,
   HeartTwoTone,
   ShareAltOutlined,
@@ -37,20 +36,21 @@ import {
   sendPost,
   sendPostToUserInbox,
 } from "../../requests/requestPost";
-import { getFollowerList } from "../../requests/requestFollower";
+import {
+  getFollowerList,
+  createFollower,
+} from "../../requests/requestFollower";
 import { domainAuthPair } from "../../requests/URL";
-import { getDomainName, getLikeDataSet } from "../Utils";
-import { sendToInbox, sendToRemoteInbox } from "../../requests/requestInbox";
+import {
+  getDomainName,
+  getLikeDataSet,
+  formatDate,
+  generateRandomAvatar,
+  getRandomColor,
+} from "../Utils";
+import { sendToInbox } from "../../requests/requestInbox";
 
 const { TabPane } = Tabs;
-
-const tagsColor = {
-  Movies: "lime",
-  Books: "blue",
-  Music: "volcano",
-  Sports: "cyan",
-  Life: "gold",
-};
 export default class PostDisplay extends React.Component {
   state = {
     comments: [],
@@ -79,7 +79,7 @@ export default class PostDisplay extends React.Component {
         auth: domainAuthPair[getDomainName(this.props.postID)],
       }).then((res) => {
         if (res.status === 200) {
-          this.getCommentDataSet(res.data).then((value) => {
+          this.getCommentDataSet(res.data, true).then((value) => {
             this.setState({ comments: value });
             this.getVisibleComments(value);
           });
@@ -149,10 +149,11 @@ export default class PostDisplay extends React.Component {
     }
   };
 
-  getCommentDataSet = async (commentData) => {
+  getCommentDataSet = async (commentData, remote) => {
     const commentsArray = [];
     for (const comment of commentData) {
-      const domain = getDomainName(comment.author);
+      let domain;
+      domain = getDomainName(comment.author);
       let authorInfo;
       if (domain !== window.location.hostname) {
         authorInfo = await getRemoteAuthorByAuthorID({
@@ -168,7 +169,7 @@ export default class PostDisplay extends React.Component {
         authorName: authorInfo.data.displayName,
         authorID: comment.author,
         comment: comment.comment,
-        published: comment.published,
+        published: formatDate(comment.published),
         commentid: comment.id,
         eachCommentLike: false,
         postID: comment.post,
@@ -180,45 +181,84 @@ export default class PostDisplay extends React.Component {
   };
 
   handleClickFollow = async () => {
-    var n = this.props.postID.indexOf("/posts/");
-    if (this.props.remote) {
+    getAuthorByAuthorID({
+      authorID: this.props.authorID,
+    }).then((response1) => {
+      var n = this.props.postID.indexOf("/posts/");
+      var o = this.props.postID.indexOf("/author/");
+      var m = this.props.authorID.indexOf("/author/");
+      var length = this.props.authorID.length;
       let params = {
         type: "follow",
-        actor: this.props.authorID,
+        actor: {
+          type: "author",
+          id: response1.data.id,
+          host: response1.data.host,
+          displayName: response1.data.displayName,
+          url: response1.data.url,
+          github: response1.data.github,
+        },
         object: this.props.postID.substring(0, n),
         URL: `${this.props.postID.substring(0, n)}/inbox/`,
         summary: "I want to follow you!",
-        auth: domainAuthPair[getDomainName(this.props.postID)],
-        remote: true,
       };
-      postRemoteRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Remote: Request sent!");
-          window.location.reload();
-        } else if (response.status === 409) {
-          message.error("Remote: Invalid request!");
-        } else {
-          message.error("Remote: Request failed!");
-        }
-      });
-    } else {
-      let params = {
-        type: "follow",
-        actor: this.props.authorID,
-        object: this.props.postID.substring(0, n),
-        summary: "I want to follow you!",
-      };
-      postRequest(params).then((response) => {
-        if (response.status === 200) {
-          message.success("Request sent!");
-          window.location.reload();
-        } else if (response.status === 409) {
-          message.error("Invalid request!");
-        } else {
-          message.error("Request failed!");
-        }
-      });
-    }
+      if (this.props.remote) {
+        params.URL = this.props.postID.substring(0, o) + "/friendrequest/";
+        params.actor = this.props.authorID;
+        params.object = this.props.postID.substring(0, n);
+        params.auth = domainAuthPair[getDomainName(this.props.postID)];
+        // let params1 = {
+        //   URL:
+        //     this.props.postID.substring(0, n) +
+        //     "/followers/" +
+        //     this.props.authorID.substring(m + 8, length) +
+        //     "/",
+        //   auth: domainAuthPair[getDomainName(this.props.postID)],
+        // };
+        //createRemoteFollower(params1).then((response) => {
+        //if (response.status === 204) {
+        //message.success("Remote: Successfully followed!");
+        //window.location.reload();
+        //} else {
+        //message.error("Remote: Follow Failed!");
+        //}
+        //});
+        postRemoteRequest(params).then((response) => {
+          if (response.status === 200) {
+            message.success("Remote: Request sent!");
+            window.location.reload();
+          } else if (response.status === 409) {
+            message.error("Remote: Invalid request!");
+          } else {
+            message.error("Remote: Request failed!");
+          }
+        });
+      } else {
+        let params1 = {
+          actor: this.props.authorID.substring(m + 8, length),
+          object: this.props.postID.substring(0, n),
+        };
+        createFollower(params1).then((response) => {
+          if (response.status === 204) {
+            message.success("Successfully followed!");
+          } else if (response.status === 409) {
+            message.warning("Can't follow yourself!");
+          } else {
+            message.warning("Already Following!");
+          }
+        });
+        postRequest(params).then((response) => {
+          if (response.status === 200) {
+            message.success("Request sent!");
+            window.location.reload();
+          } else if (response.status === 409) {
+            message.warning("Invalid request!");
+          } else {
+            message.error("Request failed!");
+          }
+        });
+      }
+    });
   };
 
   handleClickReply = () => {
@@ -231,6 +271,8 @@ export default class PostDisplay extends React.Component {
     rawPost.author = this.state.authorID;
     rawPost.visibility = "FRIENDS";
     rawPost.source = this.state.authorID;
+    // you cannot see unlisted, thus if you can share, it must be listed
+    rawPost.unlisted = false;
     if (rawPost.source !== rawPost.origin) {
       //create a new post object
       sendPost(rawPost).then((response) => {
@@ -297,8 +339,10 @@ export default class PostDisplay extends React.Component {
       this.setState({
         isLiked: true,
       });
+      var n = this.props.postID.indexOf("/posts/");
       let params = {
-        authorID: this.props.authorID,
+        authorID: this.props.postID.substring(0, n),
+        author: this.props.authorID,
         type: "Like",
         postID: this.props.postID,
         actor: this.props.authorID,
@@ -309,16 +353,12 @@ export default class PostDisplay extends React.Component {
       if (this.props.remote) {
         params.URL = `${this.props.postID}/likes/`;
         params.auth = domainAuthPair[getDomainName(params.URL)];
+
         sendRemoteLikes(params).then((response) => {
           if (response.status === 200) {
             message.success("Remote Likes sent!");
           } else {
             message.error("Remote likes send failed!");
-          }
-        });
-        sendToRemoteInbox(params).then((response) => {
-          if (response.status !== 200) {
-            message.error("Remote inbox likes send failed!");
           }
         });
       } else {
@@ -416,9 +456,9 @@ export default class PostDisplay extends React.Component {
     const likeIconColor = this.state.isLiked ? "#eb2f96" : "#A5A5A5";
 
     const tags =
-      categories !== undefined
+      categories !== undefined && typeof categories !== "string"
         ? categories.map((tag) => (
-            <Tag key={tag} color={tagsColor[tag]}>
+            <Tag key={tag} color={getRandomColor()}>
               {tag}
             </Tag>
           ))
@@ -450,7 +490,7 @@ export default class PostDisplay extends React.Component {
           extra={
             <span>
               <Popover content={userInfo} title="User Info" trigger="click">
-                <Avatar icon={<UserOutlined />} /> {authorName}
+                <Avatar src={generateRandomAvatar(authorName)} /> {authorName}
               </Popover>
             </span>
           }
@@ -507,12 +547,16 @@ export default class PostDisplay extends React.Component {
                 ""
               ) : (
                 <List
-                  bordered
+                  pagination={{
+                    pageSize: 3,
+                  }}
                   dataSource={commentDataSource}
                   renderItem={(item) => (
                     <List.Item>
                       <List.Item.Meta
-                        avatar={<Avatar icon={<UserOutlined />} />}
+                        avatar={
+                          <Avatar src={generateRandomAvatar(item.authorName)} />
+                        }
                         title={item.authorName}
                         description={item.published}
                       />
@@ -528,11 +572,16 @@ export default class PostDisplay extends React.Component {
                 ""
               ) : (
                 <List
+                  pagination={{
+                    pageSize: 3,
+                  }}
                   dataSource={this.state.likesList}
                   renderItem={(item) => (
                     <List.Item>
                       <List.Item.Meta
-                        avatar={<Avatar icon={<UserOutlined />} />}
+                        avatar={
+                          <Avatar src={generateRandomAvatar(item.authorName)} />
+                        }
                         title={item.authorName}
                         description={"likes this post."}
                       />

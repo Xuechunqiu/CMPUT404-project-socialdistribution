@@ -4,33 +4,40 @@ import {
   getAuthorByAuthorID,
   getRemoteAuthorByAuthorID,
 } from "../requests/requestAuthor";
-import { getFollower, getFollowerList } from "../requests/requestFollower";
+import { getFollowerList } from "../requests/requestFollower";
+import { getFriendList } from "../requests/requestFriends";
 import { sendPost, sendPostToUserInbox } from "../requests/requestPost";
 import { domainAuthPair } from "../requests/URL";
 
-async function getPostDataSet(postData) {
+async function getPostDataSet(postData, remote) {
   const publicPosts = [];
   for (const element of postData) {
-    const domain = getDomainName(element.author);
+    let domain;
+    if (remote) {
+      domain = getDomainName(element.author.id);
+    } else {
+      domain = getDomainName(element.author);
+    }
     let contentHTML = <p>{element.content}</p>;
     if (element.contentType !== undefined) {
-      const isImage =
-        element.contentType.slice(0, 5) === "image" ? true : false;
-      const isMarkDown =
-        element.contentType.slice(5) === "markdown" ? true : false;
+      const isImage = element.contentType.includes("image") ? true : false;
+      const isMarkDown = element.contentType.includes("markdown")
+        ? true
+        : false;
       if (isImage) {
         contentHTML = <Image width={150} src={element.content} />;
       } else if (isMarkDown) {
         contentHTML = <ReactMarkdown source={element.content} />;
       }
     }
-    let res;
+    let res = {};
     if (domain !== window.location.hostname) {
       // remote
-      res = await getRemoteAuthorByAuthorID({
-        URL: element.author,
-        auth: domainAuthPair[domain],
-      });
+      // res = await getRemoteAuthorByAuthorID({
+      //   URL: element.author,
+      //   auth: domainAuthPair[domain],
+      // });
+      res.data = element.author;
     } else {
       res = await getAuthorByAuthorID({ authorID: element.author });
     }
@@ -39,7 +46,7 @@ async function getPostDataSet(postData) {
     const obj = {
       title: element.title,
       content: <div style={{ margin: "24px" }}>{contentHTML}</div>,
-      datetime: <span>{element.published}</span>,
+      datetime: <span>{formatDate(element.published)}</span>,
       postID: element.id,
       authorName: res.data.displayName,
       github: res.data.github,
@@ -78,10 +85,11 @@ async function getFriendDataSet(friendList) {
   return friendDataSet;
 }
 
-async function getLikeDataSet(likeData) {
+async function getLikeDataSet(likeData, remote) {
   const likeArray = [];
   for (const like of likeData) {
-    const domain = getDomainName(like.author);
+    let domain;
+    domain = getDomainName(like.author);
     let authorInfo;
     if (domain !== window.location.hostname) {
       authorInfo = await getRemoteAuthorByAuthorID({
@@ -103,15 +111,23 @@ async function getLikeDataSet(likeData) {
 }
 
 function getDomainName(url) {
-  return new URL(url).hostname;
+  try {
+    const domain = new URL(url).hostname;
+    return domain;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 async function sendPostAndAppendInbox(params) {
   //create a post object
   sendPost(params).then((response) => {
     if (response.status === 200) {
+      message.success("Post sent!");
       const postData = response.data;
-      postData.type = "post";
+      //team20 asked us to add
+      postData.object = response.data.id;
+      postData.actor = response.data.author;
       //if public, send to followers' inbox
       if (params.visibility === "PUBLIC") {
         getFollowerList({ object: params.authorID }).then((res) => {
@@ -126,79 +142,104 @@ async function sendPostAndAppendInbox(params) {
               sendPostToUserInbox(params_).then((response) => {
                 if (response.status === 200) {
                   message.success("Post shared!");
+                  window.location.href = "/";
                 } else {
                   message.error("Whoops, an error occurred while sharing.");
                 }
               });
             }
+          } else {
+            window.location.href = "/";
           }
         });
       } else {
         //if private, send to friends' inbox
-        getFollowerList({ object: params.authorID }).then((res) => {
+        getFriendList({ object: params.authorID }).then((res) => {
           if (res.data.items.length !== 0) {
-            for (const follower_id of res.data.items) {
-              let domain = getDomainName(follower_id);
-              let n = params.authorID.indexOf("/author/");
-              let length = params.authorID.length;
-              let param = {
-                actor: params.authorID.substring(n + 8, length),
-                object: follower_id,
-              };
+            for (const friend_id of res.data.items) {
+              let domain = getDomainName(friend_id);
               if (domain !== window.location.hostname) {
                 // remote
-                param.remote = true;
-                param.auth = domainAuthPair[domain];
-                getFollower(param).then((response) => {
-                  if (response.data.exist) {
-                    //send to friend inbox
-                    let params_ = {
-                      URL: `${follower_id}/inbox/`,
-                      auth: domainAuthPair[domain],
-                      body: postData,
-                    };
-                    sendPostToUserInbox(params_).then((response) => {
-                      if (response.status === 200) {
-                        message.success("Post shared!");
-                      } else {
-                        message.error(
-                          "Whoops, an error occurred while sharing."
-                        );
-                      }
-                    });
+                //send to friend inbox
+                let params_ = {
+                  URL: `${friend_id}/inbox/`,
+                  auth: domainAuthPair[domain],
+                  body: postData,
+                };
+                sendPostToUserInbox(params_).then((response) => {
+                  if (response.status === 200) {
+                    message.success("Post shared!");
+                    window.location.href = "/";
+                  } else {
+                    message.error(
+                      "Whoops, an error occurred while sending the private post."
+                    );
                   }
                 });
               } else {
-                param.remote = false;
-                getFollower(param).then((response) => {
-                  if (response.data.exist) {
-                    // send to friend inbox
-                    let params_ = {
-                      URL: `${follower_id}/inbox/`,
-                      body: postData,
-                    };
-                    sendPostToUserInbox(params_).then((response) => {
-                      if (response.status === 200) {
-                        message.success("Post shared!");
-                      } else {
-                        message.error(
-                          "Whoops, an error occurred while sharing."
-                        );
-                      }
-                    });
+                let params_ = {
+                  URL: `${friend_id}/inbox/`,
+                  body: postData,
+                };
+                sendPostToUserInbox(params_).then((response) => {
+                  if (response.status === 200) {
+                    message.success("Post shared!");
+                    window.location.href = "/";
+                  } else {
+                    message.error(
+                      "Whoops, an error occurred while sending the private post."
+                    );
                   }
                 });
               }
             }
+          } else {
+            window.location.href = "/";
           }
         });
       }
-      message.success("Post sent!");
-      window.location.href = "/";
     } else {
       message.error("Post failed!");
     }
   });
+}
+
+function formatDate(timestamp) {
+  var date = new Date(timestamp);
+  var YY = date.getFullYear() + "-";
+  var MM =
+    (date.getMonth() + 1 < 10
+      ? "0" + (date.getMonth() + 1)
+      : date.getMonth() + 1) + "-";
+  var DD = date.getDate() < 10 ? "0" + date.getDate() : date.getDate();
+  var hh =
+    (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + ":";
+  var mm =
+    (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+    ":";
+  var ss = date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds();
+  return YY + MM + DD + " " + hh + mm + ss;
+}
+
+function generateRandomAvatar(name) {
+  return "https://ui-avatars.com/api/?background=random&name=" + name;
+}
+
+const tagsColor = [
+  "lime",
+  "blue",
+  "volcano",
+  "cyan",
+  "gold",
+  "geekblue",
+  "orange",
+  "purple",
+  "magenta",
+  "red",
+];
+
+function getRandomColor() {
+  return tagsColor[Math.floor(Math.random() * tagsColor.length)];
 }
 
 export {
@@ -207,4 +248,7 @@ export {
   getLikeDataSet,
   getDomainName,
   sendPostAndAppendInbox,
+  formatDate,
+  generateRandomAvatar,
+  getRandomColor,
 };

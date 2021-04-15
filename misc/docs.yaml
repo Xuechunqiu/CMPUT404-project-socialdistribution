@@ -1,0 +1,1161 @@
+openapi: 3.0.2
+info:
+  title: "Social Distribution"
+  version: "0.9.9.1"
+  description: "API documentation of social distribution, a CMPUT404 project in Winter 2021 maintained by team 1."
+  contact:
+    name: "Team 1 contributors"
+    url: "https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution"
+  license:
+    name: "Apache 2.0 and CC-BY-SA 4.0"
+    url: "https://raw.githubusercontent.com/Xuechunqiu/CMPUT404-project-socialdistribution/master/LICENSE"
+paths:
+  /author/{author_id}/:
+    get:
+      operationId: retrieveAuthor
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+          description: ""
+      tags:
+        - author
+    put:
+      operationId: updateAuthor
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Author"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Author"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Author"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/followers/:
+    get:
+      operationId: listFollowers
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Follower"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/followers/{foreign_author_id}/:
+    get:
+      operationId: retrieveFollower
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: foreign_author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Follower"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/friends/:
+    get:
+      operationId: listFriends
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Friend"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/friends/{foreign_author_id}/:
+    get:
+      operationId: retrieveFriend
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: foreign_author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Friend"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/posts/:
+    get:
+      operationId: listPosts
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+          description: ""
+      tags:
+        - author
+    post:
+      operationId: createPost
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Post"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/posts/{post_id}/:
+    get:
+      operationId: retrievePost
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+          description: ""
+      tags:
+        - author
+    post:
+      operationId: buildPost
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Post"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+          description: ""
+      tags:
+        - author
+    put:
+      operationId: updatePost
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Post"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Post"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/posts/{post_id}/comments/:
+    get:
+      operationId: listComments
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Comment"
+          description: ""
+      tags:
+        - author
+    post:
+      operationId: createComment
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Comment"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Comment"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Comment"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/posts/{post_id}/comments/{comment_id}/:
+    get:
+      operationId: retrieveComment
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: comment_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Comment"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/inbox/:
+    get:
+      operationId: retrieveInbox
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Inbox"
+          description: ""
+      tags:
+        - author
+    post:
+      operationId: updateInbox
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Inbox"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Inbox"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Inbox"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Inbox"
+          description: ""
+      tags:
+        - author
+    delete:
+      operationId: destroyInbox
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "204":
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/liked/:
+    get:
+      operationId: listLikeds
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Liked"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/posts/{post_id}/likes/:
+    get:
+      operationId: listLikes
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Likes"
+          description: ""
+      tags:
+        - author
+    post:
+      operationId: createLikes
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Likes"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Likes"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Likes"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Likes"
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/posts/{post_id}/comments/{comment_id}/likes/:
+    get:
+      operationId: listCommentLikes
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: comment_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Likes"
+          description: ""
+      tags:
+        - author
+    post:
+      operationId: createCommentLikes
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: post_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: comment_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Likes"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Likes"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Likes"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Likes"
+          description: ""
+      tags:
+        - author
+  /current-user/:
+    get:
+      operationId: listcurrentUsers
+      description: Determine the current user by their token, and return their data
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ""
+      tags:
+        - current-user
+  /user-author/:
+    get:
+      operationId: listgetAuthorForUsers
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ""
+      tags:
+        - user-author
+    post:
+      operationId: creategetAuthorForUser
+      description: ""
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema: {}
+          application/x-www-form-urlencoded:
+            schema: {}
+          multipart/form-data:
+            schema: {}
+      responses:
+        "201":
+          content:
+            application/json:
+              schema: {}
+          description: ""
+      tags:
+        - user-author
+  /post-list/:
+    get:
+      operationId: listgetAllPublicPosts
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ""
+      tags:
+        - post-list
+  /usermod/{username}/:
+    get:
+      operationId: retrievegetUserMod
+      description: ""
+      parameters:
+        - name: username
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema: {}
+          description: ""
+      tags:
+        - usermod
+  /author/{author_id}/friends-list/:
+    get:
+      operationId: listgetFriends
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/inbox-post/:
+    get:
+      operationId: listgetInboxPosts
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/inbox-request/:
+    get:
+      operationId: listgetInboxRequests
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ""
+      tags:
+        - author
+  /author/{author_id}/inbox-like/:
+    get:
+      operationId: listgetInboxLikes
+      description: ""
+      parameters:
+        - name: author_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ""
+      tags:
+        - author
+  /all-authors/:
+    get:
+      operationId: listgetAllAuthors
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {}
+          description: ""
+      tags:
+        - all-authors
+  /author/:
+    post:
+      operationId: createAuthor
+      description: ""
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Author"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/Author"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/Author"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Author"
+          description: ""
+      tags:
+        - author
+  /token-auth/:
+    post:
+      operationId: createJSONWebToken
+      description:
+        "API View that receives a POST with a user's username and password.
+
+
+        Returns a JSON Web Token that can be used for authenticated requests."
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JSONWebToken"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/JSONWebToken"
+          multipart/form-data:
+            schema:
+              $ref: "#/components/schemas/JSONWebToken"
+      responses:
+        "201":
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JSONWebToken"
+          description: ""
+      tags:
+        - token-auth
+  /author/{object_id}/request/{actor_id}/:
+    delete:
+      operationId: destroyRequest
+      description: ""
+      parameters:
+        - name: object_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+        - name: actor_id
+          in: path
+          required: true
+          description: ""
+          schema:
+            type: string
+      responses:
+        "204":
+          description: ""
+      tags:
+        - author
+components:
+  schemas:
+    Author:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+        id:
+          type: string
+          format: uri
+          maxLength: 200
+          pattern:
+            "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+            d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\\
+            ]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1-\uFFFF0-9])?(?:\\\
+            .(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+            .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+        host:
+          type: string
+          format: uri
+          maxLength: 200
+          pattern:
+            "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+            d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\\
+            ]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1-\uFFFF0-9])?(?:\\\
+            .(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+            .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+        displayName:
+          type: string
+          maxLength: 50
+        url:
+          type: string
+          format: uri
+          maxLength: 200
+          pattern:
+            "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+            d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\\
+            ]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1-\uFFFF0-9])?(?:\\\
+            .(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+            .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+        github:
+          type: string
+          format: uri
+          maxLength: 200
+          pattern:
+            "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+            d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\\
+            ]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1-\uFFFF0-9])?(?:\\\
+            .(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+            .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+        user:
+          type: integer
+      required:
+        - id
+        - host
+        - displayName
+        - url
+        - github
+        - user
+    Follower:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+        owner:
+          type: string
+          maxLength: 200
+        items:
+          type: object
+      required:
+        - owner
+    Friend:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+        owner:
+          type: string
+          maxLength: 200
+        items:
+          type: object
+      required:
+        - owner
+    Post:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+        title:
+          type: string
+          maxLength: 200
+        id:
+          type: string
+          maxLength: 200
+        source:
+          type: string
+          format: uri
+          maxLength: 200
+          pattern:
+            "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+            d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\\
+            ]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1-\uFFFF0-9])?(?:\\\
+            .(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+            .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+        origin:
+          type: string
+          format: uri
+          maxLength: 200
+          pattern:
+            "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+            d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\\
+            ]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1-\uFFFF0-9])?(?:\\\
+            .(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+            .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+        description:
+          type: string
+          nullable: true
+          maxLength: 200
+        contentType:
+          type: string
+          maxLength: 50
+        content:
+          type: string
+        author:
+          type: string
+          maxLength: 200
+        categories:
+          type: object
+          nullable: true
+        count:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        size:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        comments:
+          type: string
+          format: uri
+          maxLength: 200
+          pattern:
+            "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+            d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\\
+            ]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1-\uFFFF0-9])?(?:\\\
+            .(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+            .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+        published:
+          type: string
+          format: date-time
+        visibility:
+          enum:
+            - PUBLIC
+            - FRIENDS
+          type: string
+        unlisted:
+          type: boolean
+      required:
+        - id
+        - source
+        - origin
+        - contentType
+        - author
+        - count
+        - size
+        - comments
+        - unlisted
+    Comment:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+        author:
+          type: string
+          maxLength: 200
+        post:
+          type: string
+          maxLength: 200
+        comment:
+          type: string
+        contentType:
+          type: string
+          maxLength: 50
+        published:
+          type: string
+          format: date-time
+        id:
+          type: string
+          maxLength: 200
+      required:
+        - author
+        - post
+        - comment
+        - contentType
+        - id
+    Inbox:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+        author:
+          type: string
+          maxLength: 200
+        items:
+          type: object
+      required:
+        - author
+    Liked:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+        author:
+          type: string
+          maxLength: 200
+        items:
+          type: object
+      required:
+        - author
+    Likes:
+      type: object
+      properties:
+        type:
+          type: string
+          readOnly: true
+        context:
+          type: string
+          format: uri
+          maxLength: 200
+          pattern:
+            "^(?:[a-z0-9.+-]*)://(?:[^\\s:@/]+(?::[^\\s:@/]*)?@)?(?:(?:25[0-5]|2[0-4]\\\
+            d|[0-1]?\\d?\\d)(?:\\.(?:25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}|\\[[0-9a-f:.]+\\\
+            ]|([a-z\xA1-\uFFFF0-9](?:[a-z\xA1-\uFFFF0-9-]{0,61}[a-z\xA1-\uFFFF0-9])?(?:\\\
+            .(?!-)[a-z\xA1-\uFFFF0-9-]{1,63}(?<!-))*\\.(?!-)(?:[a-z\xA1-\uFFFF-]{2,63}|xn--[a-z0-9]{1,59})(?<!-)\\\
+            .?|localhost))(?::\\d{2,5})?(?:[/?#][^\\s]*)?\\z"
+        author:
+          type: string
+          maxLength: 200
+        summary:
+          type: string
+          maxLength: 50
+        post_object:
+          type: string
+          nullable: true
+          maxLength: 200
+        comment_object:
+          type: string
+          nullable: true
+          maxLength: 200
+      required:
+        - context
+        - author
+        - summary
+    JSONWebToken:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+          writeOnly: true
+      required:
+        - username
+        - password

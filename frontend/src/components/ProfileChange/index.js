@@ -5,6 +5,7 @@ import { updateAuthor } from "../../requests/requestAuthor";
 const { TextArea } = Input;
 
 export default class ProfileChange extends React.Component {
+  _isMounted = false;
   state = {
     authorID: this.props.authorID,
     newName: this.props.displayName,
@@ -12,6 +13,14 @@ export default class ProfileChange extends React.Component {
     displayNameValue: "",
     githubValue: "",
   };
+
+  componentDidMount() {
+    this._isMounted = true;
+  }
+
+  componentWillUnmount() {
+    this._isMounted = false;
+  }
 
   handleModalOk = () => {
     let params = {

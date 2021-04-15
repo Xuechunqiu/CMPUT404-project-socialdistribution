@@ -1,5 +1,5 @@
 import React from "react";
-import { Affix, Button, message, Tabs } from "antd";
+import { Affix, message, Popconfirm, Tabs } from "antd";
 import {
   LikeOutlined,
   SolutionOutlined,
@@ -69,10 +69,15 @@ export default class Inbox extends React.Component {
             <InboxRequest authorID={authorID} />
           </TabPane>
         </Tabs>
-        <Affix offsetTop={100}>
-          <Button onClick={this.clickClearInbox}>
+        <Affix offsetBottom={100}>
+          <Popconfirm
+            onConfirm={this.clickClearInbox}
+            title="Are you sure delete this task?"
+            okText="Yes"
+            cancelText="No"
+          >
             <DeleteOutlined /> Clean Inbox
-          </Button>
+          </Popconfirm>
         </Affix>
       </div>
     );

@@ -1,13 +1,8 @@
 import React from "react";
 import { Form, Input, Button, Checkbox, Tabs, message } from "antd";
 import Signup from "../Signup";
-import {
-  authAuthor,
-  authRemoteAuthor,
-  getRemoteUsermod,
-  getUsermod,
-} from "../../requests/requestAuthor";
-import { auth, domain, port, remoteDomain } from "../../requests/URL";
+import { authAuthor, getUsermod } from "../../requests/requestAuthor";
+import { domain, port } from "../../requests/URL";
 
 const { TabPane } = Tabs;
 
