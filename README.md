@@ -16,6 +16,8 @@ https://xuechunqiu.github.io/CMPUT404-project-socialdistribution/
 
 ## URL to our video demonstration
 
+https://www.youtube.com/watch?v=WtUktcYLxmk
+
 ## Licensing
 
 Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle.
