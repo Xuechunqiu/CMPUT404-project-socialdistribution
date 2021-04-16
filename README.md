@@ -18,6 +18,15 @@ https://xuechunqiu.github.io/CMPUT404-project-socialdistribution/
 
 https://www.youtube.com/watch?v=WtUktcYLxmk
 
+## Run our project locally
+
+`git clone https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution.git`
+Use Docker to run the database, the [instructions](https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution/blob/master/misc/README.md) can be found here
+`cd backend` and check [backend README.md](https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution/blob/master/backend/README.md)
+`cd frontend`
+run `yarn install` to install all dependencies
+run `yarn start` to start the project at `localhost:3000`
+
 ## Licensing
 
 Generally everything is LICENSE'D under the Apache 2 license by Abram Hindle.
