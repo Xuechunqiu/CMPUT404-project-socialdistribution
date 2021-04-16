@@ -19,12 +19,12 @@ def default_list():
 
 class Author(models.Model):
     type = "author"
-    id = models.URLField(primary_key=True, max_length=MAX_LENGTH)
-    host = models.URLField(max_length=MAX_LENGTH)
+    id = models.CharField(primary_key=True, max_length=MAX_LENGTH)
+    host = models.CharField(max_length=MAX_LENGTH)
     displayName = models.CharField(max_length=MIN_LENGTH)
-    url = models.URLField(max_length=MAX_LENGTH)  # url to the authors profile
+    url = models.CharField(max_length=MAX_LENGTH)  # url to the authors profile
     # HATEOS url for Github API
-    github = models.URLField(max_length=MAX_LENGTH)
+    github = models.CharField(max_length=MAX_LENGTH)
     user = models.OneToOneField(
         User, on_delete=models.CASCADE)
 
@@ -39,8 +39,8 @@ class Post(models.Model):
     type = "post"
     title = models.CharField(max_length=MAX_LENGTH, blank=True)
     id = models.CharField(primary_key=True, max_length=MAX_LENGTH, unique=True)
-    source = models.URLField(max_length=MAX_LENGTH)
-    origin = models.URLField(max_length=MAX_LENGTH)
+    source = models.CharField(max_length=MAX_LENGTH)
+    origin = models.CharField(max_length=MAX_LENGTH)
     description = models.CharField(
         max_length=MAX_LENGTH, blank=True, null=True)
     contentType = models.CharField(max_length=MIN_LENGTH)
@@ -51,7 +51,7 @@ class Post(models.Model):
     count = models.IntegerField()
     size = models.IntegerField()
     # the first page of comments
-    comments = models.URLField(max_length=MAX_LENGTH)
+    comments = models.CharField(max_length=MAX_LENGTH)
     published = models.DateTimeField(
         default=timezone.now)  # ISO 8601 TIMESTAMP
     visibility = models.CharField(
@@ -103,7 +103,7 @@ class Inbox(models.Model):
 
 class Likes(models.Model):
     type = "Like"
-    context = models.URLField(max_length=MAX_LENGTH)  # @context?
+    context = models.CharField(max_length=MAX_LENGTH)  # @context?
     summary = models.CharField(max_length=MIN_LENGTH)
     author = models.CharField(max_length=MAX_LENGTH)
     post_object = models.CharField(max_length=MAX_LENGTH, null=True)
