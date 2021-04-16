@@ -58,3 +58,9 @@ Some odds and ends.
       * b. This script is file structure dependent, unless you know what you are doing, do not change file structure.
       * c. You need java to run this script.
       * d. Offline html generation: you should run this script after you run gendocs.sh.
+10. `Name`: runtest.sh    
+   `Description`: Run backend unit test.    
+   `Usage`: `chmod +x runtest.sh && ./runtest.sh`    
+   `Note`:
+      * a. This script is file structure dependent, unless you know what you are doing, do not change file structure.
+      * b. Make sure you made database migrations before run this script.

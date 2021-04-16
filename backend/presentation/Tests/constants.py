@@ -1,0 +1,6 @@
+SIGNUP_POST = "/author/"
+SIGNUP_SUCCESS = "Pending admin approval."
+LOGIN_POST = "/token-auth/"
+NO_TOUCH_DOG = "Do not touch my dog."
+EXCOMMUNICADO = "Effective in one hour."
+LOTS_OF_GUNS = "Guns. Lots of guns."
