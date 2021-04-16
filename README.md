@@ -16,7 +16,7 @@ https://xuechunqiu.github.io/CMPUT404-project-socialdistribution/
 
 ## URL to our video demonstration
 
-[![Demo Video](https://img.youtube.com/vi/FEW22YsaHn4/0.jpg)](https://www.youtube.com/watch?v=FEW22YsaHn4?auto=1)
+[![Demo Video](https://img.youtube.com/vi/FEW22YsaHn4/0.jpg)](https://www.youtube.com/watch?v=FEW22YsaHn4)
 
 ## Licensing
 
