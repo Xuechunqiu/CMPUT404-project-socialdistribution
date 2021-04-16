@@ -9,7 +9,7 @@ python manage.py runserver
 ## Make Migration
 
 ```
-python manage.py makemigrations
+python manage.py makemigrations presentation
 python manage.py migrate
 ```
 
