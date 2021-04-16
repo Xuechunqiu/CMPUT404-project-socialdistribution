@@ -20,12 +20,12 @@ https://xuechunqiu.github.io/CMPUT404-project-socialdistribution/
 
 ## Run our project locally
 
-`git clone https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution.git`
-Use Docker to run the database, the [instructions](https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution/blob/master/misc/README.md) can be found here
-`cd backend` and check [backend README.md](https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution/blob/master/backend/README.md)
-`cd frontend`
-run `yarn install` to install all dependencies
-run `yarn start` to start the project at `localhost:3000`
+`git clone https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution.git`  
+Use Docker to run the database, the [instructions](https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution/blob/master/misc/README.md) can be found here  
+`cd backend` and check [backend README.md](https://github.com/Xuechunqiu/CMPUT404-project-socialdistribution/blob/master/backend/README.md)  
+`cd frontend`  
+run `yarn install` to install all dependencies  
+run `yarn start` to start the project at `localhost:3000`  
 
 ## Licensing
 
