@@ -318,6 +318,8 @@ export default class PostDisplay extends React.Component {
         //   }
         // });
         // team 4 doesn't have like object
+        params.type= "like";
+        params.author = {"type":"author","id":this.props.authorID,"url":this.props.authorID,"displayName":this.props.displayName,"host":"http://localhost:8000","github":this.props.github};
         var n = this.props.postID.indexOf("/posts/");
         params.authorID = this.props.postID.substring(0, n);
         params.URL = `${params.authorID}/inbox/`;
