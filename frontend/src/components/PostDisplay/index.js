@@ -308,15 +308,20 @@ export default class PostDisplay extends React.Component {
         context: this.props.postID,
       };
       if (this.props.remote) {
-        params.URL = `${this.props.postID}/likes/`;
+        // params.URL = `${this.props.postID}/likes/`;
+        // params.auth = domainAuthPair[getDomainName(params.URL)];
+        // sendRemoteLikes(params).then((response) => {
+        //   if (response.status === 200) {
+        //     message.success("Remote Likes sent!");
+        //   } else {
+        //     message.error("Remote likes send failed!");
+        //   }
+        // });
+        // team 4 doesn't have like object
+        var n = this.props.postID.indexOf("/posts/");
+        params.authorID = this.props.postID.substring(0, n);
+        params.URL = `${params.authorID}/inbox/`;
         params.auth = domainAuthPair[getDomainName(params.URL)];
-        sendRemoteLikes(params).then((response) => {
-          if (response.status === 200) {
-            message.success("Remote Likes sent!");
-          } else {
-            message.error("Remote likes send failed!");
-          }
-        });
         sendToRemoteInbox(params).then((response) => {
           if (response.status !== 200) {
             message.error("Remote inbox likes send failed!");

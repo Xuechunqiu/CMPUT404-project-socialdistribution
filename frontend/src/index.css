@@ -17,3 +17,17 @@ code {
 .modified-menu-item {
   background-color: #001524 !important;
 }
+
+.logo {
+  float: left;
+  width: 160px;
+  height: 31px;
+  margin: 16px 24px 16px 0;
+  color: #fff;
+  font-family: "Helvetica Neue", sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-align: center;
+}

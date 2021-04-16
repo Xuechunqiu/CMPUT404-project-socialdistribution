@@ -71,6 +71,7 @@ export default class App extends React.Component {
     let content = loggedIn ? (
       <Layout className="layout">
         <Header style={{ position: "fixed", zIndex: 1, width: "100%" }}>
+          <div className="logo">Social Distribution</div>
           <Menu
             theme="dark"
             onClick={this.clickNavBar}
@@ -172,7 +173,7 @@ export default class App extends React.Component {
           />
         </Content>
         <Footer style={{ textAlign: "center" }}>
-          CMPUT404-T1-Social-Distribution ©2022 Created by Bowei Li, Xuechun
+          CMPUT404-T1-Social-Distribution ©2021 Created by Bowei Li, Xuechun
           Qiu, Weida Wang, Zihao Huang, Zijian Xi
         </Footer>
       </Layout>
